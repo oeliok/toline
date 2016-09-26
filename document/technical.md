@@ -1,4 +1,4 @@
-<!-- $theme: gaia -->
+时间：2016年 09月 26日 星期一 14:07:12 CST
 
 # 项目技术方案: 虚拟时空
 
@@ -10,19 +10,15 @@
 
 ## 数据库
 
-采用 <a href="http://dev.mysql.com/downloads/mysql">mysql5.7</a> \ <a href="https://www.mongodb.com/">Mongodb</a> \ <a href="http://redis.io/">Redis</a>
-- MySQL是一个关系型数据库管理系统，在 WEB 应用方面MySQL是最好的 RDBMS (Relational Database Management System，关系数据库管理系统) 应用软件之一。它分为社区版和商业版，由于其体积小、速度快、总体拥有成本低，尤其是开放源码这一特点，一般中小型网站的开发都选择 MySQL 作为网站数据库。
+采用  <a href="https://www.mongodb.com/">Mongodb</a> 
 
-- MongoDB  是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的。他支持的数据结构非常松散，是类似json的bson格式，因此可以存储比较复杂的数据类型。Mongo最大的特点是他支持的查询语言非常强大，其语法有点类似于面向对象的查询语言，几乎可以实现类似关系数据库单表查询的绝大部分功能，而且还支持对数据建立索引。
+- MongoDB  是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的。他支持的数据结构非常松散，是类似json的bson格式，因此可以存储比较复杂的数据类型。Mongo最大的特点是他支持的查询语言非常强大，其语法有点类似于面向对象的查询语言，几乎可以实现类似关系数据库单表查询的绝大部分功能，而且还支持对数据建立索引。最主要的是该数据库比较方便使用，与javascript的契合度非常的好，里面的数据操作用的js。
 
-- REmote DIctionary Server(Redis) 是一个由Salvatore Sanfilippo写的key-value存储系统。
-Redis是一个开源的使用ANSI C语言编写、遵守BSD协议、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。
-它通常被称为数据结构服务器，因为值（value）可以是 字符串(String), 哈希(Map), 列表(list), 集合(sets) 和 有序集合(sorted sets)等类型。
 
 
 ## 后端框架
 
-NodeJs+Socket.IO+Express+Redis+Mysql+Mongodb
+NodeJs+Socket.IO+Express+Mongodb
 谈到Web实时推送，就不得不说WebSocket。在WebSocket出现之前，很多网站为了实现实时推送技术，通常采用的方案是轮询(Polling)和Comet技术，Comet又可细分为两种实现方式，一种是长轮询机制，一种称为流技术，这两种方式实际上是对轮询技术的改进，这些方案带来很明显的缺点，需要由浏览器对服务器发出HTTP request，大量消耗服务器带宽和资源。面对这种状况，HTML5定义了WebSocket协议，能更好的节省服务器资源和带宽并实现真正意义上的实时推送。
 
 WebSocket协议本质上是一个基于TCP的协议，它由通信协议和编程API组成，WebSocket能够在浏览器和服务器之间建立双向连接，以基于事件的方式，赋予浏览器实时通信能力。既然是双向通信，就意味着服务器端和客户端可以同时发送并响应请求，而不再像HTTP的请求和响应。
@@ -60,9 +56,7 @@ NodeJs采用异步的方式能够以尽可能少的资源解决大量并发，�
 
     OS：Centos7
     NodeJs：6.6.6
-    Mysql:7.14
     Mongodb:3.26
-    Redis:3.2
     带宽：1M
     CPU：1核
         
