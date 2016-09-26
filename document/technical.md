@@ -66,16 +66,14 @@ NodeJs采用异步的方式能够以尽可能少的资源解决大量并发，�
 * react-motion - 动画
 * pure-render-mixin - 性能优化
 
-虽然从当前的前端发展方向来看，上述技术均有些落后，但对于普通的WEB开发，这些技术已经足够。
 开发环境
 
     客户端 ubuntu 16.04 或 mac os
-    sublime text 3及各类插件
+    sublime text 3及各类插件        
     最新chrome dev 版本
     git
-    rvm + bundle : rails的开发环境推荐组合
+    node的包管理工具npm
 
-    此处的描述将做为各位同学的桌面环境的安装清单，并将做实地检查
 
 ## 部署环境
 
