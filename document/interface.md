@@ -11,7 +11,8 @@ S -> C(服务器到客户端)
 登陆
 ```
 {
-	name:login,
+	name:/public/api/login,
+	method:post,
     arg:[
         {name:name,type:string,max-len:128},
         {name:password,type:string,max-len:128},
@@ -25,7 +26,8 @@ S -> C(服务器到客户端)
 注册
 ```
 {
-    name:regist,
+    name:/public/api/regist,
+    method:post,
     arg:[
         {name:name,type:string,min-len:1,max-len:128},
         {name:pwd,type:string,min-len:6,max-len:128},
