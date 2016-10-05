@@ -11,9 +11,6 @@ function loginValidate(data) {
     if (data.pwd == null || data.pwd.length > 128 || data.pwd.length < 1) {
         return false;
     }
-    if (data.token.length != 16) {
-        return false;
-    }
     return true;
 }
 
@@ -24,11 +21,12 @@ exports.login = function(req, res) {
             var collection = db.collection('user');
             collection.findOne({name:data.name},function (err, doc) {
                 assert.equal(err, null);
-                if (doc.name == null) {
+                if (doc == null) {
                     res.json({code:2})
                 } else {
                     if (doc.pwd == data.pwd) {
-                        res.json({code:1})
+                        res.json({code:1});
+                        req.session.user = doc;
                     } else {
                         res.json({code:3});
                     }
@@ -62,9 +60,6 @@ function registValidate(data) {
         return false;
     }
     data.sex = age;
-    if (data.token.length != 16) {
-        return false;
-    }
     return true;
 }
 
