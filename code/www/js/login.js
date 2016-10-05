@@ -39,7 +39,32 @@ function login_btn() {
 		pwd: get_password,
 		token: "1234567890123456",
 	}, function(data) {
-		console.log(data + "	");
+		console.log(JSON.stringify(data) + "	");
+		//主界面跳转
+		switch (data.code) {
+			case -1:
+				alert("服务器未知错误");
+				break;
+			case 0:
+				alert("失败");
+				break;
+			case 1:
+				alert("成功");
+				break;
+			case 2:
+				alert("用户不存在");
+				break;
+			case 3:
+				alert("密码错误");
+				break;
+			case 4:
+				alert("用户名已存在");
+				break;
+			default:
+				alert("未知错误");
+				break;
+				return;
+		};
 	});
 
 
@@ -61,15 +86,48 @@ function register_btn() {
 		return;
 	};
 
-	alert(get_username + "	" + get_password + "	" + get_password_confirm + "	" + get_email + "	" + get_age + "	" + get_sex);
+	// 		{name:name,type:string,min-len:1,max-len:128},
+	//      {name:pwd,type:string,min-len:6,max-len:128},
+	//      {name:email,type:string},
+	//      {name:age,type:int,range:0-150},
+	//      {name:sex:,type:int,range:0-3},
+	//      {name:token,type:string,length:16}
+
+	// alert(get_username + "	" + get_password + "	" + get_password_confirm + "	" + get_email + "	" + get_age + "	" + get_sex);
+	console.log(get_username + "	" + get_password + "	" + get_password_confirm + "	" + get_email + "	" + get_age + "	" + get_sex);
+	$.get('/public/api/regist', {
+		name: get_username,
+		pwd: get_password,
+		email: get_email,
+		age: get_age,
+		sex: get_sex,
+		token: "1234567890123456",
+	}, function(data) {
+		console.log(JSON.stringify(data) + "	");
+		//主界面跳转
+		switch (data.code) {
+			case -1:
+				alert("服务器未知错误");
+				break;
+			case 0:
+				alert("失败");
+				break;
+			case 1:
+				alert("成功");
+				break;
+			case 2:
+				alert("用户不存在");
+				break;
+			case 3:
+				alert("密码错误");
+				break;
+			case 4:
+				alert("用户名已存在");
+				break;
+			default:
+				alert("未知错误");
+				break;
+				return;
+		};
+	});
 }
-// function OnInput (event) {
-// 	alert ("The new content: " + event.target.value);
-
-// }
-
-// function OnPropChanged (event) {
-// 	if (event.propertyName.toLowerCase () == "value") {
-// 		alert ("The new content: " + event.srcElement.value);
-// 	}
-// }
