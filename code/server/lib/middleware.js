@@ -17,6 +17,7 @@ exports.validateUser = function (req, res, next) {
 
 exports.token = function (req, res, next) {
     if (req.query.token.length != 16) {
+        res.json({code:0});
         return false;
     } else {
         next();
