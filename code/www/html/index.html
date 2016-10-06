@@ -1,21 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>聊天室</title>
-    <link href="../css/index.css" rel='stylesheet' type='text/css' />
-    <link href="../dist/css/bootstrap.css" rel='stylesheet' type='text/css' />
 
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>聊天室</title>
+	<link href="../css/index.css" rel='stylesheet' type='text/css' />
+	<link href="../dist/css/bootstrap.css" rel='stylesheet' type='text/css' />
 </head>
+
 <body style="margin: 0px;padding: 0px;
     background: url(../image/login-bg.png) center center / cover no-repeat
     fixed;height: 100%;">
-
 <div class="allDiv">
- 
+		<div style="margin-right:-30px;">
+			<div class="navBar row" style="background: url(../image/headerline.png) center center / cover no-repeat
+	    fixed;height:100%;width: 100%;">
+				<div class="col-md-1" id="changeToCircle">
+					<img border="0" src="../image/Profile pic.png" alt="your profile picture" width="100" height="100" id="profilePic" hspace="20" vspace="15"></div>
+				<div class="col-md-2 col-md-offset-1"  style="margin-top: 22px;">
+					<h2 id="profileName">
+						<small style="color: white">昵称</small></h2>
+				</div>
+				<div class="col-md-1 col-md-offset-1" id="changeToCircle">
+					<img border="0" src="../image/friendPic.png" alt="friend picture" width="80" height="80" id="friendPic" hspace="5" vspace="25"></div>
+				<div class="col-md-2 col-md-offset-1" style="margin-top: 22px;">
+					<h1 id="friendName">
+						<small style="color: white">好友昵称</small></h1>
+				</div>
+				<div class="col-md-1">
+					<img onclick="paperBtn()" border="0" src="../image/Paper.png" alt="paper" width="30" height="30" id="paper" hspace="35" vspace="5" style="margin-top: 50px;margin-left: 20px;"></div>
+				<div class="col-md-2" id="changeToCircle">
+					<img onclick="settingBtn()" border="0" src="../image/Setting.png" alt="your profile picture" width="30" height="30" id="profilePic" hspace="35" vspace="5" style="margin-top: 50px;margin-left: 18px;"></div>
+			</div>
+		</div>
+		<div class="row">
+		<div class="friendList col-md-3"><!-- 
+			<div class="row"> -->
+				<div class="col-xs-6 col-sm-6" id="changeToCircle" >
+					<img border="0" src="../image/friendPic.png" alt="friend picture" width="80" height="80" id="friendList" hspace="10"  vspace="25">
+				</div>
+				<div class="col-xs-6 col-sm-6" style="padding-top: 12px;">
+						<h4 >
+							<small style="color:#8aba56">遗世独立的理想乡</small></h4>
+						<h4>
+							<small style="color:#A9A9A9 ">水水水水</small></h4>
+						<h4>
+							<small style="color: black">2016.10.10</small></h4>
+				</div>
+		<!-- 	</div> -->
+			<hr width="100%" >
+		</div>
+		<div class="chatList col-md-9" style="position:relative;">
+			<div class="row">
+				<div class="col-sm-2" id="changeToCircle">
+					<img border="0" src="../image/friendPic.png" alt="friend picture" width="80" height="80" id="friendList" hspace="20" vspace="30">
+				</div>
+				<div class=" col-sm-10" style="padding-top: 12px;width: 60%;">
+					<h4 style="text-align: left;">
+						<small style="color:#8aba56">遗世独立的理想乡</small> <small style="color: black">2016.10.10</small></h4>
+			
+						<p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 8px;">ssss阿萨德阿萨德打双打阿达阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达sssssss</p>
+				</div>
+			</div>
 
+			<div class="row">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-10" style="padding-top: 12px;width: 60%;">
+				<h4 style="text-align: right;">
+					<small style="color: black">2016.10.10</small><small style="color:#8aba56">遗世独立的理想乡</small> </h4>
+			
+					<p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 8px;">ssss阿萨德阿萨德打双打阿达阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿达ss阿萨德阿萨德打双打阿阿达sssaaaaa</p>
+				</div>
+				<div class="col-sm-2" id="changeToCircle">
+					<img border="0" src="../image/friendPic.png" alt="friend picture" width="80" height="80" id="friendList"   hspace="20" vspace="30">
+				</div>
+			</div>
+			<div style="position:absolute;left;0;bottom:60px;">
+				<hr width="100%">
+				<div class="row" style="margin-top: 50px;">
+					<div class="col-sm-1"></div>
+					<div class="col-sm-11">
+						<div class="col-lg-10">
+						    <div class="input-group">
+						      <input type="text" class="form-control">
+						      <span class="input-group-btn">
+						        <button class="btn btn-default" type="button">Go!</button>
+						      </span>
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+
+
+	</div>
 </div>
 <script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="../dist/js/bootstrap.min.js"></script>
-</body>
+<script type="text/javascript" src="../js/index.js"></script>
+<script type="text/javascript" src="../dist/js/bootstrap.min.js"></script></body>
+
 </html>
