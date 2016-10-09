@@ -56,17 +56,17 @@
 			<!-- 	</div> -->
 			<hr width="100%" >
 		</div>
-		<div class="chatList col-md-9" style="position:relative;">
+		<div class="chatList col-md-9">
 
-			<div id="content" style="overflow:scroll;height: 500px;"></div>
+			<div id="content" style="overflow:scroll;overflow-x: hidden; height: 80%;text-align: center;"></div>
 			<script id="othersay" type="text/html">
 				<div class="row">
-					<div class="col-sm-2" id="changeToCircle">
-						<img border="0" src="../image/friendPic.png" alt="friend picture" width="80" height="80" id="friendList" hspace="20" vspace="30">
+					<div class="col-sm-2" >
+						<img class="circular--square" border="0" src="../image/friendPic.png" alt="friend picture" width="80" height="80"  vspace="30">
 					</div>
-					<div class=" col-sm-10" style="padding-top: 12px;width: 60%;">
+					<div class=" col-sm-10" style="padding-top: 12px;width: 64%;">
 						<h4 style="text-align: left;">
-							<small style="color:#8aba56">{{user}}</small> <small style="color: black">{{date}}</small></h4>
+							<small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">{{user}}</small> <small style="color: black">{{date}}</small></h4>
 
 						<p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 8px;">{{msg}}</p>
 					</div>
@@ -75,36 +75,27 @@
 			<script id="mysay" type="text/html">
 				<div class="row">
 					<div class="col-sm-2"></div>
-					<div class="col-sm-10" style="padding-top: 12px;width: 60%;">
+					<div class="col-sm-10" style="padding-top: 12px;width: 64%;">
 						<h4 style="text-align: right;">
-							<small style="color: black">{{date}}</small><small style="color:#8aba56">{{user}}</small> </h4>
+							<small style="color: black";word-wrap: break-word;word-break: break-all;>{{date}}</small><small style="color:#8aba56">{{user}}</small> </h4>
 
 						<p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 8px;">{{msg}}</p>
 					</div>
-					<div class="col-sm-2" id="changeToCircle">
-						<img border="0" src="../image/friendPic.png" alt="friend picture" width="80" height="80" id="friendList"   hspace="20" vspace="30">
+					<div class="col-sm-2">
+						<img class="circular--square" border="0" src="../image/friendPic.png" alt="friend picture" width="80" height="80"  vspace="30">
 					</div>
 				</div>
 			</script>
-			<div style="position:absolute;bottom:60px;">
-				<hr width="100%">
-				<div class="row" style="margin-top: 50px;">
-					<div class="col-sm-1"></div>
-					<div class="col-sm-11">
-						<div class="col-lg-10">
-
-						    <div class="input-group">
-						      <input type="text" class="form-control" id="msg">
-						      <span class="input-group-btn">
-						        <button class="btn btn-default" type="button" onclick="say()">发送</button>
-
-						      </span>
-							</div>
-						</div>
-					</div>
+			<hr width="96%">
+			<div style="position: relative;width: 61%; margin: 0 auto;">
+				
+			    <div class="input-group">
+			      <input type="text" class="form-control" id="msg">
+			      <span class="input-group-btn">
+			        <button class="btn btn-default" type="button" onclick="say()">发送</button>
+			      </span>
 				</div>
 			</div>
-		</div>
 
 	</div>
 </div>
@@ -127,6 +118,8 @@
             socket.emit('say',{msg:document.getElementById('msg').value});
         else
             alert("输入内容不能为空！");
+        var div = document.getElementById("content");
+            div.scrollTop = div.scrollHeight;
     }
     socket.on('sayall',function (data) {
         if (data.user == myid) {
@@ -136,6 +129,8 @@
             var html = template('othersay',data);
             document.getElementById('content').innerHTML += html;
 		}
+		var div = document.getElementById("content");
+            div.scrollTop = div.scrollHeight;
     })
 </script>
 </body>

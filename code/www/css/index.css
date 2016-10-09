@@ -6,7 +6,7 @@
 */
 /*#changeToCircle{ margin:10px auto} 
 */
-#changeToCircle img{ border-radius:50%} 
+/*#changeToCircle img{ border-radius:50%} */
 .circular--square{
     border-radius:50%;
 }
