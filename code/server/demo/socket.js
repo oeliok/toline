@@ -17,7 +17,7 @@ app.get('/*', function (req, res, next) {
     next();
 });
 
-app.use(express.static(__dirname+"/../www/"));
+app.use(express.static(__dirname+"/../../www/"));
 
 io.on('connection', function (socket) {
     socket.emit('sendid',{id:socket.id});
@@ -26,6 +26,9 @@ io.on('connection', function (socket) {
     });
     socket.on('getname',function (data) {
         io.emit('welcome',{msg:socket.id});
+    });
+    socket.on('disconnect',function (data) {
+        io.emit('left',{msg:socket.id});
     });
 });
 server.listen(8080);

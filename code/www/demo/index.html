@@ -12,6 +12,19 @@
 	<link href="../dist/css/bootstrap.css" rel='stylesheet' type='text/css' />
     <script src="../js/template.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <style>
+        .msgs{
+            border: 1px solid #c0c0c0;
+            border-radius: 50%;
+            width: 80%;
+			display: block;
+            background-color: #9d9d9d;
+			text-align:center;
+			margin-right: auto;
+			margin-left: auto;
+			padding: 5px;
+        }
+    </style>
 </head>
 
 <body style="margin: 0px;padding: 0px;
@@ -57,11 +70,11 @@
 			<hr width="100%" >
 		</div>
 		<div class="chatList col-md-9" style="position:relative;">
-			<div id="content" style="overflow:scroll;height: 500px;"></div>
+			<div id="content" style="overflow:scroll;overflow-x:hidden;height: 500px;"></div>
 			<script id="othersay" type="text/html">
 				<div class="row">
 					<div class="col-sm-2" id="changeToCircle">
-						<img border="0" src="../image/friendPic.png" alt="friend picture" width="80" height="80" id="friendList" hspace="20" vspace="30">
+						<img border="0" src="../image/friendPic.png" alt="friend picture" width="80" id="friendList" hspace="20" vspace="30">
 					</div>
 					<div class=" col-sm-10" style="padding-top: 12px;width: 60%;">
 						<h4 style="text-align: left;">
@@ -85,13 +98,13 @@
 					</div>
 				</div>
 			</script>
-			<div style="position:absolute;bottom:60px;">
-				<hr width="100%">
+			<div style="position:relative;bottom:60px;">
 				<div class="row" style="margin-top: 50px;">
-					<div class="col-sm-1"></div>
+					<div class="col-sm-12"></div>
 					<div class="col-sm-11">
 						<div class="col-lg-10">
-						    <div class="input-group">
+							<hr width="100%">
+						    <div class="input-group" onkeyup="sayenter()">
 						      <input type="text" class="form-control" id="msg">
 						      <span class="input-group-btn">
 						        <button class="btn btn-default" type="button" onclick="say()">发送</button>
@@ -113,11 +126,15 @@
     });
     socket.on('welcome',function (data) {
         if (data.msg == myid) {
-            document.getElementById('content').innerHTML += '<p>You join the chat!<p>';
+            document.getElementById('content').innerHTML += '<span class="msgs">You join the chat!</span>';
         } else {
-            document.getElementById('content').innerHTML += '<p>A new man join us! His ID is '+data.msg+'<p>';
+            document.getElementById('content').innerHTML += '<span class="msgs">A new man join us! His ID is '+data.msg+'</span>';
         }
     });
+    function sayenter() {
+        if (event.keyCode==13)  //回车键的键值为13
+                say()
+    }
     function say() {
         if (document.getElementById('msg').value != '')
             socket.emit('say',{msg:document.getElementById('msg').value});
@@ -132,7 +149,10 @@
             var html = template('othersay',data);
             document.getElementById('content').innerHTML += html;
 		}
-    })
+    });
+    socket.on('left',function (data) {
+		document.getElementById('content').innerHTML += '<span class="msgs">'+data.msg+' left the chat!</span>';
+    });
 </script>
 </body>
 </html>
