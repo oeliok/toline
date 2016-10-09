@@ -13,19 +13,25 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-app.get('/*', function (req, res, next) {
+app.get('/*', function(req, res, next) {
     next();
 });
-
-app.use(express.static(__dirname+"/../../www/"));
-
-io.on('connection', function (socket) {
-    socket.emit('sendid',{id:socket.id});
-    socket.on('say',function (data) {
-        io.emit('sayall',{user:socket.id,msg:data.msg,date:Date('yyyy-mm-dd')});
+app.use(express.static(__dirname + "/../../www/"));
+io.on('connection', function(socket) {
+    socket.emit('sendid', {
+        id: socket.id
     });
-    socket.on('getname',function (data) {
-        io.emit('welcome',{msg:socket.id});
+    socket.on('say', function(data) {
+        io.emit('sayall', {
+            user: socket.id,
+            msg: data.msg,
+            date: Date('yyyy-mm-dd')
+        });
+    });
+    socket.on('getname', function(data) {
+        io.emit('welcome', {
+            msg: socket.id
+        });
     });
     socket.on('disconnect',function (data) {
         io.emit('left',{msg:socket.id});
