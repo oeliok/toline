@@ -8,10 +8,10 @@ JSON格式
 {"_id" : ObjectId(""),"name":"","pwd":"","type":"","email":"","sex":,"age":,"regist":,"remark":""}
 
 ### 好友表(friend)
-> 用户ID，好友ID，添加时间[long]
+> 好友ID、用户ID，好友ID，添加时间[long]
 
 JSON格式
-{"myid":ObjectId(""),"frid":ObjectId(""),"datetime":}
+{"ids":ObjectId(""),"myid":ObjectId(""),"frid":ObjectId(""),"datetime":}
 
 ### 群列表(group)
 > 群ID，群名称[0-30个字符]，群标签[0-100个字符]，群的创建时间[long]，群的群主用户ID，群用户的用户ID
@@ -26,10 +26,10 @@ JSON格式
 {"gid" : ObjectId(""),"uid" : ObjectId(""),"comment":"","date":}
 
 ### 个人对话聊天记录(flog)
-> 用户一的ID[注册时间早的]，用户二的ID[注册时间晚的]，用户对话内容[1-512个字符]，用户发表时间[long]
+> 好友表ID，用户对话内容[1-512个字符]，用户发表时间[long]
 
 JSON格式
-{"eid":ObjectId(""),"lid":ObjectId(""),"content":"","date":}
+{"ids":ObjectId(""),"content":"","date":}
 
 ### 文件列表(file)
 > 用户ID，文件名[1-255个字符]，文件MD5值[64]，文件大小[long(B)]，过期时间[long]

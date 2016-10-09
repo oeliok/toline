@@ -55,6 +55,7 @@ app.get('/public/api/*',mware.token);
 
 //指定静态文件目录
 app.use(express.static(__dirname + '/../www'));
+app.use(express.static(__dirname + '/../lib'));
 
 //指定撸起路径映射
 app.get('/public/api/login',user.login);

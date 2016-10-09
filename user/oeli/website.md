@@ -30,3 +30,6 @@
 
 [菜鸟教程](http://www.runoob.com/mongodb/mongodb-query.html)
 >可以方便的查找各种资料
+
+[实时消息架构推送设计](https://www.zhihu.com/question/23015432)
+>可以查看一些资料

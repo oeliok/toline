@@ -8,6 +8,7 @@ exports.yzm = function (req, res, next) {
 
 exports.validateUser = function (req, res, next) {
     if (req.session.user == null) {
+        res.json({code:0});
         return false;
     } else {
         next();
