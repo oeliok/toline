@@ -132,8 +132,9 @@
         }
     });
     function sayenter() {
-        if (event.keyCode==13)  //回车键的键值为13
-                say()
+        if (event.keyCode==13){
+            say();
+        }
     }
     function say() {
         if (document.getElementById('msg').value != '')
