@@ -2,11 +2,14 @@
 * @Author: sukurax
 * @Date:   2016-10-02 12:21:52
 * @Last Modified by:   sukurax
-* @Last Modified time: 2016-10-06 23:37:28
+* @Last Modified time: 2016-10-08 19:21:00
 */
 /*#changeToCircle{ margin:10px auto} 
-*/#changeToCircle img{ border-radius:50%} 
-
+*/
+#changeToCircle img{ border-radius:50%} 
+.circular--square{
+    border-radius:50%;
+}
 .allDiv{
     margin-left:auto;
     margin-right:auto;
@@ -27,7 +30,7 @@
 }
 .friendList{
     min-height: 600px;
-    height: 600px;
+    height: 580px;
 	background: linear-gradient(to bottom right, #faf7f7, #eef2f5); 
 	border:0px solid;
 	border-bottom-left-radius: 28px;
@@ -36,7 +39,7 @@
 .chatList{
 	width: 100%;
     min-height: 600px;
-    height: 600px;
+    height: 580px;
 	background: linear-gradient(to bottom left, #e5edeb,#bdc2c6); 
 	border:0px solid;
 	border-bottom-right-radius: 28px;
