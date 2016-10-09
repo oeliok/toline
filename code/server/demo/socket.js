@@ -27,7 +27,7 @@ io.on('connection', function(socket) {
         io.emit('sayall', {
             user: socket.id,
             msg: data.msg,
-            date: Date('yyyy-mm-dd')
+            date: Date.now()
         });
     });
     socket.on('getname', function(data) {
