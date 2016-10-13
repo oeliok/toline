@@ -14,7 +14,7 @@ S -> C(服务器到客户端)
 	name:/public/api/login,
 	method:get,
     arg:[
-        {name:name,type:string,max-len:128},
+        {name:email,type:string,max-len:128},
         {name:pwd,type:string,max-len:128},
         {name:token,type:string,length:16}
     ]
