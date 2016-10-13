@@ -11,8 +11,8 @@ S -> C(服务器到客户端)
 登陆
 ```
 {
-	name:/public/api/login,
-	method:get,
+	name:/public/user/login,
+	method:post,
     arg:[
         {name:email,type:string,max-len:128},
         {name:pwd,type:string,max-len:128},
@@ -30,8 +30,8 @@ S -> C(服务器到客户端)
 
 ```
 {
-    name:/public/api/regist,
-    method:get,
+    name:/public/user/regist,
+    method:post,
     arg:[
         {name:name,type:string,min-len:1,max-len:128},
         {name:pwd,type:string,min-len:6,max-len:128},
@@ -47,5 +47,232 @@ S -> C(服务器到客户端)
     ]
 }
 ```
-
-
+修改密码
+```
+{
+    name:/private/user/modifypwd,
+    method:post,
+    arg:[
+        {name:oldpwd,type:string,min-len:6,max-len:128},
+        {name:newpwd,type:string,min-len:6,max-len:128}
+    ],
+    return:[
+        {code:-1}|
+        {code:1}|
+        {code:3}
+    ]
+}
+```
+更换邮箱
+```
+发送请求得到验证码
+{
+    name:/private/user/modifyemail1
+    method:post,
+    return:[
+        {code:0},
+        {code:1}
+    ]
+}
+填写验证码，并发送新的邮箱
+{
+    name:/private/user/modifyemail2
+    method:post,
+    arg:[
+        {name:email,type:string},
+        {name:code,type:string}
+    ]，
+    return:[
+        {code:-1}|
+        {code:1}|
+        {code:5}
+    ]
+}
+```
+密码找回
+```
+发送找回请求
+{
+    name:/public/user/findpwd1,
+    method:post,
+    arg:[
+        {name:email,type:string},
+        {name:code,type:string,len:4}
+    ],
+    return:[
+        {code:0},
+        {code:1}，
+        {code:6}
+    ]
+}
+成功后修改密码
+{
+    name:/public/user/findpwd2,
+    method:post,
+    arg:[
+        {name:newpwd,type:string,min-len:6,max-len:128},
+        {name:code,type:string,len:6}
+    ]
+    return:[
+        {code:0}|
+        {code:1}
+    ]
+}
+```
+---
+修改个性签名
+```
+{
+    name:/private/user/modifysign,
+    method:get,
+    arg:[
+        {name:words,type:string,min-len:1,max-len:128}
+    ],
+    return:[
+        {code:0}|
+        {code:1}|
+        {code:7}
+    ]
+}
+```
+修改用户名
+```
+{
+    name:/private/user/modifyname,
+    method:get,
+    arg:[
+        {name:name,type:string,min-len:1,max-len:128}
+    ],
+    return:[
+        {code:0}|
+        {code:1}|
+        {code:7}
+    ]
+}
+```
+修改头像
+```
+{
+    name:/private/user/uploadhead,
+    method:post,
+    arg:[
+        
+    ],
+    return:[
+        {code:0}|
+        {code:1}
+    ]
+}
+```
+修改年龄
+```
+{
+    name:/private/user/modifyage,
+    method:get,
+    arg:[
+        {name:age,type:int,min:0,max:200}
+    ],
+    return:[
+        {code:0}|
+        {code:1}
+    ]
+}
+```
+性别修改
+```
+{
+    name:/private/user/modifysex,
+    method:get,
+    arg:[
+        {name:sex,type:int,min:0,max:2}
+    ],
+    return:[
+        {code:0}|
+        {code:1}
+    ]
+}
+```
+---
+添加好友
+```
+{
+    name:/private/friend/add,
+    method:get,
+    arg:[
+        {name:fid,type:string}
+    ],
+    return:[
+        {code:0}|
+        {code:1}
+    ]
+}
+```
+好友搜索
+```
+以昵称的搜索方式
+{
+    name:/private/friend/searchname,
+    method:get,
+    arg:[
+        {name:name,type:string}
+    ],
+    return:[
+        {code:0}|
+        {code:1,data:[{id:"",name:"","remark":""}]}
+    ]
+}
+以用户ID的搜索方式
+{
+    name:/private/friend/searchid,
+    method:get,
+    arg:[
+        {name:id,type:string}
+    ],
+    return:[
+        {code:0}|
+        {code:1,data:{id:"",name:"","remark":""}}
+    ]
+}
+```
+删除好友
+```
+{
+    name:/private/friend/delete,
+    method:get,
+    arg:[
+        {name:id,type:string}
+    ],
+    return:[
+        {code:0}|
+        {code:1}
+    ]
+}
+```
+备注的修改
+```
+{
+    name:/private/friend/modifyrm,
+    method:get,
+    arg:[
+        {name:nickname,type:string}
+    ],
+    return:[
+        {code:0}|
+        {code:1}
+    ]
+}
+```
+获取好友列表信息
+```
+{
+    name:/private/friend/getlist,
+    method:post,
+    arg:[
+        {name:time,type:long,describe:"返回某个时间点之后的"}
+    ],
+    return:[
+        {code:0}|
+        {code:1,data:[{"id" : "","name":"",remark":"","socket":""}]}
+    ]
+}
+```
