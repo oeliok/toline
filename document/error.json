@@ -9,7 +9,7 @@
   {code:6,msg:"邮箱不存在"},
   {code:7,msg:"用户未登录"},
   {code:8,msg:"不存在"},
-  {code:4,msg:""},
+  {code:9,msg:"数据格式非法"},
   {code:4,msg:""},
   {code:4,msg:""},
   {code:4,msg:""},
