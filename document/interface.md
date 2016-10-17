@@ -15,14 +15,15 @@ S -> C(服务器到客户端)
 	method:post,
     arg:[
         {name:email,type:string,max-len:128},
-        {name:pwd,type:string,max-len:128},
+        {name:pwd,type:string,min-len:6,max-len:128},
         {name:token,type:string,length:16}
     ]
     return:[
         {code:0}|
         {code:1}|
         {code:2}|
-        {code:3}
+        {code:3}|
+        {code:9}
     ]
 }
 ```

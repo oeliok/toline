@@ -10,11 +10,11 @@
 > event:事件的名字；namespace:socket.io的作用域；source:事件发生的地方（0代表服务器，1代表客户端）；data:数据格式；describe:备注；
 
 {
-  event:"",
-  namespace:"",
-  source:0,
-  data:{},
-  describe:""
+  "event":"",
+  "namespace":"",
+  "source":0,
+  "data":{"from":"","to":"","type":"","msg":object},
+  "describe":""
 }
 
 ### 服务端事件
