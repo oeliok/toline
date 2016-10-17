@@ -7,6 +7,8 @@
 /*#changeToCircle{ margin:10px auto} 
 */
 /*#changeToCircle img{ border-radius:50%} */
+
+/*desk*/
 .circular--square{
     border-radius:50%;
 }
@@ -45,3 +47,9 @@
 	border-bottom-right-radius: 28px;
 }
 
+/*phone*/
+.allDiv-phone{
+    margin:0px;
+    width:100%;
+
+}
