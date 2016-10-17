@@ -23,10 +23,16 @@ function mstring(data, reg) {
 }
 //
 function mmail(data) {
+    if (data == null) {
+        return false;
+    }
     var regs = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
     return regs.test(data);
 }
 function mpassword(data,reg) {
+    if (data == null) {
+        return false;
+    }
     var regs = /^[x00-x7f]+$/;
     if (! regs.test(str)){
         return false;
@@ -37,6 +43,9 @@ function mpassword(data,reg) {
     return true;
 }
 function mphone(data,len) {
+    if (data == null) {
+        return false;
+    }
     var regs=/^([0-9]|[\-])+$/g;
     if(data.length != len){
         return false;

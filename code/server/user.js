@@ -10,32 +10,52 @@ function login(req, res) {
     if (data != null) {
         if (vertify.mmail(data.email) && vertify.mstring(data.pwd,[6,128])) {
             db.getConnection(function (dbs) {
-                dbs.collection('user').findOne({}, function (err, user) {
+                dbs.collection('user').findOne({"email":data.email}, function (err, user) {
                     assert.equal(null, err);
                     if (user == null) {
-                        res.end({code:2});
+                        res.json({code:2});
                     } else {
                         if (user.password == data.pwd) {
                             req.session.user = user;
-                            res.end({code:1});
+                            res.json({code:1});
                         } else {
-                            res.end({code:3});
+                            res.json({code:3});
                         }
                     }
                 })
             });
         } else {
-            res.end({code:9});
+            res.json({code:9});
         }
     } else {
-        res.end({code:0});
+        res.json({code:0});
     }
 }
-function regist(req, res) {
 
+function regist(req, res) {
+    var data = req.query;
+    if (vertify.mmail(data.email)) {
+        if (vertify.mstring(data.name,[1,128]) && vertify.mstring(data.pwd,[6,128]) && vertify.mnum(data.age,[0,150]) && vertify.mnum(data.sex,[0,4])) {
+            db.getConnection(function (dbs) {
+                dbs.collection('user').insertOne({"name":data.name,"pwd":data.pwd,"type":1,"email":data.email,"sex":data.sex,"age":data.age,"regist":Data.now(),"remark":"","login":0,"socket":""},function (err, user) {
+                    assert(null,err);
+                    console.log(user);
+                    res.json({code:1});
+                })
+            });
+        } else {
+            res.json({code:0});
+        }
+    } else {
+        res.json({code:4});
+    }
 }
 function modifypwd(req, res) {
-
+    var data = req.query;
+    var user = req.session.user;
+    db.getConnection('user').update({_id:user._id},{$set:{pwd:data.pwd}},function (err,user) {
+        assert(null,err);
+    });
 }
 function modifyemail1(req, res) {
 

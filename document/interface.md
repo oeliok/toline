@@ -6,17 +6,27 @@ C -> S(客户端到服务器)
 
 S -> C(服务器到客户端)
 
+### 资源的访问控制
+* 静态资源
+> 通过登录用户的session控制访问
+
+* 服务接口
+> 通过session验证[s]+sessionName
+> 通过token验证[t]+tokenName+len
+> 通过code验证[c]+codeName+len
+> 不需要null验证[n]
+
 
 ### 用户接口
-登陆
+登陆(未登录)
 ```
 {
-	name:/public/user/login,
+	name:/cyzm6/public/user/login,
 	method:post,
     arg:[
         {name:email,type:string,max-len:128},
         {name:pwd,type:string,min-len:6,max-len:128},
-        {name:token,type:string,length:16}
+        {name:code,type:string,length:4}
     ]
     return:[
         {code:0}|
@@ -27,11 +37,11 @@ S -> C(服务器到客户端)
     ]
 }
 ```
-注册
+注册(未登录)
 
 ```
 {
-    name:/public/user/regist,
+    name:/cyzm6/public/user/regist,
     method:post,
     arg:[
         {name:name,type:string,min-len:1,max-len:128},
@@ -48,10 +58,10 @@ S -> C(服务器到客户端)
     ]
 }
 ```
-修改密码
+修改密码(登录)
 ```
 {
-    name:/private/user/modifypwd,
+    name:/suser/private/user/modifypwd,
     method:post,
     arg:[
         {name:oldpwd,type:string,min-len:6,max-len:128},
@@ -64,11 +74,11 @@ S -> C(服务器到客户端)
     ]
 }
 ```
-更换邮箱
+更换邮箱(登录)
 ```
 发送请求得到验证码
 {
-    name:/private/user/modifyemail1
+    name:/suser/cyzm6/private/user/modifyemail1,
     method:post,
     return:[
         {code:0},
@@ -77,7 +87,7 @@ S -> C(服务器到客户端)
 }
 填写验证码，并发送新的邮箱
 {
-    name:/private/user/modifyemail2
+    name:/suser/cyzm6/private/user/modifyemail2,
     method:post,
     arg:[
         {name:email,type:string},
@@ -90,11 +100,11 @@ S -> C(服务器到客户端)
     ]
 }
 ```
-密码找回
+密码找回(未登录)
 ```
-发送找回请求
+1.发送找回请求
 {
-    name:/public/user/findpwd1,
+    name:/cyzm6/public/user/findpwd1,
     method:post,
     arg:[
         {name:email,type:string},
@@ -106,9 +116,9 @@ S -> C(服务器到客户端)
         {code:6}
     ]
 }
-成功后修改密码
+2.成功后修改密码
 {
-    name:/public/user/findpwd2,
+    name:/sfind/public/user/findpwd2,
     method:post,
     arg:[
         {name:newpwd,type:string,min-len:6,max-len:128},
@@ -121,10 +131,10 @@ S -> C(服务器到客户端)
 }
 ```
 ---
-修改个性签名
+修改个性签名(登录)
 ```
 {
-    name:/private/user/modifysign,
+    name:/suser/private/user/modifysign,
     method:get,
     arg:[
         {name:words,type:string,min-len:1,max-len:128}
@@ -136,10 +146,10 @@ S -> C(服务器到客户端)
     ]
 }
 ```
-修改用户名
+修改用户名(登录)
 ```
 {
-    name:/private/user/modifyname,
+    name:/suser/private/user/modifyname,
     method:get,
     arg:[
         {name:name,type:string,min-len:1,max-len:128}
@@ -151,10 +161,10 @@ S -> C(服务器到客户端)
     ]
 }
 ```
-修改头像
+修改头像(登录)
 ```
 {
-    name:/private/user/uploadhead,
+    name:/suser/private/user/uploadhead,
     method:post,
     arg:[
         
@@ -165,10 +175,10 @@ S -> C(服务器到客户端)
     ]
 }
 ```
-修改年龄
+修改年龄(登录)
 ```
 {
-    name:/private/user/modifyage,
+    name:/suser/private/user/modifyage,
     method:get,
     arg:[
         {name:age,type:int,min:0,max:200}
@@ -179,10 +189,10 @@ S -> C(服务器到客户端)
     ]
 }
 ```
-性别修改
+性别修改(登录)
 ```
 {
-    name:/private/user/modifysex,
+    name:/suser/private/user/modifysex,
     method:get,
     arg:[
         {name:sex,type:int,min:0,max:2}
@@ -194,10 +204,10 @@ S -> C(服务器到客户端)
 }
 ```
 ---
-添加好友
+添加好友(登录)
 ```
 {
-    name:/private/friend/add,
+    name:/suser/private/friend/add,
     method:get,
     arg:[
         {name:fid,type:string}
@@ -208,7 +218,7 @@ S -> C(服务器到客户端)
     ]
 }
 ```
-好友搜索
+好友搜索(登录)
 ```
 以昵称的搜索方式
 {
@@ -222,9 +232,9 @@ S -> C(服务器到客户端)
         {code:1,data:[{id:"",name:"","remark":""}]}
     ]
 }
-以用户ID的搜索方式
+以用户ID的搜索方式(登录)
 {
-    name:/private/friend/searchid,
+    name:/suser/private/friend/searchid,
     method:get,
     arg:[
         {name:id,type:string}
@@ -235,10 +245,10 @@ S -> C(服务器到客户端)
     ]
 }
 ```
-删除好友
+删除好友(登录)
 ```
 {
-    name:/private/friend/delete,
+    name:/suser/private/friend/delete,
     method:get,
     arg:[
         {name:id,type:string}
@@ -249,10 +259,10 @@ S -> C(服务器到客户端)
     ]
 }
 ```
-备注的修改
+备注的修改(登录)
 ```
 {
-    name:/private/friend/modifyrm,
+    name:/suser/private/friend/modifyrm,
     method:get,
     arg:[
         {name:nickname,type:string}
@@ -263,10 +273,10 @@ S -> C(服务器到客户端)
     ]
 }
 ```
-获取好友列表信息
+获取好友列表信息(登录)
 ```
 {
-    name:/private/friend/getlist,
+    name:/suser/private/friend/getlist,
     method:post,
     arg:[
         {name:time,type:long,describe:"返回某个时间点之后的"}

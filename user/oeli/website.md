@@ -33,3 +33,9 @@
 
 [实时消息架构推送设计](https://www.zhihu.com/question/23015432)
 >可以查看一些资料
+
+[redis.nodejs](https://github.com/luin/ioredis)
+> A robust, performance-focused and full-featured Redis client for Node and io.js.
+
+[connect-redis](https://www.npmjs.com/package/connect-redis)
+> express 框架的以 redis 为存储介质的 session
