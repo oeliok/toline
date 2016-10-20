@@ -39,3 +39,10 @@
 
 [connect-redis](https://www.npmjs.com/package/connect-redis)
 > express 框架的以 redis 为存储介质的 session
+
+[Nodemailer](https://github.com/nodemailer/nodemailer)
+>Send e-mails from Node.js – easy as cake!
+
+[node.js 使用 qq邮箱发送邮件](http://www.lellansin.com/node-js-%E4%BD%BF%E7%94%A8-qq%E9%82%AE%E7%AE%B1%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6.html?replytocom=11125)
+>学习关于nodejs发送qq邮件
+

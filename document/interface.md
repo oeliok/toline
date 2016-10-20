@@ -13,9 +13,28 @@ S -> C(服务器到客户端)
 * 服务接口
 > 通过session验证[s]+sessionName
 > 通过token验证[t]+tokenName+len
-> 通过code验证[c]+codeName+len
+> 通过图片验证码验证[c]+codeName+len
+> 通过邮件验证码验证[e]
 > 不需要null验证[n]
 
+### 接口格式
+[
+  {
+    "describe":"",
+    "name":"",
+    "url":"/",
+    "method":"",
+    "security":[
+      {"type":"","name":""}
+    ],
+    "arg":[
+      {"name":""}
+    ],
+    "return":[
+      {"type":"json","msg":{"code":1}}
+    ]
+  }
+]
 
 ### 用户接口
 登陆(未登录)
@@ -29,6 +48,7 @@ S -> C(服务器到客户端)
         {name:code,type:string,length:4}
     ]
     return:[
+        {code:-1}|
         {code:0}|
         {code:1}|
         {code:2}|
@@ -41,7 +61,7 @@ S -> C(服务器到客户端)
 
 ```
 {
-    name:/cyzm6/public/user/regist,
+    name:/cyzm6/public/user/register,
     method:post,
     arg:[
         {name:name,type:string,min-len:1,max-len:128},
@@ -52,6 +72,7 @@ S -> C(服务器到客户端)
         {name:token,type:string,length:16}
     ],
     return:[
+        {code:-1}|
         {code:0}|
         {code:1}|
         {code:4}
@@ -78,25 +99,27 @@ S -> C(服务器到客户端)
 ```
 发送请求得到验证码
 {
-    name:/suser/cyzm6/private/user/modifyemail1,
+    name:/suser/private/user/modifyemail1,
     method:post,
     return:[
-        {code:0},
-        {code:1}
+        {code:-1}|
+        {code:1}|
+        {code:5}|
+        {code:7}
     ]
 }
 填写验证码，并发送新的邮箱
 {
-    name:/suser/cyzm6/private/user/modifyemail2,
+    name:/suser/e/private/user/modifyemail2,
     method:post,
     arg:[
         {name:email,type:string},
-        {name:code,type:string}
+        {name:mailcode,type:string}
     ]，
     return:[
         {code:-1}|
         {code:1}|
-        {code:5}
+        {code:10}
     ]
 }
 ```
@@ -108,25 +131,29 @@ S -> C(服务器到客户端)
     method:post,
     arg:[
         {name:email,type:string},
-        {name:code,type:string,len:4}
+        {name:code,type:string,len:6}
     ],
     return:[
-        {code:0},
-        {code:1}，
+        {code:-1}|
+        {code:0}|
+        {code:1}|
+        {code:5}|
         {code:6}
     ]
 }
 2.成功后修改密码
 {
-    name:/sfind/public/user/findpwd2,
+    name:/smail/public/user/findpwd2,
     method:post,
     arg:[
         {name:newpwd,type:string,min-len:6,max-len:128},
         {name:code,type:string,len:6}
     ]
     return:[
+        {code:-1}|
         {code:0}|
-        {code:1}
+        {code:1}|
+        {code:10}
     ]
 }
 ```
@@ -140,6 +167,7 @@ S -> C(服务器到客户端)
         {name:words,type:string,min-len:1,max-len:128}
     ],
     return:[
+        {code:-1}|
         {code:0}|
         {code:1}|
         {code:7}
@@ -155,6 +183,7 @@ S -> C(服务器到客户端)
         {name:name,type:string,min-len:1,max-len:128}
     ],
     return:[
+        {code:-1}|
         {code:0}|
         {code:1}|
         {code:7}
@@ -170,6 +199,7 @@ S -> C(服务器到客户端)
         
     ],
     return:[
+        {code:-1}|
         {code:0}|
         {code:1}
     ]
@@ -184,6 +214,7 @@ S -> C(服务器到客户端)
         {name:age,type:int,min:0,max:200}
     ],
     return:[
+        {code:-1}|
         {code:0}|
         {code:1}
     ]
@@ -198,6 +229,7 @@ S -> C(服务器到客户端)
         {name:sex,type:int,min:0,max:2}
     ],
     return:[
+        {code:-1}|
         {code:0}|
         {code:1}
     ]
@@ -213,8 +245,11 @@ S -> C(服务器到客户端)
         {name:fid,type:string}
     ],
     return:[
+        {code:-1}|
         {code:0}|
-        {code:1}
+        {code:1}|
+        {code:2}|
+        {code:11}
     ]
 }
 ```
@@ -222,12 +257,13 @@ S -> C(服务器到客户端)
 ```
 以昵称的搜索方式
 {
-    name:/private/friend/searchname,
+    name:/suser/private/friend/searchname,
     method:get,
     arg:[
         {name:name,type:string}
     ],
     return:[
+        {code:-1}|
         {code:0}|
         {code:1,data:[{id:"",name:"","remark":""}]}
     ]
@@ -240,6 +276,7 @@ S -> C(服务器到客户端)
         {name:id,type:string}
     ],
     return:[
+        {code:-1}|
         {code:0}|
         {code:1,data:{id:"",name:"","remark":""}}
     ]
@@ -254,8 +291,10 @@ S -> C(服务器到客户端)
         {name:id,type:string}
     ],
     return:[
+        {code:-1}|
         {code:0}|
-        {code:1}
+        {code:1}|
+        {code:10}
     ]
 }
 ```
@@ -265,11 +304,14 @@ S -> C(服务器到客户端)
     name:/suser/private/friend/modifyrm,
     method:get,
     arg:[
+        {name:fid,type:string}
         {name:nickname,type:string}
     ],
     return:[
+        {code:-1}|
         {code:0}|
-        {code:1}
+        {code:1}|
+        {code:10}
     ]
 }
 ```
@@ -278,12 +320,37 @@ S -> C(服务器到客户端)
 {
     name:/suser/private/friend/getlist,
     method:post,
-    arg:[
-        {name:time,type:long,describe:"返回某个时间点之后的"}
-    ],
+    arg:[],
     return:[
+        {code:-1}|
         {code:0}|
-        {code:1,data:[{"id" : "","name":"",remark":"","socket":""}]}
+        {code:1,data:[{"id" : "","name":"",remark":"","socket":""}]}|
+        {code:10}
     ]
 }
 ```
+### 系统接口
+{
+    "describe":"6位验证码接口",
+    "name":"cyzm6",
+    "url":"/public/api/cyzm6",
+    "method":"get",
+    "security":[],
+    "server":[
+        {"type":"session","name":""}
+    ],
+    "arg":[],
+    "return":[
+        {"type":"image/jpeg"}
+    ]
+}
+{
+    "describe":"4位验证码接口",
+    "name":"cyzm4",
+    "url":"/public/api/cyzm4",
+    "method":"get",
+    "arg":[],
+    "return":[
+        {"type":"image/jpeg"}
+    ]
+}
