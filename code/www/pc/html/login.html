@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>登录</title>
+	<link href="../../css/login.css" rel='stylesheet' type='text/css' />
+	<link href="../../dist/css/bootstrap.css" rel='stylesheet' type='text/css' />
+
+</head>
+<body style="margin: 0;padding: 0;
+    background: url(../../image/login-bg.png) center center / cover no-repeat
+    fixed;height: 100%;">
+
+<!--  {name:name,type:string,min-len:1,max-len:128},
+        {name:pwd,type:string,min-len:6,max-len:128},
+        {name:email,type:string},
+        {name:age,type:int,range:0-150},
+        {name:sex:,type:int,range:0-3},
+        {name:token,type:string,length:16}
+
+  -->
+
+<div class="allDiv ">
+	<div class="next_allDiv">
+		<ul class="nav nav-tabs">
+			<li><a href="#login_tab " data-toggle="tab">登录</a></li>
+			<li><a href="#register_tab" data-toggle="tab">注册</a></li>
+		</ul>
+		<br>
+		<div class="tab-content">
+			<!--登录界面-->
+			<div class="tab-pane active" id="login_tab">
+				<div class="input-group">
+					<span class="input-group-addon">U</span>
+					<input type="text" id="username_login" class="form-control "  placeholder="Username" maxlength="128">
+				</div>
+				<br>
+				<div class="input-group">
+					<span class="input-group-addon">P</span>
+					<input type="password" id="password_login" class="form-control" placeholder="Password" maxlength="128">
+					<!-- onpropertychange="OnPropChanged (event)" oninput="OnInput (event)-->
+				</div>
+				<br>
+				<button type="button" class=" login-btn form-control" onclick="login_btn()" >登录</button>
+				<br>
+				<br>
+			</div>
+			<!--注册界面-->
+			<div class="tab-pane" id="register_tab">
+				<div class="input-group ">
+					<span class="input-group-addon">U</span>
+					<input type="text" id="username" class="form-control " placeholder="Username">
+				</div>
+				<br>
+				<div class="input-group">
+					<span class="input-group-addon">P</span>
+					<input type="password" id="password" class="form-control" placeholder="Password">
+				</div>
+				<br>
+				<div class="input-group">
+					<span class="input-group-addon">C</span>
+					<input type="password" id="passwordConfirm" class="form-control" placeholder="PasswordConfirm">
+				</div>
+				<br>
+				<div class="input-group">
+					<span class="input-group-addon">A</span>
+					<input type="text" id="age" class="form-control" placeholder="Age">
+				</div>
+				<br>
+				<div class="input-group">
+					<span class="input-group-addon">@</span>
+					<input type="email" id="email" class="form-control" placeholder="Email">
+				</div>
+				<br>
+				<div class="item item-input item-select">
+					<div class="input-label">
+						<span style="color: white">性别</span>
+						<select id="selectSex">
+							<option value="0">男</option>
+							<option value="1">女</option>
+							<option selected="selected" value="2">保密</option>
+						</select>
+					</div>
+				</div>
+				<br>
+				<center><button type="button" class="btn login-btn form-control" onclick="register_btn()">注册</button></center>
+				<br>
+				<br>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/login.js"></script>
+<script type="text/javascript" src="../../dist/js/bootstrap.min.js"></script>
+</body>
+</html>

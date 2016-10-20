@@ -7,14 +7,14 @@
 // {"_id" : ObjectId(""),"name":"","pwd":"","type":"","email":"","sex":,"age":,"regist":,"remark":""}
 function login_btn() {
 	var
-		get_username = $("#username").val(),
-		get_password = $("#password").val();
+		get_username = $("#username_login").val(),
+		get_password = $("#password_login").val();
 	if (get_username.length <= 0 || get_password.length <= 0) {
-		alert('输入为空！');
+		alert('用户名或密码不能为空！');
 		return;
 	};
 	// alert(get_username + "	" + get_password);
-	console.log(get_username + "	" + get_password);
+	// console.log(get_username + "	" + get_password);
 	// $.ajax({
 	// 		url: '/public/api/login',
 	// 		type: 'get',
@@ -39,7 +39,7 @@ function login_btn() {
 		pwd: get_password,
 		token: "1234567890123456",
 	}, function(data) {
-		console.log(JSON.stringify(data) + "	");
+		// console.log(JSON.stringify(data) + "	");
 		//主界面跳转
 		switch (data.code) {
 			case -1:
@@ -49,7 +49,8 @@ function login_btn() {
 				alert("失败");
 				break;
 			case 1:
-				alert("成功");
+				// alert("成功");
+				window.location.href="index.html";
 				break;
 			case 2:
 				alert("用户不存在");
@@ -79,7 +80,7 @@ function register_btn() {
 		get_age = $("#age").val(),
 		get_sex = jQuery("#selectSex").val();
 	if (get_username.length <= 0 || get_password.length <= 0 || get_password_confirm <= 0 || get_email <= 0 || get_age <= 0) {
-		alert('输入为空！');
+		alert('输入不能为空！');
 		return;
 	} else if (get_password_confirm !== get_password) {
 		alert('输入密码不一致！');
@@ -94,7 +95,7 @@ function register_btn() {
 	//      {name:token,type:string,length:16}
 
 	// alert(get_username + "	" + get_password + "	" + get_password_confirm + "	" + get_email + "	" + get_age + "	" + get_sex);
-	console.log(get_username + "	" + get_password + "	" + get_password_confirm + "	" + get_email + "	" + get_age + "	" + get_sex);
+	// console.log(get_username + "	" + get_password + "	" + get_password_confirm + "	" + get_email + "	" + get_age + "	" + get_sex);
 	$.get('/public/api/regist', {
 		name: get_username,
 		pwd: get_password,
@@ -114,6 +115,7 @@ function register_btn() {
 				break;
 			case 1:
 				alert("成功");
+				window.location.href="login.html";
 				break;
 			case 2:
 				alert("用户不存在");
