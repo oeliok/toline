@@ -14,7 +14,7 @@ function login_btn() {
 		return;
 	};
 	// alert(get_username + "	" + get_password);
-	console.log(get_username + "	" + get_password);
+	// console.log(get_username + "	" + get_password);
 	// $.ajax({
 	// 		url: '/public/api/login',
 	// 		type: 'get',
@@ -34,12 +34,12 @@ function login_btn() {
 	// 	.always(function() {
 	// 		console.log("complete");
 	// 	});
-	$.get('toline.oeli.pub/public/api/', {
+	$.get('/public/api/login', {
 		name: get_username,
 		pwd: get_password,
 		token: "1234567890123456",
 	}, function(data) {
-		console.log(JSON.stringify(data) + "	");
+		// console.log(JSON.stringify(data) + "	");
 		//主界面跳转
 		switch (data.code) {
 			case -1:
@@ -49,7 +49,8 @@ function login_btn() {
 				alert("失败");
 				break;
 			case 1:
-				alert("成功");
+				// alert("成功");
+				window.location.href="index.html";
 				break;
 			case 2:
 				alert("用户不存在");
@@ -94,8 +95,8 @@ function register_btn() {
 	//      {name:token,type:string,length:16}
 
 	// alert(get_username + "	" + get_password + "	" + get_password_confirm + "	" + get_email + "	" + get_age + "	" + get_sex);
-	console.log(get_username + "	" + get_password + "	" + get_password_confirm + "	" + get_email + "	" + get_age + "	" + get_sex);
-	$.get('toline.oeli.pub/public/api/regist', {
+	// console.log(get_username + "	" + get_password + "	" + get_password_confirm + "	" + get_email + "	" + get_age + "	" + get_sex);
+	$.get('/public/api/regist', {
 		name: get_username,
 		pwd: get_password,
 		email: get_email,
@@ -114,6 +115,7 @@ function register_btn() {
 				break;
 			case 1:
 				alert("成功");
+				window.location.href="login.html";
 				break;
 			case 2:
 				alert("用户不存在");
