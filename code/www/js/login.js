@@ -50,7 +50,7 @@ function login_btn() {
 				break;
 			case 1:
 				// alert("成功");
-				window.location.href="index.html";
+				window.location.href="index_md.html";
 				break;
 			case 2:
 				alert("用户不存在");
