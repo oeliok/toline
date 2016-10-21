@@ -44,10 +44,12 @@
     <link rel="canonical" href="http://www.example.com/">
     -->
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.cyan-light_blue.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">-->
+    <!--<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">-->
+    <!--<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.cyan-light_blue.min.css">-->
+      <link rel="stylesheet" href="./index_md.css">
+      <link rel="stylesheet" href="styles.css">
+
 
       <script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
       <script type="text/javascript" src="../dist/js/bootstrap.min.js"></script>
@@ -174,8 +176,8 @@ margin-right: auto;">
                                     <div style=" width: 75%;">
                                         <textarea class="mdl-textfield__input" type="text" rows= "1" id="msg" style="height: 38px;"></textarea>
                                     </div>
-                                    <div style=" width: 25%;">
-                                        <button  class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="msgSendBtn" onclick="say() ">
+                                    <div style=" width: 25%;text-align: center">
+                                        <button style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="msgSendBtn" onclick="say() ">
                                             Send
                                         </button>
                                     </div>
@@ -275,7 +277,7 @@ margin-right: auto;">
         };
 
 
-        var socket = io.connect('http://localhost:8080');
+        var socket = io.connect();
         var myid;
         socket.on('sendid',function (data) {
             myid = data.id;
