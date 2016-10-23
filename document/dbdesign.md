@@ -8,7 +8,7 @@ JSON格式
 {"_id" : ObjectId(""),"name":"","pwd":"","type":"","email":"","sex":,"age":,"regist":,"remark":"","login":,"socket":}
 
 ### 好友表(friend)
-> 我的ID，好友ID，添加时间[long],我的备注[string,没有的话为null],好友备注[string,没有的话为null]
+> 我的ID，好友ID，添加时间[long],好友备注[string,没有的话为null]
 
 JSON格式
 {"ids":ObjectId(""),"myid":ObjectId(""),"frid":ObjectId(""),"datetime":,"remark":}
