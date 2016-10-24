@@ -53,6 +53,7 @@ app.get('/public/api/cyzm4',function (req,res) {
 app.post('/cyzm6/public/user/login',user.login);
 app.post('/cyzm6/public/user/register',user.regist);
 app.post('/suser/private/user/modifypwd',user.modifypwd);
+app.post('/suser/private/user/user/myinfo',user.myinfo);
 app.post('/suser/cyzm6/private/user/modifyemail1',user.modifyemail1);
 app.post('/suser/cyzm6/private/user/modifyemail2',user.modifyemail2);
 app.post('/cyzm6/public/user/findpwd1',user.findpwd1);

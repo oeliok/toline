@@ -53,6 +53,19 @@ function regist(req, res) {
         res.json({code:4});
     }
 }
+function myinfo(req, res) {
+    db.getConnection(function (dbs) {
+        dbs.collection('user').findOne({_id:req.session.user._id},function (err, result) {
+            if (err) {
+                l.logs(l.ERRORS,__filename,"getlist",err);
+                res.json({code:-1})
+            } else {
+                result.pwd = null;
+                res.json(result);
+            }
+        })
+    })
+}
 function modifypwd(req, res) {
     var data = req.query;
     var user = req.session.user;
@@ -340,6 +353,7 @@ function getlist(req, res) {
 exports.login = login;
 exports.regist = regist;
 exports.modifypwd = modifypwd;
+exports.myinfo = myinfo;
 exports.modifyemail1 = modifyemail1;
 exports.modifyemail2 = modifyemail2;
 exports.findpwd1 = findpwd1;

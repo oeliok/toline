@@ -19,6 +19,7 @@ S -> C(服务器到客户端)
 
 ### 接口格式
 [
+```
   {
     "describe":"",
     "name":"",
@@ -34,6 +35,7 @@ S -> C(服务器到客户端)
       {"type":"json","msg":{"code":1}}
     ]
   }
+```
 ]
 
 ### 用户接口
@@ -45,7 +47,7 @@ S -> C(服务器到客户端)
     arg:[
         {name:email,type:string,max-len:128},
         {name:pwd,type:string,min-len:6,max-len:128},
-        {name:code,type:string,length:4}
+        {name:code,type:string,length:6}
     ]
     return:[
         {code:-1}|
@@ -69,7 +71,7 @@ S -> C(服务器到客户端)
         {name:email,type:string},
         {name:age,type:int,range:0-150},
         {name:sex:,type:int,range:0-3},
-        {name:token,type:string,length:16}
+        {name:code,type:string,length:6}
     ],
     return:[
         {code:-1}|
@@ -79,6 +81,26 @@ S -> C(服务器到客户端)
     ]
 }
 ```
+
+```
+  {
+    "describe":"用户个人信息获取",
+    "name":"myinfo",
+    "url":"/suser/private/user/user/myinfo",
+    "method":"post",
+    "security":[
+      {"type":"session","name":"user"}
+    ],
+    "arg":[],
+    "return":[
+      {"type":"json","msg":{"code":0}},
+      {"type":"json","msg":{"code":1,"data":{
+        {"_id" : ObjectId(""),"name":"","type":"","email":"","sex":,"age":,"regist":,"remark":"","login":,"socket":}
+      }}}
+    ]
+  }
+```
+
 修改密码(登录)
 ```
 {
