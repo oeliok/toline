@@ -30,7 +30,7 @@
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <meta name="apple-mobile-web-app-title" content="toLine">
     <link rel="apple-touch-icon-precomposed" href="../image/index_images/ios-desktop.png">
 
     <!-- Tile icon for Win8 (144x144 + tile color) -->
@@ -55,7 +55,7 @@
 
       <script src="../base/other/template.js"></script>
       <script src="/socket.io/socket.io.js"></script>
-      <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+      <script src="./../base/mdl/material.min.js"></script>
     <style>
     #view-source {
       position: fixed;
@@ -73,7 +73,9 @@
       <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
           <span class="mdl-layout-title">Home</span>
-          <div class="mdl-layout-spacer"></div>
+          <div class="mdl-layout-spacer"  style="text-align: center">
+              <span>联系人</span>
+          </div>
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
             <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
               <i class="material-icons">search</i>
@@ -132,11 +134,11 @@ margin-right: auto;">
                         <!--聊天信息-->
                         <div id="content" style="overflow:scroll;overflow-x: hidden;height: 80%; text-align: center;"></div>
                         <script id="othersay" type="text/html">
-                            <div class="mdl-grid">
+                            <div class="mdl-grid" style="padding-bottom: 0;padding-top: 0">
                                 <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
-                                    <img class="circular--square" style="width: 48px;height: 48px;" border="0" src="../image/friendPic.png" alt="friend picture" vspace="30">
+                                    <img class="circular--square" style="width: 48px;height: 48px;" border="0" src="../image/index_images/friendPic.png" alt="friend picture" vspace="36">
                                 </div>
-                                <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone" style="padding-top: 12px;margin-left: auto;
+                                <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone" style="margin-left: auto;
 margin-right: auto;">
                                     <h4 style="text-align: left;">
                                         <small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">{{user}}</small> <small style="color: black">{{date | dateFormat:'yyyy年 MM月 dd日 hh:mm:ss'}}</small></h4>
@@ -149,7 +151,7 @@ margin-right: auto;">
                         <script id="mysay" type="text/html">
                             <div class="mdl-grid">
                                 <div class="mdl-cell--2-col-desktop mdl-cell--1-col-phone"></div>
-                                <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone "  style="padding-top: 12px;margin-left: auto;
+                                <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone "  style="margin-left: auto;
 margin-right: auto;">
                                     <h4 style="text-align: right;">
                                         <small style="color: black;">{{date | dateFormat:'yyyy年 MM月 dd日 hh:mm:ss'}}</small><small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">{{user}}</small> </h4>
@@ -157,7 +159,7 @@ margin-right: auto;">
                                     <p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 2px;text-align: left;word-wrap: break-word;word-break: break-all;">{{msg}}</p>
                                 </div>
                                 <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
-                                    <img class="circular--square" style="width: 48px;height: 48px;" border="0" src="../image/friendPic.png" alt="friend picture" vspace="30">
+                                    <img class="circular--square" style="width: 48px;height: 48px;" border="0" src="../image/index_images/friendPic.png" alt="friend picture" vspace="36">
                                 </div>
                             </div>
                         </script>
