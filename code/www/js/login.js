@@ -25,14 +25,14 @@ function check_login(){
 	code[9] = "不存在";
 	code[10] = "数据格式非法";
 
-	$.get('/public/api/login',{
+	$.get('/cyzm6/public/api/login',{
 		name: get_userName,
 		pwd: get_password,
 		token: "1234567890123456",
 	},function(data){
 		console.log(JSON.stringify(data) + "	");
-		if(data.code == 1){
-			window.location.href="index.html";
+		if(data.code == -1){
+			window.location.href="../../image/index.html";
 		}else{
 			alert(code[data.code+1]);
 		}
@@ -58,12 +58,11 @@ function check_register(){
 	code[8] = "用户未登录";
 	code[9] = "不存在";
 	code[9] = "数据格式非法";
-
 	if(get_password!=get_passwordConfirm){
 		alert("两次输入密码不一致！");
 		return;
 	}
-	$.get('/public/api/regist',{
+	$.get('/cyzm6/public/api/regist',{
 		name: get_userName,
 		pwd: get_password,
 		email: get_email,
@@ -73,7 +72,7 @@ function check_register(){
 	},function(data){
 		console.log(JSON.stringify(data) + "	");
 		if(data.code == 1){
-			window.location.href="index.html";
+			window.location.href="../login/index.html";
 		}else{
 			alert(code[data.code+1]);
 		}
