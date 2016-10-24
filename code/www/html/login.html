@@ -1,35 +1,88 @@
+<!--laste-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	<title>登录</title>
-    <link href="../css/login.css" rel='stylesheet' type='text/css' />
-	<link href="../dist/css/bootstrap.css" rel='stylesheet' type='text/css' />
+	<link href="../css/login.css" rel='stylesheet' type='text/css'/>
+
+	<link rel="stylesheet" href="../base/mdl/material.css">
+	<link  type="application/javascript"  href="../base/mdl/material.js">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.teal-cyan.min.css">
+	<script></script>
+	<link rel = "stylesheet" type = "text/css" href = "http://fonts.googleapis.com/css?family= Tangerine">
+	<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="../js/login.js"></script>
+
 </head>
-<body style="margin: 0;padding: 0;
-    background: url(../image/login-bg.png) center center / cover no-repeat
-    fixed;height: 100%;">
-<!-- 用户ID，用户名[1-128个字符]，用户密码[6-128个字符]，用户类型[0为系统用户，1为注册普通的默认用户] -->
-<div class="allDiv">
-	<div class="next_allDiv" style="text-align: center">
-		<div class="input-group">
-			<span class="input-group-addon">U</span>
-	 		<input type="text" id="username" class="form-control "  placeholder="Username" maxlength="128">
+<body>
+
+<!--  {name:name,type:string,min-len:1,max-len:128},
+        {name:pwd,type:string,min-len:6,max-len:128},
+        {name:email,type:string},
+        {name:age,type:int,range:0-150},
+        {name:sex:,type:int,range:0-3},
+        {name:token,type:string,length:16}
+
+  -->
+<div>
+	<div class="mdl-grid">
+		<div class="content mdl-cell mdl-grid--no-spacing mdl-cell--4-col-desktop mdl-cell--4-offset-desktop">
+			<div class="login-header">
+				<h1 class="log" >Space</h1>
+				<h4 class="log-text">we talk fastly!</h4>
+			</div>
+			<div class="nav mdl-tabs mdl-js-tabs mdl-js-ripple-effect ">
+				<div class="mdl-tabs__tab-bar ">
+					<a href="#login_panel" class="mdl-tabs__tab is-active my-tab">login</a>
+					<a href="#register_panel" class="mdl-tabs__tab my-tab">register</a>
+				</div>
+				<!--登录-->
+				<form action="">
+					<div class="mdl-tabs__panel is-active" id="login_panel">
+						<div class="mdl-textfield mdl-js-textfield">
+							<input class="mdl-textfield__input" type="text" value="504533043@qq.com" id="userEmail_login" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$">
+							<label class="mdl-textfield__label" for="userEmail_login">Email</label>
+							<span class="mdl-textfield__error">邮箱格式错误</span>
+						</div>
+						<div class="mdl-textfield mdl-js-textfield">
+							<input class="mdl-textfield__input" type="password" value="123456" id="password_login" pattern="^[a-zA-Z\d]\w{4,11}[a-zA-Z\d]$">
+							<label class="mdl-textfield__label" for="password_login">Password</label>
+							<span class="mdl-textfield__error">字母或数字开始 长度6-13 不包含特殊字符</span>
+						</div>
+						<button type="button" onclick="check_login()" class="my-login-button mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent">
+							登录
+						</button>
+					</div>
+				</form>
+				<!--注册-->
+				<form>
+					<div class="mdl-tabs__panel" id="register_panel">
+						<div class="mdl-textfield mdl-js-textfield">
+							<input class="mdl-textfield__input" type="text"  id="userEmail_register" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$">
+							<label class="mdl-textfield__label" for="userEmail_register">User Email</label>
+							<span class="mdl-textfield__error">邮箱格式错误</span>
+						</div>
+						<div class="mdl-textfield mdl-js-textfield">
+							<input class="mdl-textfield__input" type="password"  id="password_register" pattern="^[a-zA-Z\d]\w{4,11}[a-zA-Z\d]$" >
+							<label class="mdl-textfield__label" for="password_register">Password</label>
+							<span class="mdl-textfield__error">字母或数字开始 长度6-13 不包含特殊字符</span>
+						</div>
+						<div class="mdl-textfield mdl-js-textfield">
+							<input class="mdl-textfield__input" type="password"  id="password_confirm" pattern="^[a-zA-Z\d]\w{4,11}[a-zA-Z\d]$">
+							<label class="mdl-textfield__label" for="password_confirm">Password Confirm</label>
+							<span class="mdl-textfield__error">字母或数字开始 长度6-13 不包含特殊字符</span>
+						</div>
+						<button type="button" onclick="check_register()" class="my-login-button mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent">
+							注册
+						</button>
+					</div>
+				</form>
+			</div>
 		</div>
-		<br>
-		<div class="input-group">
-			<span class="input-group-addon">P</span>
-	 		<input type="password" id="password" class="form-control" placeholder="Password" maxlength="128">
-	 		<!-- onpropertychange="OnPropChanged (event)" oninput="OnInput (event)-->
-		</div>
-		<br>
-		<button type="button" class=" login-btn form-control" onclick="login_btn()" >登录</button>
-		<a href="" style="color: #fecd50" onclick=window.open('register.html')>还没有账号？马上注册</a>
 	</div>
 </div>
-<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="../js/login.js"></script>
-<script type="text/javascript" src="../dist/js/bootstrap.min.js"></script>
+
+
 </body>
 </html>
