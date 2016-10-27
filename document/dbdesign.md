@@ -37,6 +37,8 @@ JSON格式
 JSON格式
 {"uid" : ObjectId(""),"name":"","md5":"","size":,"date":}
 
+### 消息队列
+> 事件ID，事件产生的地方，事件要发送的地方，事件类型，事件产生的时间，事件消息
 ### mongodb管理
 管理员Superuser Roles  root
 root
