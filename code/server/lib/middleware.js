@@ -5,7 +5,7 @@ exports.cyzm6 = function (req, res, next) {
     var data = req.query;
     var yzm = req.session.yzm;
     req.session.yzm = null;
-    var myyzm = data.code+6;
+    var myyzm = data.code+6+"";
     //console.log(yzm);
     //console.log(myyzm);
     if (yzm == null) {
@@ -35,7 +35,7 @@ exports.token = function (req, res, next) {
 };
 
 exports.logConsole = function (req, res, next) {
-    log(req.originalUrl);
+    console.log(req.originalUrl);
     next();
 };
 
