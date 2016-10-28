@@ -1,4 +1,5 @@
 "use strict"
+document.write('<script type="text/javascript" src="./cookieStorage.js"></script>');
 //说明：
 // login_btn():	登录验证
 // register():	注册验证
@@ -8,10 +9,13 @@
 // 密码错误 -》 提示错误，清空密码框，聚焦密码框
 // 聚焦到密码框，全选密码
 // {"_id" : ObjectId(""),"name":"","pwd":"","type":"","email":"","sex":,"age":,"regist":,"remark":""}
+
+
 function check_login(){
 	var
 		get_userName = $("#userEmail_login").val(),
-		get_password = $("#password_login").val();
+		get_password = $("#password_login").val(),
+		get_code = $("#code_login").val();
 	var	code = new Array();
 	code[0] = "服务器未知错误";
 	code[1] = "失败";
@@ -24,15 +28,15 @@ function check_login(){
 	code[8] = "用户未登录";
 	code[9] = "不存在";
 	code[10] = "数据格式非法";
-
 	$.get('/cyzm6/public/api/login',{
 		name: get_userName,
 		pwd: get_password,
+		code: get_code,
 		token: "1234567890123456",
 	},function(data){
 		console.log(JSON.stringify(data) + "	");
-		if(data.code == -1){
-			window.location.href="../../image/index.html";
+		if(data.code == 1){
+			document.form.submit("index.html");
 		}else{
 			alert(code[data.code+1]);
 		}
@@ -44,6 +48,7 @@ function check_register(){
 		get_password = $("#password_register").val(),
 		get_passwordConfirm = $("#password_confirm").val(),
 		get_email = $("#userEmail_register").val(),
+		get_code = $("#code_register"),
 		get_age = 1,
 		get_sex = 1;
 	var	code = new Array();
@@ -66,15 +71,22 @@ function check_register(){
 		name: get_userName,
 		pwd: get_password,
 		email: get_email,
+		code: get_code,
 		age: get_age,
 		sex: get_sex,
 		token: "1234567890123456",
 	},function(data){
 		console.log(JSON.stringify(data) + "	");
 		if(data.code == 1){
-			window.location.href="../login/index.html";
+			window.location.href="index.html";
 		}else{
 			alert(code[data.code+1]);
 		}
 	});
+}
+//刷新验证码
+function reloadCode() {
+	$("#codeImg_login").onclick=function () {
+		this.src="/public/api/cyzm6?random?" + Math.random();
+	}
 }
