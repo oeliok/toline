@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改个人信息</title><link href="../css/login.css" rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="../base/mdl/material.css">
+    <link rel="stylesheet" href="../base/bs/bootstrap.css">
+    <link  type="application/javascript"  href="../base/mdl/material.js">
+    <script></script>
+
+</head>
+<style>
+    body{
+        background-color: lightblue;
+    }
+    .demo-card-wide.mdl-card {
+        width: 100%;
+    }
+    .demo-card-wide > .mdl-card__title {
+        color: #000;
+
+        height: 50px;
+        background: url('../image/index_images/dog.png') center / cover;
+    }
+    .demo-card-wide > .mdl-card__menu {
+        color: #fff;
+    }
+</style>
+<body>
+
+<div class="mdl-grid mdl-grid--no-spacing " >
+    <div class="content mdl-cell mdl-grid--no-spacing mdl-cell--8-col-desktop mdl-cell--2-offset-desktop">
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text" style="text-align:center;">修改个人信息</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                <form action="">
+                    <div class="mdl-grid" style="align-items: center">
+                        <div class="mdl-cell--3-col-desktop">
+                            <img class="img-circle" src="../image/index_images/dog.png" id="" style="width:100px;height:100px;" alt="myPicture">
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-cell--9-col-desktop">
+                            <input class="mdl-textfield__input" type="text" value="myName" id="name">
+                        </div>
+                    </div>
+                    <div class="mdl-grid" style="align-items: center">
+                        <h5 class="mdl-cell--3-col-desktop">Sign:</h5>
+                        <div class="mdl-textfield mdl-js-textfield mdl-cell--9-col-desktop">
+                            <input class="mdl-textfield__input" type="text" value="sign" id="sign" onblur="sign_getBtn()" >
+                            <span class="mdl-textfield__error">sign错误</span>
+                        </div>
+
+                    </div>
+                    <div class="mdl-grid" style="align-items: center">
+                        <h5 class="mdl-cell--3-col-desktop">Email:</h5>
+                        <div class="mdl-textfield mdl-js-textfield mdl-cell--9-col-desktop">
+                            <input class="mdl-textfield__input" type="text" value="504533043@163.com" id="Email" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$">
+                            <label class="mdl-textfield__label" for="Email">Email</label>
+                            <span class="mdl-textfield__error">邮箱格式错误</span>
+                        </div>
+                    </div>
+                    <div class="mdl-grid" style="align-items: center">
+                        <h5 class="mdl-cell--2-col-desktop">age:</h5>
+                        <div class="mdl-textfield mdl-js-textfield mdl-cell--1-col-desktop  mdl-cell--1-offset-desktop">
+                            <input class="mdl-textfield__input" type="text" value="22" id="age">
+                            <span class="mdl-textfield__error">age错误</span>
+                        </div>
+
+                        <h5 class="mdl-cell--2-col-desktop mdl-cell--3-offset-desktop ">sex:</h5>
+                        <div class="mdl-textfield mdl-js-textfield mdl-cell--1-col-desktop  mdl-cell--1-offset-desktop">
+                            <input class="mdl-textfield__input" type="text" value="22" id="sex">
+                            <span class="mdl-textfield__error">sex错误</span>
+                        </div>
+                    </div>
+                    <div class="mdl-grid">
+                        <button class="mdl-cell--4-col-desktop" type="button" onclick="modify_all()">保存</button>
+                        <button class="mdl-cell--3-col-desktop mdl-cell--3-offset-desktop" type="reset">重置</button>
+                    </div>
+                </form>
+            </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+<script type="text/javascript" src="../base/other/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="../js/login.js"></script>
+<script type="text/javascript" src="../js/modify_person.js"></script>
+<script src="../base/mdl/material.min.js"></script>
+
+</html>
