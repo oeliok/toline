@@ -1,18 +1,14 @@
-<!--laste-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>登录</title>
-	<link href="../css/login.css" rel='stylesheet' type='text/css'/>
-
-	<link rel="stylesheet" href="../base/mdl/material.css">
-	<link  type="application/javascript"  href="../base/mdl/material.js">
-	<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.teal-cyan.min.css">
-	<script></script>
-	<link rel = "stylesheet" type = "text/css" href = "http://fonts.googleapis.com/css?family= Tangerine">
-	<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
-	<script type="text/javascript" src="../js/login.js"></script>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <link href="../css/login.css" rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="../css/login_styles.css">
+    <link rel="stylesheet" href="../base/mdl/material.css">
+    <link  type="application/javascript"  href="../base/mdl/material.js">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.teal-cyan.min.css">
+    <script></script>
 
 </head>
 <body>
@@ -26,63 +22,71 @@
 
   -->
 <div>
-	<div class="mdl-grid">
-		<div class="content mdl-cell mdl-grid--no-spacing mdl-cell--4-col-desktop mdl-cell--4-offset-desktop">
-			<div class="login-header">
-				<h1 class="log" >Space</h1>
-				<h4 class="log-text">we talk fastly!</h4>
-			</div>
-			<div class="nav mdl-tabs mdl-js-tabs mdl-js-ripple-effect ">
-				<div class="mdl-tabs__tab-bar ">
-					<a href="#login_panel" class="mdl-tabs__tab is-active my-tab">login</a>
-					<a href="#register_panel" class="mdl-tabs__tab my-tab">register</a>
-				</div>
-				<!--登录-->
-				<form action="">
-					<div class="mdl-tabs__panel is-active" id="login_panel">
-						<div class="mdl-textfield mdl-js-textfield">
-							<input class="mdl-textfield__input" type="text" value="504533043@qq.com" id="userEmail_login" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$">
-							<label class="mdl-textfield__label" for="userEmail_login">Email</label>
-							<span class="mdl-textfield__error">邮箱格式错误</span>
-						</div>
-						<div class="mdl-textfield mdl-js-textfield">
-							<input class="mdl-textfield__input" type="password" value="123456" id="password_login" pattern="^[a-zA-Z\d]\w{4,11}[a-zA-Z\d]$">
-							<label class="mdl-textfield__label" for="password_login">Password</label>
-							<span class="mdl-textfield__error">字母或数字开始 长度6-13 不包含特殊字符</span>
-						</div>
-						<button type="button" onclick="check_login()" class="my-login-button mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent">
-							登录
-						</button>
-					</div>
-				</form>
-				<!--注册-->
-				<form>
-					<div class="mdl-tabs__panel" id="register_panel">
-						<div class="mdl-textfield mdl-js-textfield">
-							<input class="mdl-textfield__input" type="text"  id="userEmail_register" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$">
-							<label class="mdl-textfield__label" for="userEmail_register">User Email</label>
-							<span class="mdl-textfield__error">邮箱格式错误</span>
-						</div>
-						<div class="mdl-textfield mdl-js-textfield">
-							<input class="mdl-textfield__input" type="password"  id="password_register" pattern="^[a-zA-Z\d]\w{4,11}[a-zA-Z\d]$" >
-							<label class="mdl-textfield__label" for="password_register">Password</label>
-							<span class="mdl-textfield__error">字母或数字开始 长度6-13 不包含特殊字符</span>
-						</div>
-						<div class="mdl-textfield mdl-js-textfield">
-							<input class="mdl-textfield__input" type="password"  id="password_confirm" pattern="^[a-zA-Z\d]\w{4,11}[a-zA-Z\d]$">
-							<label class="mdl-textfield__label" for="password_confirm">Password Confirm</label>
-							<span class="mdl-textfield__error">字母或数字开始 长度6-13 不包含特殊字符</span>
-						</div>
-						<button type="button" onclick="check_register()" class="my-login-button mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent">
-							注册
-						</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+    <div class="mdl-grid">
+        <div class="content mdl-cell mdl-grid--no-spacing mdl-cell--4-col-desktop mdl-cell--4-offset-desktop">
+            <div class="login-header">
+                <h1 class="log" >Space</h1>
+                <h4 class="log-text">we talk fastly!</h4>
+            </div>
+            <div class="nav mdl-tabs mdl-js-tabs mdl-js-ripple-effect ">
+                <div class="mdl-tabs__tab-bar ">
+                    <a href="#login_panel" class="mdl-tabs__tab is-active my-tab">login</a>
+                    <a href="#register_panel" class="mdl-tabs__tab my-tab">register</a>
+                </div>
+                <!--登录-->
+                <form action="index.html" name="login_form">
+                    <div class="mdl-tabs__panel is-active" id="login_panel">
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" placeholder="Email" id="userEmail_login" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$">
+                            <label class="mdl-textfield__label" for="userEmail_login">Email</label>
+                            <span class="mdl-textfield__error">邮箱格式错误</span>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="password" placeholder="Password" id="password_login" pattern="^[a-zA-Z\d]\w{4,11}[a-zA-Z\d]$">
+                            <label class="mdl-textfield__label" for="password_login">Password</label>
+                            <span class="mdl-textfield__error">字母或数字开始 长度6-13 不包含特殊字符</span>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-grid">
+                            <input class="mdl-textfield__input mdl-cell--6-col" placeholder="验证码" type="text" id="code_login">
+                            <image src="/public/api/cyzm6" class="mdl-cell--6-col" id="codeImg_login" onclick="this.src='/public/api/cyzm6?random?' + Math.random();"></image>
+                        </div>
+                        <button type="submit" onclick="check_login()" class="my-login-button mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent">
+                            登录
+                        </button>
+                    </div>
+                </form>
+                <!--注册-->
+                <form name="register_from">
+                    <div class="mdl-tabs__panel" id="register_panel">
+                        <div class="mdl-textfield mdl-js-textfield ">
+                            <input class="mdl-textfield__input" type="text" placeholder="Email" id="userEmail_register" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$">
+                            <span class="mdl-textfield__error">邮箱格式错误</span>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="password" placeholder="Password" id="password_register" pattern="^[a-zA-Z\d]\w{4,11}[a-zA-Z\d]$" >
+                            <span class="mdl-textfield__error">字母或数字开始 长度6-13 不包含特殊字符</span>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="password" placeholder="password_confirm" id="password_confirm" pattern="^[a-zA-Z\d]\w{4,11}[a-zA-Z\d]$">
+                            <span class="mdl-textfield__error">字母或数字开始 长度6-13 不包含特殊字符</span>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-grid">
+                            <input class="mdl-textfield__input mdl-cell--6-col" placeholder="验证码" type="text" id="code_register">
+                            <image src="/public/api/cyzm6" class="mdl-cell--6-col" onclick="this.src='/public/api/cyzm6?random?'+Math.random()"></image>
+                        </div>
+                        <button type="submit" onclick="check_register()" class="my-login-button mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent">
+                            注册
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 
 </body>
+<script type="text/javascript" src="../base/other/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="../js/login.js"></script>
+<script src="../base/mdl/material.min.js"></script>
 </html>
