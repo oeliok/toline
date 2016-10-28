@@ -1,12 +1,12 @@
 /**
  * Created by oeli on 16-10-3.
  */
-var l = require('./lib/mylog');
-var db = require("./mongo");
-var vertify = require("./lib/validate.js");
-var email = require('./lib/mail');
+var l = require('./../lib/mylog');
+var db = require("./../lib/mongo");
+var vertify = require("./../lib/validate.js");
+var email = require('./../lib/mail');
 var assert = require('assert');
-var upload = require('./lib/multerupload');
+var upload = require('./../lib/multerupload');
 
 function login(req, res) {
     var data = req.query;

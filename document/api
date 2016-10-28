@@ -1,0 +1,49 @@
+# RESTful API 设计指南
+## 对外
+* 协议(http,https,ws) protocol
+* 域名(api.oeli.pub) domain
+* 版本(v1) version
+* 路径(/public/login) path
+* 动作(post,get,put,delete) method
+* 条件(?a=1&b=2) arg
+* 返回(XXXXX) return
+## 对内
+* 安全验证(security)
+* 数据校验(validate)
+
+## PATH格式
+/[version]/[security]+/[name]+
+
+## 接口格式
+```
+{
+  "resource":[
+    "protocol":"http",
+    "domain":"127.0.0.1"
+  "apis":[
+    {
+      "describe":"",
+      "name":"",
+      "path":"/",
+      "method":"",
+      "security":[
+        {"type":"","name":""}
+      ],
+      "arg":[
+        {"name":""}
+      ],
+      "return":[
+        {"type":"json","msg":{"code":1}}
+      ]
+    }
+  ]
+}
+```
+## 参数解释
+resource：是全局变量存放地方
+apis：接口描述地方
+
+## 数据类型
+string[text]
+number[int,long,float,double]
+byte[object]
