@@ -40,7 +40,7 @@
           "name":"auth-s",
           "describe":"服务器返回安全验证结果",
           "source":0,
-          "info":{"form":"server","to":"client","type":"json","msg":[{"code":0},{"code":1}]}
+          "info":{"form":"server","to":"client","type":"json","msg":[{"code":-1},{"code":0},{"code":1}]}
         }
       ]
     },
