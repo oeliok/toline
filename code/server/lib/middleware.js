@@ -5,9 +5,9 @@ exports.cyzm6 = function (req, res, next) {
     var data = req.query;
     var yzm = req.session.yzm;
     req.session.yzm = null;
-    var myyzm = data.code+6+"";
-    //console.log(yzm);
-    //console.log(myyzm);
+    var myyzm = data.code+6;
+    console.log(yzm);
+    console.log(myyzm);
     if (yzm == null) {
         res.json({code:-1});
     } else if (myyzm != yzm) {
