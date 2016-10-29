@@ -77,7 +77,10 @@ function myinfo(req, res) {
                 log.error(err);
                 res.json({code:-1});
             } else {
-                result.pwd = null;
+                log.debug(result);
+                if (result.pwd) {
+                    result.pwd = '';
+                }
                 res.json(result);
             }
         })
@@ -211,7 +214,7 @@ function modifysex(req, res) {
                 log.error(err);
                 res.json({code:-1});
             } else {
-                log(esult);
+                log.debug(result);
                 res.json({coed:1});
             }
         });
