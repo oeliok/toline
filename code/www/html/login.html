@@ -35,7 +35,7 @@
 					<a href="#register_panel" class="mdl-tabs__tab my-tab">register</a>
 				</div>
 				<!--登录-->
-				<form action="index.html" name="login_form" id="login_form">
+				<form action="index.html"  id="login_form">
 					<div class="mdl-tabs__panel is-active" id="login_panel">
 						<div class="mdl-textfield mdl-js-textfield">
 							<input class="mdl-textfield__input" type="text" placeholder="Email" id="userEmail_login" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$">
@@ -49,15 +49,15 @@
 						</div>
 						<div class="mdl-textfield mdl-js-textfield mdl-grid">
 							<input class="mdl-textfield__input mdl-cell--6-col" placeholder="验证码" type="text" id="code_login">
-							<image src="/public/api/cyzm6" class="mdl-cell--6-col" id="codeImg_login" onclick="this.src='/public/api/cyzm6?random?' + Math.random();"></image>
+							<image src="/public/api/cyzm6" class="mdl-cell--6-col" id="codeImg_login"></image>
 						</div>
-						<button type="button" onclick="check_login()" class="my-login-button mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent">
+						<button type="button" id="checkLogin_btn" class="my-login-button mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent">
 							登录
 						</button>
 					</div>
 				</form>
 				<!--注册-->
-				<form name="register_from">
+				<form action="login.html" name="register_from">
 					<div class="mdl-tabs__panel" id="register_panel">
 						<div class="mdl-textfield mdl-js-textfield ">
 							<input class="mdl-textfield__input" type="text" placeholder="Email" id="userEmail_register" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$">
@@ -73,9 +73,9 @@
 						</div>
 						<div class="mdl-textfield mdl-js-textfield mdl-grid">
 							<input class="mdl-textfield__input mdl-cell--6-col" placeholder="验证码" type="text" id="code_register">
-							<image src="/public/api/cyzm6" class="mdl-cell--6-col" onclick="this.src='/public/api/cyzm6?random?'+Math.random()"></image>
+							<image src="/public/api/cyzm6" class="mdl-cell--6-col" id="codeImg_register"></image>
 						</div>
-						<button type="submit" onclick="check_register()" class="my-login-button mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent">
+						<button type="submit" id="checkRegister_btn" class="my-login-button mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent">
 							注册
 						</button>
 					</div>
