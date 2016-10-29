@@ -51,3 +51,6 @@
 
 [node-http](https://github.com/i5ting/node-http)
 >可以学到http的基本原理和知识
+
+[bunyun](https://www.npmjs.com/package/bunyan#stream-errors)
+>一个nodejs项目的日志模块
