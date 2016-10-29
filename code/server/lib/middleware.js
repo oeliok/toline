@@ -38,7 +38,7 @@ exports.logConsoleget = function (req, res, next) {
 };
 exports.logConsolepost = function (req, res, next) {
     req.query = req.body;
-    log.info(req.query);
+    log.debug(req.query);
     next();
 };
 

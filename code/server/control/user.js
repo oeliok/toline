@@ -44,14 +44,23 @@ function regist(req, res) {
     if (vertify.mmail(data.email)) {
         if (vertify.mstring(data.name,[1,128]) && vertify.mstring(data.pwd,[6,128]) && vertify.mnum(data.age,[0,150]) && vertify.mnum(data.sex,[0,4])) {
             db.getConnection(function (dbs) {
-                dbs.collection('user').insertOne({"name":data.name,"pwd":data.pwd,"type":1,"email":data.email,"sex":data.sex,"age":data.age,"regist":Data.now(),"remark":"","login":0,"socket":""},function (err, user) {
+                dbs.collection('user').findOne({email:data.email},function (err, results) {
                     if (err) {
                         log.error(err);
                         res.json({code:-1});
-                        return;
+                    } else if (results == null) {
+                        dbs.collection('user').insertOne({"name":data.name,"pwd":data.pwd,"type":1,"email":data.email,"sex":data.sex,"age":data.age,"regist":Date.now(),"remark":"","login":0,"socket":""},function (err, user) {
+                            if (err) {
+                                log.error(err);
+                                res.json({code:-1});
+                                return;
+                            }
+                            log.debug(user);
+                            res.json({code:1});
+                        })
+                    } else {
+                        res.json({code:4});
                     }
-                    log.debug(user);
-                    res.json({code:1});
                 })
             });
         } else {

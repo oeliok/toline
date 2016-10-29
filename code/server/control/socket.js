@@ -21,7 +21,7 @@ exports.listen = function (server) {
                         socket.emit('auth-s',{code:0});
                     } else {
                         socket.emit('auth-s',{code:1});
-                        socket.join();
+                        socket.join("system");
                     }
                 }
             })
