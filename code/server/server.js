@@ -9,7 +9,10 @@ var session = require('express-session');
 var user = require("./control/user");
 var mware = require("./lib/middleware");
 var captcha = require("./lib/captcha");
+var bodyParser = require('body-parser');
 var app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 //使用mongodb作为session的存储地址
 var RedisStore = require('connect-redis')(session);
 
@@ -23,19 +26,6 @@ app.use(session({
 }));
 var router = express.Router();
 
-/*中间件，类似filter*/
-//错误处理
-app.get('/*',mware.errors);
-app.post('/*',mware.errors);
-//记录访问的post资源
-app.post('/*',mware.logConsole);
-//校验验证码6位
-app.get('/cyzm6/*', mware.cyzm6);
-app.post('/cyzm6/*', mware.cyzm6);
-//校验session的user
-app.get('/suser/*', mware.suser);
-app.post('/suser/*', mware.suser);
-
 //指定静态文件目录
 app.use(express.static(__dirname + '/../www'));
 app.use(express.static(__dirname + '/../lib'));
@@ -47,6 +37,19 @@ app.get('/public/api/cyzm6',function (req,res) {
 app.get('/public/api/cyzm4',function (req,res) {
     captcha.captcha(req,res,4);
 });
+
+/*中间件，类似filter*/
+//错误处理
+app.get('/*',mware.errors);
+app.post('/*',mware.errors);
+//记录访问的post资源
+app.post('/*',mware.logConsolepost);
+//校验验证码6位
+app.get('/cyzm6/*', mware.cyzm6);
+app.post('/cyzm6/*', mware.cyzm6);
+//校验session的user
+app.get('/suser/*', mware.suser);
+app.post('/suser/*', mware.suser);
 
 //指定接口路径映射
 //用户管理

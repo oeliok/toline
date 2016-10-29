@@ -9,10 +9,12 @@
   "author": "GT.GROUP",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "ccap": "^0.6.10",
     "connect-redis": "^3.1.0",
     "express": "^4.14.0",
     "express-session": "^1.14.1",
+    "log4js": "^0.6.38",
     "mongodb": "^2.2.10",
     "multer": "^1.2.0",
     "nodemailer": "^2.6.4",

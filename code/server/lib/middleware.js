@@ -1,13 +1,11 @@
 /**
  * Created by oeli on 16-10-5.
  */
+var l = require('./mylog');
 exports.cyzm6 = function (req, res, next) {
-    var data = req.query;
     var yzm = req.session.yzm;
     req.session.yzm = null;
-    var myyzm = data.code+6;
-    console.log(yzm);
-    console.log(myyzm);
+    var myyzm = req.query.code;
     if (yzm == null) {
         res.json({code:-1});
     } else if (myyzm != yzm) {
@@ -34,8 +32,13 @@ exports.token = function (req, res, next) {
     }
 };
 
-exports.logConsole = function (req, res, next) {
-    console.log(req.originalUrl);
+exports.logConsoleget = function (req, res, next) {
+    l.logs(l.INFOS,__filename,"logConsole",req.query);
+    next();
+};
+exports.logConsolepost = function (req, res, next) {
+    req.query = req.body;
+    l.logs(l.INFOS,__filename,"logConsole",req.query);
     next();
 };
 

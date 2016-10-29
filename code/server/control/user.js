@@ -18,7 +18,7 @@ function login(req, res) {
                     if (user == null) {
                         res.json({code:2});
                     } else {
-                        if (user.password == data.pwd) {
+                        if (user.pwd == data.pwd) {
                             req.session.user = user;
                             res.json({code:1});
                         } else {

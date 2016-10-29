@@ -22,7 +22,8 @@ function captcha(req,res,len) {
     var ary = cc.get();
     var txt = ary[0];
     var buf = ary[1];
-    req.session.yzm = txt + len;
+    req.session.yzm = txt;
+    console.log(txt);
     res.end(buf);
 }
 exports.captcha = captcha;

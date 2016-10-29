@@ -28,15 +28,14 @@ function check_login(){
 	code[8] = "用户未登录";
 	code[9] = "不存在";
 	code[10] = "数据格式非法";
-	$.get('/cyzm6/public/api/login',{
-		name: get_userName,
+	$.post('/cyzm6/public/user/login',{
+		email: get_userName,
 		pwd: get_password,
-		code: get_code,
-		token: "1234567890123456",
+		code: get_code
 	},function(data){
 		console.log(JSON.stringify(data) + "	");
 		if(data.code == 1){
-			document.form.submit("index.html");
+            document.getElementById('login_form').submit();
 		}else{
 			alert(code[data.code+1]);
 		}
