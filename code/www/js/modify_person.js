@@ -22,7 +22,10 @@ function sign_getBtn() {
 function modify_sign() {
 
 }
+
 function modify_all(){
+
+    /*
     var get_head = $("#head").val();
     $.get("/suser/private/user/modifyhead",{
         words: get_head,
@@ -34,7 +37,7 @@ function modify_all(){
             alert(code[data.code+ 1 ]);
         }
     });
-
+    */
     var get_name = $("#name").val();
     $.get("/suser/private/user/modifyname",{
         words: get_name,
@@ -63,6 +66,7 @@ function modify_all(){
     $.get("/suser/private/user/modifyage",{
         words: get_age,
     },function (data) {
+        console.log(data.code);
         console.log(JSON.stringify(data.code) + " ");
         if(data.code == 7)
             return ;
@@ -84,7 +88,7 @@ function modify_all(){
         else{
             alert(code[data.code+ 1 ]);
         }
-    });
+    })
 
 
 }
