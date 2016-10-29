@@ -1,7 +1,7 @@
 /**
  * Created by oeli on 16-10-3.
  */
-var l = require('./../lib/mylog');
+var log = require('../log');
 var db = require("./../lib/mongo");
 var vertify = require("./../lib/validate.js");
 var email = require('./../lib/mail');
@@ -14,7 +14,11 @@ function login(req, res) {
         if (vertify.mmail(data.email) && vertify.mstring(data.pwd,[6,128])) {
             db.getConnection(function (dbs) {
                 dbs.collection('user').findOne({"email":data.email}, function (err, user) {
-                    assert.equal(null, err);
+                    if (err) {
+                        log.error(err);
+                        res.json({code:-1});
+                        return;
+                    }
                     if (user == null) {
                         res.json({code:2});
                     } else {
@@ -41,8 +45,12 @@ function regist(req, res) {
         if (vertify.mstring(data.name,[1,128]) && vertify.mstring(data.pwd,[6,128]) && vertify.mnum(data.age,[0,150]) && vertify.mnum(data.sex,[0,4])) {
             db.getConnection(function (dbs) {
                 dbs.collection('user').insertOne({"name":data.name,"pwd":data.pwd,"type":1,"email":data.email,"sex":data.sex,"age":data.age,"regist":Data.now(),"remark":"","login":0,"socket":""},function (err, user) {
-                    assert(null,err);
-                    console.log(user);
+                    if (err) {
+                        log.error(err);
+                        res.json({code:-1});
+                        return;
+                    }
+                    log.debug(user);
                     res.json({code:1});
                 })
             });
@@ -57,8 +65,8 @@ function myinfo(req, res) {
     db.getConnection(function (dbs) {
         dbs.collection('user').findOne({_id:req.session.user._id},function (err, result) {
             if (err) {
-                l.logs(l.ERRORS,__filename,"getlist",err);
-                res.json({code:-1})
+                log.error(err);
+                res.json({code:-1});
             } else {
                 result.pwd = null;
                 res.json(result);
@@ -71,10 +79,10 @@ function modifypwd(req, res) {
     var user = req.session.user;
     db.getConnection('user').update({_id:user._id,pwd:data.oldpwd},{$set:{pwd:data.newpwd}},function (err,user) {
         if (err) {
+            log.error(err);
             res.json({code:-1});
-            throw err;
         } else {
-            console.log(user);
+            log.debug(user);
             res.json({code:1});
         }
     });
@@ -95,9 +103,10 @@ function modifyemail2(req, res) {
         db.getConnection(function (dbs) {
             dbs.collection('user').updateOne({_id:req.session.user._id},{$set:{email:req.query.email}},function (err, result) {
                 if (err) {
+                    log.error(err);
                     res.json({code:-1});
                 } else {
-                    l.log(l.DEVELOPS,"/lib/user:modifyemail2",result);
+                    log.debug(result);
                     res.json({code:1});
                 }
             });
@@ -108,7 +117,7 @@ function findpwd1(req, res) {
     db.getConnection(function (dbs) {
         dbs.collection('user').findOne({email:req.query.email},function (err, user) {
             if (err) {
-                console.log(err);
+                log.error(err);
                 res.json({code:-1});
             } else {
                 if (user == null) {
@@ -119,6 +128,7 @@ function findpwd1(req, res) {
                     for (var i = 0; i < 6; i++) {
                         code += string[parseInt(Math.random()*100%36)];
                     }
+                    log.trace("找回密码是："+code);
                     req.session.findemail = {email:req.query.email,code:code};
                     email.sendmail(req.query.email,'密码找回','你的找回密码的验证码是<b>'+code+'</b>',res);
                 }
@@ -133,10 +143,10 @@ function findpwd2(req, res) {
         db.getConnection(function (dbs) {
             dbs.collection('user').updateOne({email:req.session.findemail.email},{$set:{pwd:req.query.newpwd}},function (err, result) {
                 if (err) {
-                    console.log(err);
+                    log.error(err);
                     res.json({code:-1});
                 } else {
-                    l.log(l.DEVELOPS,"/lib/user:findpwd2",result);
+                    log.debug(result);
                     res.json({coed:1});
                 }
             })
@@ -147,10 +157,10 @@ function modifysign(req, res) {
     db.getConnection(function (dbs) {
         dbs.collection('user').updateOne({_id:req.session._id},{$set:{remark:req.query.words}},function (err,result) {
             if (err) {
-                console.log(err);
+                log.error(err);
                 res.json({code:-1});
             } else {
-                l.log(l.DEVELOPS,"/lib/user:findpwd2",result);
+                log.debug(result);
                 res.json({coed:1});
             }
         });
@@ -160,10 +170,10 @@ function modifyname(req, res) {
     db.getConnection(function (dbs) {
         dbs.collection('user').updateOne({_id:req.session.user._id},{$set:{name:req.query.name}},function (err,result) {
             if (err) {
-                console.log(err);
+                log.error(err);
                 res.json({code:-1});
             } else {
-                l.log(l.DEVELOPS,"/lib/user:modifyname",result);
+                log.debug(result);
                 res.json({coed:1});
             }
         });
@@ -176,10 +186,10 @@ function modifyage(req, res) {
     db.getConnection(function (dbs) {
         dbs.collection('user').updateOne({_id:req.session.user._id},{$set:{age:req.query.age}},function (err,result) {
             if (err) {
-                console.log(err);
+                log.error(err);
                 res.json({code:-1});
             } else {
-                l.log(l.DEVELOPS,"/lib/user:modifyage",result);
+                log.debug(result);
                 res.json({coed:1});
             }
         });
@@ -189,10 +199,10 @@ function modifysex(req, res) {
     db.getConnection(function (dbs) {
         dbs.collection('user').updateOne({_id:req.session.user._id},{$set:{sex:req.query.sex}},function (err,result) {
             if (err) {
-                console.log(err);
+                log.error(err);
                 res.json({code:-1});
             } else {
-                l.log(l.DEVELOPS,"/lib/user:modifysex",result);
+                log(esult);
                 res.json({coed:1});
             }
         });
@@ -204,7 +214,7 @@ function add(req, res) {
             var user = dbs.collection('user');
             user.find({_id:req.query.fid},function (err,result) {
                 if (err) {
-                    console.log("/lib/user.add1\n" + err);
+                    log.error(err);
                     res.json({code:-1});
                 } else {
                     if (result == null){
@@ -212,16 +222,16 @@ function add(req, res) {
                     } else {
                         dbs.collection('friend').findOne({},function (errs,results) {
                             if (err) {
-                                console.log("/lib/user.add2\n" + errs);
+                                log.error(err);
                                 res.json({code:-1});
                             } else {
                                 if (results == null) {
                                     dbs.collection('friend').insertOne({"myid":ObjectId(req.session.user._id),"frid":ObjectId(req.query.fid),"datetime":"","remark":""},function (err, resultss) {
                                         if (err) {
-                                            console.log("/lib/user.add3\n" + err);
+                                            log.error(err);
                                             res.json({code:-1});
                                         } else {
-                                            l.log(l.DEVELOPS,"/lib/user:add",resultss);
+                                            log.debug(resultss);
                                             res.json({coed:1});
                                         }
                                     })
@@ -242,10 +252,10 @@ function searchname(req, res) {
     db.getConnection(function (dbs) {
         dbs.collection('user').find({name:req.query.name,_id:{$ne:req.session.user._id}}).toArray(function (err, result) {
             if (err) {
-                l.logs(l.ERRORS,__filename,arguments.callee,err);
+                log.error(err);
                 res.json({code:-1});
             } else {
-                l.logs(l.DEVELOPS,__filename,arguments.callee,result);
+                log.debug(result);
                 var data = new Array(result.length);
                 for (var i = 0; i < result.length; i++) {
                     data[i] = {id:result[i]._id,name:result[i].name,remark:result[i].remark};
@@ -262,10 +272,10 @@ function searchid(req, res) {
         db.getConnection(function (dbs) {
             dbs.collection('user').find({_id:req.query.id}).toArray(function (err, result) {
                 if (err) {
-                    l.logs(l.ERRORS,__filename,arguments.callee,err);
+                    log.error(err);
                     res.json({code:-1});
                 } else {
-                    l.logs(l.DEVELOPS,__filename,arguments.callee,result);
+                    log(result);
                     var data = new Array(result.length);
                     for (var i = 0; i < result.length; i++) {
                         data[i] = {id:result[i]._id,name:result[i].name,remark:result[i].remark};
@@ -283,10 +293,10 @@ function deletef(req, res) {
         db.getConnection(function (dbs) {
             dbs.collection('friend').deleteOne({},function (err,result) {
                 if (err) {
-                    l.logs(l.ERRORS,__filename,"deletef",err);
-                    res.json({code:-1})
+                    log.error(err);
+                    res.json({code:-1});
                 } else {
-                    l.logs(l.DEBUGS,__filename,"deletef",result.result);
+                    log.debug(result.result);
                     res.json({code:1});
                 }
             })
@@ -300,10 +310,10 @@ function modifyrm(req, res) {
         db.getConnection(function (dbs) {
             dbs.collection('friend').updateOne({myid:req.session.user._id},{$set:{remark:nickname}},function (err, result) {
                 if (err) {
-                    l.logs(l.ERRORS,__filename,"modifyrm",err);
-                    res.json({code:-1})
+                    log.error(err);
+                    res.json({code:-1});
                 } else {
-                    l.logs(l.DEBUGS,__filename,"modifyrm",result.result);
+                    log.debug(result.result);
                     res.json({code:1});
                 }
             })
@@ -317,19 +327,19 @@ function getlist(req, res) {
         db.getConnection(function (dbs) {
             dbs.collection('friend').find({myid:req.session.user._id}).toArray(function (err, result) {
                 if (err) {
-                    l.logs(l.ERRORS,__filename,"getlist",err);
-                    res.json({code:-1})
+                    log.error(err);
+                    res.json({code:-1});
                 } else {
-                    l.logs(l.DEBUGS,__filename,"getlist",result);
+                    log.debug(result);
                     if (result.length > 0) {
                         var data = new Array(result.length);
                         for (var i = 0; i < result.length; i++) {
                             data[i] = {_id:result.frid};
                         }
                         dbs.collection('user').find({$or:data}).toArray(function (errs, results) {
-                            if (errs) {
-                                l.logs(l.ERRORS,__filename,"getlist",errs);
-                                res.json({code:-1})
+                            if (err) {
+                                log.error(err);
+                                res.json({code:-1});
                             } else {
                                 data = new Array(results.length);
                                 for (var i = 0; i < results.length; i++) {

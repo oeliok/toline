@@ -2,6 +2,7 @@
  * Created by oeli on 16-10-17.
  */
 var ccap = require('ccap');
+var log = require('../log');
 
 function captcha(req,res,len) {
     var cc = ccap({
@@ -23,7 +24,7 @@ function captcha(req,res,len) {
     var txt = ary[0];
     var buf = ary[1];
     req.session.yzm = txt;
-    console.log(txt);
+    log.trace("验证码：" + txt);
     res.end(buf);
 }
 exports.captcha = captcha;

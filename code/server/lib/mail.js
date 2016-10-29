@@ -1,6 +1,7 @@
 /**
  * Created by oeli on 16-10-17.
  */
+var log = require('../log');
 var nodemailer = require("nodemailer");
 var smtpTransport = require('nodemailer-smtp-transport');
 
@@ -26,10 +27,10 @@ exports.sendmail = function (to,subject,html,res) {
     // 发送邮件
     transport.sendMail(mailOptions, function(error, response) {
         if (error) {
-            console.error(error);
+            log.error(error);
             res.json({code:-1});
         } else {
-            console.log(response);
+            log.debug(response);
             res.json({code:1});
         }
         transport.close(); // 如果没用，关闭连接池

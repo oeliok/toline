@@ -1,6 +1,7 @@
 /**
  * Created by oeli on 16-10-19.
  */
+var log = require('../log');
 var multer = require('multer');
 
 var saveavter = multer.diskStorage({
@@ -58,10 +59,10 @@ function eavter(req, res, name) {
     var upload = avter().single(name);
     upload(req, res, function (err) {
         if (err) {
-            console.log(err);
+            log.error(err);
             res.json({code:1})
         } else  {
-            console.log(JSON.stringify(req.file));
+            log.debug(JSON.stringify(req.file));
             res.json({code:1});
         }
     });

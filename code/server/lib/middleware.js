@@ -1,7 +1,7 @@
 /**
  * Created by oeli on 16-10-5.
  */
-var l = require('./mylog');
+var log = require('../log');
 exports.cyzm6 = function (req, res, next) {
     var yzm = req.session.yzm;
     req.session.yzm = null;
@@ -33,17 +33,17 @@ exports.token = function (req, res, next) {
 };
 
 exports.logConsoleget = function (req, res, next) {
-    l.logs(l.INFOS,__filename,"logConsole",req.query);
+    log.info(req.query);
     next();
 };
 exports.logConsolepost = function (req, res, next) {
     req.query = req.body;
-    l.logs(l.INFOS,__filename,"logConsole",req.query);
+    log.info(req.query);
     next();
 };
 
 exports.errors = function(err, req, res, next) {
-    console.error(err.stack);
+    log.error(err);
     res.status(500).send('Something broke ! you can contact us !');
 };
 

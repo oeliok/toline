@@ -1,7 +1,7 @@
 /**
  * Created by oeli on 16-10-2.
  */
-var log = require('./lib/mylog');
+var log = require('./log');
 var assert = require("assert");
 var http = require("http");
 var express = require("express");
@@ -76,4 +76,4 @@ app.post('/suser/private/friend/getlist',user.getlist);
 //启动服务器，并监听port端口
 var port = 8080;
 http.createServer(app).listen(port);
-log.log(log.INFOS,"/server","启动服务器并监听" + port + "端口");
+log.info("启动服务器并监听" + port + "端口");

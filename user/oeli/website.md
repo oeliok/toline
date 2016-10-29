@@ -48,3 +48,6 @@
 
 [expressjs/multer](https://github.com/expressjs/multer)
 >Multer is a node.js middleware for handling multipart/form-data, which is primarily used for uploading files. It is written on top of busboy for maximum efficiency.
+
+[node-http](https://github.com/i5ting/node-http)
+>可以学到http的基本原理和知识
