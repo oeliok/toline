@@ -105,9 +105,6 @@ function check_login(){
 		if(data.code == 1){
 			alert(code[data.code+1]);
             document.getElementById('login_form').submit();
-//			var cookie = new CookieStorage(999999,"");
-//			cookie.setItem("email",get_email_login);
-//			alert(cookie.getItem("email"));
 		}else{
 			alert(code[data.code+1]);
 			var codeImg_login = document.getElementById("code_img_login");

@@ -44,6 +44,7 @@ app.get('/*',mware.errors);
 app.post('/*',mware.errors);
 //记录访问的post资源
 app.post('/*',mware.logConsolepost);
+app.get('/*',mware.logConsoleget);
 //校验验证码6位
 app.get('/cyzm6/*', mware.cyzm6);
 app.post('/cyzm6/*', mware.cyzm6);

@@ -1,6 +1,8 @@
 /**
  * Created by kevin on 16-10-27.
  */
+"use strict";
+
 var	code = new Array();
 code[0] = "服务器未知错误";
 code[1] = "失败";
@@ -40,25 +42,20 @@ function modify_all(){
     */
     var get_name = $("#name").val();
     $.get("/suser/private/user/modifyname",{
-        words: get_name,
+        name: get_name
     },function (data) {
-        console.log(JSON.stringify(data.code) + " ");
-        if(data.code == 7)
-            return ;
-        if(data.code !=1){
-            alert(code[data.code+ 1 ]);
-        }
+        alert(get_name);
+        console.log(JSON.stringify(data) + " "+typeof(data.code));
+        alert(typeof(data.code));
     });
-
+/*
     var get_sign = $("#sign").val();
     $.get("/suser/private/user/modifysign",{
         words: get_sign,
     },function (data) {
-        console.log(JSON.stringify(data.code) + " ");
-        if(data.code == 7)
-            return ;
+        console.log(JSON.stringify(data) + " ");
         if(data.code !=1){
-            alert(code[data.code+ 1 ]);
+
         }
     });
 
@@ -66,12 +63,9 @@ function modify_all(){
     $.get("/suser/private/user/modifyage",{
         words: get_age,
     },function (data) {
-        console.log(data.code);
-        console.log(JSON.stringify(data.code) + " ");
-        if(data.code == 7)
-            return ;
-        if(data.code !=1){
-            alert(code[data.code+ 1 ]);
+        console.log(JSON.stringify(data) + " ");
+        if(data.code !==1){
+
         }
     });
 
@@ -79,16 +73,14 @@ function modify_all(){
     $.get("/suser/private/user/modifysex",{
         words: get_sex,
     },function (data) {
-        console.log(JSON.stringify(data.code) + " ");
-        if(data.code == 7)
-            return ;
+        console.log(JSON.stringify(data) + " ");
         if(data.code !=1){
-            alert(code[data.code+ 1 ]);
+           alert("fail");
         }
         else{
             alert(code[data.code+ 1 ]);
         }
     })
-
+*/
 
 }
