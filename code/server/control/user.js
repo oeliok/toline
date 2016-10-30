@@ -7,6 +7,7 @@ var vertify = require("./../lib/validate.js");
 var email = require('./../lib/mail');
 var assert = require('assert');
 var upload = require('./../lib/multerupload');
+var ObjectId = require('mongodb').ObjectID;
 
 function login(req, res) {
     var data = req.query;
@@ -72,13 +73,13 @@ function regist(req, res) {
 }
 function myinfo(req, res) {
     db.getConnection(function (dbs) {
-        dbs.collection('user').findOne({_id:req.session.user._id},function (err, result) {
+        dbs.collection('user').findOne({_id:ObjectId(req.session.user._id)},function (err, result) {
             if (err) {
                 log.error(err);
                 res.json({code:-1});
             } else {
                 log.debug(result);
-                if (result.pwd) {
+                if (result) {
                     result.pwd = '';
                 }
                 res.json(result);
@@ -89,7 +90,7 @@ function myinfo(req, res) {
 function modifypwd(req, res) {
     var data = req.query;
     var user = req.session.user;
-    db.getConnection('user').update({_id:user._id,pwd:data.oldpwd},{$set:{pwd:data.newpwd}},function (err,user) {
+    db.getConnection('user').update({_id:ObjectId(user._id),pwd:data.oldpwd},{$set:{pwd:data.newpwd}},function (err,user) {
         if (err) {
             log.error(err);
             res.json({code:-1});
@@ -113,7 +114,7 @@ function modifyemail2(req, res) {
         res.json({code:10});
     } else {
         db.getConnection(function (dbs) {
-            dbs.collection('user').updateOne({_id:req.session.user._id},{$set:{email:req.query.email}},function (err, result) {
+            dbs.collection('user').updateOne({_id:ObjectId(req.session.user._id)},{$set:{email:req.query.email}},function (err, result) {
                 if (err) {
                     log.error(err);
                     res.json({code:-1});
@@ -167,7 +168,7 @@ function findpwd2(req, res) {
 }
 function modifysign(req, res) {
     db.getConnection(function (dbs) {
-        dbs.collection('user').updateOne({_id:req.session._id},{$set:{remark:req.query.words}},function (err,result) {
+        dbs.collection('user').updateOne({_id:ObjectId(req.session.user._id)},{$set:{remark:req.query.words}},function (err,result) {
             if (err) {
                 log.error(err);
                 res.json({code:-1});
@@ -180,7 +181,7 @@ function modifysign(req, res) {
 }
 function modifyname(req, res) {
     db.getConnection(function (dbs) {
-        dbs.collection('user').updateOne({_id:req.session.user._id},{$set:{name:req.query.name}},function (err,result) {
+        dbs.collection('user').updateOne({_id:ObjectId(req.session.user._id)},{$set:{name:req.query.name}},function (err,result) {
             if (err) {
                 log.error(err);
                 res.json({code:-1});
@@ -196,7 +197,7 @@ function uploadhead(req, res) {
 }
 function modifyage(req, res) {
     db.getConnection(function (dbs) {
-        dbs.collection('user').updateOne({_id:req.session.user._id},{$set:{age:req.query.age}},function (err,result) {
+        dbs.collection('user').updateOne({_id:ObjectId(req.session.user._id)},{$set:{age:req.query.age}},function (err,result) {
             if (err) {
                 log.error(err);
                 res.json({code:-1});
@@ -209,7 +210,7 @@ function modifyage(req, res) {
 }
 function modifysex(req, res) {
     db.getConnection(function (dbs) {
-        dbs.collection('user').updateOne({_id:req.session.user._id},{$set:{sex:req.query.sex}},function (err,result) {
+        dbs.collection('user').updateOne({_id:ObjectId(req.session.user._id)},{$set:{sex:req.query.sex}},function (err,result) {
             if (err) {
                 log.error(err);
                 res.json({code:-1});
@@ -224,7 +225,7 @@ function add(req, res) {
     if (req.query.fid == null) {
         db.getConnection(function (dbs) {
             var user = dbs.collection('user');
-            user.find({_id:req.query.fid},function (err,result) {
+            user.find({_id:ObjectId(req.query.fid)},function (err,result) {
                 if (err) {
                     log.error(err);
                     res.json({code:-1});
@@ -262,7 +263,7 @@ function add(req, res) {
 }
 function searchname(req, res) {
     db.getConnection(function (dbs) {
-        dbs.collection('user').find({name:req.query.name,_id:{$ne:req.session.user._id}}).toArray(function (err, result) {
+        dbs.collection('user').find({name:req.query.name,_id:{$ne:ObjectId(req.session.user._id)}}).toArray(function (err, result) {
             if (err) {
                 log.error(err);
                 res.json({code:-1});
@@ -282,7 +283,7 @@ function searchid(req, res) {
         res.json({code:10});
     }else {
         db.getConnection(function (dbs) {
-            dbs.collection('user').find({_id:req.query.id}).toArray(function (err, result) {
+            dbs.collection('user').find({_id:ObjectId(req.query.id)}).toArray(function (err, result) {
                 if (err) {
                     log.error(err);
                     res.json({code:-1});
@@ -320,7 +321,7 @@ function modifyrm(req, res) {
         res.json({code:10});
     } else {
         db.getConnection(function (dbs) {
-            dbs.collection('friend').updateOne({myid:req.session.user._id},{$set:{remark:nickname}},function (err, result) {
+            dbs.collection('friend').updateOne({myid:ObjectId(req.session.user._id)},{$set:{remark:nickname}},function (err, result) {
                 if (err) {
                     log.error(err);
                     res.json({code:-1});
@@ -337,7 +338,7 @@ function getlist(req, res) {
         res.json({code:10});
     } else {
         db.getConnection(function (dbs) {
-            dbs.collection('friend').find({myid:req.session.user._id}).toArray(function (err, result) {
+            dbs.collection('friend').find({myid:ObjectId(req.session.user._id)}).toArray(function (err, result) {
                 if (err) {
                     log.error(err);
                     res.json({code:-1});
