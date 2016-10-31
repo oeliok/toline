@@ -14,7 +14,7 @@
   "describe":"",
   "room":"",
   "source":0,
-  "info":{"from":"","to":"","type":"","msg":{}}
+  "info":{"from":"","to":"","dataType":"","msg":{}}
 }
 
 ### 服务器房间
@@ -24,86 +24,150 @@
 认证请求，认证结果，用户发送聊天消息，用户获取系统时间，好友下线，好友上线，离线消息同步，历史消息
 
 ### 事件接口
+```
 {
-  "event":[
+  "room":"/",
+  "describe":"默认的房间的名称",
+  "events":{
     {
-      "room":"/",
-      "describe":"登录之后进入的默认房间，然后需要验证",
-      "events":[
+      "describe":"socket认证",
+      "info":[
         {
-          "name":"auth-c",
-          "describe":"客户端发起安全验证",
-          "source":1,
-          "info":{"form":"client","to":"server","type":"json","msg":{"sid":""}}
+          "source":"client",
+          "event","auth-c",
+          "value":{"sessionid":""},
+          "dataType":"json",
+          "decribe":"sessionid需要你在登录成功后，通过调用API的方法获取"
         },
         {
-          "name":"auth-s",
-          "describe":"服务器返回安全验证结果",
-          "source":0,
-          "info":{"form":"server","to":"client","type":"json","msg":[{"code":-1},{"code":0},{"code":1}]}
+          "source":"server",
+          "event":"auth-s",
+          "value":[
+            {"code":-1},
+            {"code":0},
+            {"code":1}
+          ],
+          "dataType":"json",
+          "describe":"服务器会通知你的验证结果，如果失败，会主动断开连接，成功你需要监听其他事件"
         }
       ]
     },
     {
-      "room":"/friend",
-      "describe":"双人聊天",
-      "events":[
+      "describe":"离线消息的处理",
+      "info":[
         {
-          "name":"receivefsmg",
-          "describe":"双人聊天接收消息",
-          "source":0,
-          "info":{"from":"userid","to":"userid","type":"json","msg":{
-            "from":"userid","to":"userid","msg":""
-          }}
+          "source":"client",
+          "event":"caoff",
+          "value":[
+            {"form":"my id","to":"server"}
+          ],
+          "dataType":"json",
+          "describe":"客户端安全验证成功后，并且准备好了，发送获取离线消息的请求"
         },
         {
-          "name":"sendfsmg",
-          "describe":"双人聊天发送消息",
-          "source":1,
-          "info":{"from":"userid","to":"userid","type":"json","msg":{
-            "from":"userid","to":"userid","msg":""
-          }}
-        },
-        {
-          "name":"fonline",
-          "describe":"好友上线",
-          "source":1,
-          "info":{"from":"userid","to":"userid","type":"json","msg":{
-            "from":"userid","to":"userid","msg":""
-          }}
-        },
-        {
-          "name":"foffline",
-          "describe":"好友下线",
-          "source":1,
-          "info":{"from":"userid","to":"userid","type":"json","msg":{
-            "from":"userid","to":"userid","msg":""
-          }}
-        },
+          "source":"server",
+          "event":"saoff",
+          "value":[
+            {"form":"off-line","to":"your id","data":[
+              {"dataType":"group\friend\add friend\join group","from":"id","msg":""}
+            ]}
+          ],
+          "dataType":"json",
+          "describe":"发送从上次离线开始的离线消息到你的客户端"
+        }
       ]
     },
     {
-      "room":"/group",
-      "describe":"多人聊天",
-      "events":[
+      "describe":"历史消息的处理",
+      "info":[
         {
-          "name":"receivefsmg",
-          "describe":"多人聊天接收消息",
-          "source":0,
-          "info":{"from":"userid","to":"userid","type":"json","msg":{
-            "from":"userid","to":"userid","msg":""
-          }}
+          "source":"client",
+          "event":"chistory",
+          "value":[
+            {"form":"my id","to":"server","type":"group/friend","id":"the object id","date":0,"length":10}
+          ],
+          "dataType":"json",
+          "describe":"从某个时间点之前n条消息"
         },
         {
-          "name":"sendfsmg",
-          "describe":"多人聊天发送消息",
-          "source":1,
-          "info":{"from":"userid","to":"userid","type":"json","msg":{
-            "from":"userid","to":"userid","msg":""
-          }}
+          "source":"server",
+          "event":"shistory",
+          "value":[
+            {"form":"server","to":"your id","type":"friend/group","date":0,"data":[
+              {"ids":ObjectId(""),"content":"","date":},
+              {"gid" : ObjectId(""),"uid" : ObjectId(""),"comment":"","date":0}
+            ]}
+          ],
+          "dataType":"json",
+          "describe":"从某个时间点之前n条消息"
+        }
+      ]
+    },
+    {
+      "describe":"监听私信（两个人聊天这种情况）",
+      "info":[
+        {
+          "source":"server",
+          "event":"sfmsg",
+          "value":[
+            {"form":"","to":"","sendDate":0,"msg":""}
+          ],
+          "dataType":"json",
+          "describe":"监听服务器里从其他用户发到自己的信息"
+        },
+        {
+          "source":"client",
+          "event":"cfmsg",
+          "value":[
+            {"form":"","to":"","sendDate":0,"msg":""}
+          ],
+          "dataType":"json",
+          "describe":"发送消息到服务器，让服务器转发"
+        },
+        {
+          "source":"server",
+          "event":"sfonline",
+          "value":[
+            {"Date":0,"id":""}
+          ],
+          "dataType":"json",
+          "describe":"好友上线的消息"
+        },
+        {
+          "source":"server",
+          "event":"sfoffline",
+          "value":[
+            {"Date":0,"id":""}
+          ],
+          "dataType":"json",
+          "describe":"好友下线的消息"
+        }
+      ]
+    },
+    {
+      "describe":"群聊的事件",
+      "events":[
+        {
+          "source":"client",
+          "event":"cgmsg",
+          "value":[
+            {"form":"my id","to":"group id","Date":0,"msg":""}
+          ],
+          "dataType":"json",
+          "describe":"向一个群发送消息"
+        },
+        {
+          "source":"server",
+          "event":"sgmsg",
+          "value":[
+            {"form":"group id","to":"my id","Date":0,"msg":""}
+          ],
+          "dataType":"json",
+          "describe":"服务器转发消息"
         }
       ]
     }
-  ]
+  }
 }
+```
 

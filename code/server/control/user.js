@@ -345,17 +345,20 @@ function getlist(req, res) {
                 if (result.length > 0) {
                     var data = new Array(result.length);
                     for (var i = 0; i < result.length; i++) {
-                        data[i] = {_id:result.frid};
+                        data[i] = {_id:ObjectId(result.frid)};
+                        log.debug(result[i].frid);
                     }
+                    log.debug(data);
                     dbs.collection('user').find({$or:data}).toArray(function (errs, results) {
                         if (err) {
                             log.error(err);
                             res.json({code:-1});
                         } else {
-                            data = new Array(results.length);
+                            log.debug(results);
                             for (var i = 0; i < results.length; i++) {
                                 results[i].pwd = "";
                             }
+                            log.debug(results);
                             res.json({code:1,data:results});
                         }
                     });
@@ -365,6 +368,9 @@ function getlist(req, res) {
             }
         })
     });
+}
+function getSessionid(req, res) {
+    res.json({code:1,id:req.session.id});
 }
 /*
  * 开放接口
@@ -389,3 +395,4 @@ exports.searchid = searchid;
 exports.deletef = deletef;
 exports.modifyrm = modifyrm;
 exports.getlist = getlist;
+exports.getSessionid = getSessionid;
