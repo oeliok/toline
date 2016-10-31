@@ -143,6 +143,7 @@ function findpwd1(req, res) {
                     }
                     log.trace("找回密码是："+code);
                     req.session.findemail = {email:req.query.email,code:code};
+                    log.debug(code);
                     email.sendmail(req.query.email,'密码找回','你的找回密码的验证码是<b>'+code+'</b>',res);
                 }
             }
@@ -150,7 +151,7 @@ function findpwd1(req, res) {
     });
 }
 function findpwd2(req, res) {
-    if (req.session.findemail == null || req.query.code == null || req.session.findemail !=req.query.code || vertify.mpassword(req.query.newpwd,[6,128])) {
+    if (req.session.findemail.code == null || req.query.code == null || req.session.findemail.code !=req.query.code || !vertify.mpassword(req.query.newpwd,[6,128])) {
         res.json({code:10});
     } else {
         db.getConnection(function (dbs) {
@@ -160,7 +161,7 @@ function findpwd2(req, res) {
                     res.json({code:-1});
                 } else {
                     log.debug(result);
-                    res.json({coed:1});
+                    res.json({code:1});
                 }
             })
         })
@@ -174,7 +175,7 @@ function modifysign(req, res) {
                 res.json({code:-1});
             } else {
                 log.debug(result);
-                res.json({coed:1});
+                res.json({code:1});
             }
         });
     });
@@ -187,7 +188,7 @@ function modifyname(req, res) {
                 res.json({code:-1});
             } else {
                 log.debug(result);
-                res.json({coed:1});
+                res.json({code:1});
             }
         });
     });
@@ -203,7 +204,7 @@ function modifyage(req, res) {
                 res.json({code:-1});
             } else {
                 log.debug(result);
-                res.json({coed:1});
+                res.json({code:1});
             }
         });
     });
@@ -216,7 +217,7 @@ function modifysex(req, res) {
                 res.json({code:-1});
             } else {
                 log.debug(result);
-                res.json({coed:1});
+                res.json({code:1});
             }
         });
     });
@@ -245,7 +246,7 @@ function add(req, res) {
                                             res.json({code:-1});
                                         } else {
                                             log.debug(resultss);
-                                            res.json({coed:1});
+                                            res.json({code:1});
                                         }
                                     })
                                 } else {

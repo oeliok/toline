@@ -34,7 +34,7 @@ function mpassword(data,reg) {
         return false;
     }
     var regs = /^[x00-x7f]+$/;
-    if (! regs.test(str)){
+    if (! regs.test(data)){
         return false;
     }
     if (data.length < reg[0] || data.length > reg[1]){
