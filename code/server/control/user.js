@@ -151,7 +151,7 @@ function findpwd1(req, res) {
     });
 }
 function findpwd2(req, res) {
-    if (req.session.findemail.code == null || req.query.code == null || req.session.findemail.code !=req.query.code || !vertify.mpassword(req.query.newpwd,[6,128])) {
+    if (req.session.findemail == null || req.query.code == null || req.session.findemail.code !=req.query.code || !vertify.mpassword(req.query.newpwd,[6,128])) {
         res.json({code:10});
     } else {
         db.getConnection(function (dbs) {
@@ -335,40 +335,42 @@ function modifyrm(req, res) {
     }
 }
 function getlist(req, res) {
-    if (req.query.time == null) {
-        res.json({code:10});
-    } else {
-        db.getConnection(function (dbs) {
-            dbs.collection('friend').find({myid:ObjectId(req.session.user._id)}).toArray(function (err, result) {
-                if (err) {
-                    log.error(err);
-                    res.json({code:-1});
-                } else {
-                    log.debug(result);
-                    if (result.length > 0) {
-                        var data = new Array(result.length);
-                        for (var i = 0; i < result.length; i++) {
-                            data[i] = {_id:result.frid};
-                        }
-                        dbs.collection('user').find({$or:data}).toArray(function (errs, results) {
-                            if (err) {
-                                log.error(err);
-                                res.json({code:-1});
-                            } else {
-                                data = new Array(results.length);
-                                for (var i = 0; i < results.length; i++) {
-                                    data[i] = {_id:results.frid};
-                                }
-                                res.json({code:1,data:data});
-                            }
-                        });
-                    } else {
-                        res.json({code:1})
+    db.getConnection(function (dbs) {
+        dbs.collection('friend').find({myid:ObjectId(req.session.user._id)}).toArray(function (err, result) {
+            if (err) {
+                log.error(err);
+                res.json({code:-1});
+            } else {
+                log.debug(result);
+                if (result.length > 0) {
+                    var data = new Array(result.length);
+                    for (var i = 0; i < result.length; i++) {
+                        data[i] = {_id:ObjectId(result.frid)};
+                        log.debug(result[i].frid);
                     }
+                    log.debug(data);
+                    dbs.collection('user').find({$or:data}).toArray(function (errs, results) {
+                        if (err) {
+                            log.error(err);
+                            res.json({code:-1});
+                        } else {
+                            log.debug(results);
+                            for (var i = 0; i < results.length; i++) {
+                                results[i].pwd = "";
+                            }
+                            log.debug(results);
+                            res.json({code:1,data:results});
+                        }
+                    });
+                } else {
+                    res.json({code:1})
                 }
-            })
-        });
-    }
+            }
+        })
+    });
+}
+function getSessionid(req, res) {
+    res.json({code:1,id:req.session.id});
 }
 /*
  * 开放接口
@@ -393,3 +395,4 @@ exports.searchid = searchid;
 exports.deletef = deletef;
 exports.modifyrm = modifyrm;
 exports.getlist = getlist;
+exports.getSessionid = getSessionid;

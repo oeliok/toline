@@ -15,10 +15,11 @@
     "connect-redis": "^3.1.0",
     "express": "^4.14.0",
     "express-session": "^1.14.1",
-    "mongodb": "^2.2.10",
+    "mongodb": "^2.2.11",
     "multer": "^1.2.0",
     "nodemailer": "^2.6.4",
     "nodemailer-smtp-transport": "^2.7.2",
-    "socket.io": "^1.4.8"
+    "redis": "^2.6.2",
+    "socket.io": "^1.5.1"
   }
 }
