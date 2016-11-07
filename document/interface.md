@@ -350,6 +350,24 @@ S -> C(服务器到客户端)
         {code:10}
     ]
 }
+{
+    "describe":"通过ID获取群信息",
+    "name":"groupinfo",
+    "url":"/suser/private/group/groupinfo",
+    "method":"post",
+    "security":[],
+    "server":[
+        {"type":"session","name":"user"}
+    ],
+    "arg":[
+        {"type":"String","name":"id"}
+    ],
+    "return":[
+        {"code":-1},
+        {"code":1,"data":{"_id":ObjectId(),"name":"","remark":"","datetime":0,"owner":{"_id":ObjectId(),"name":"","pwd":null,"type":1,"email":"","sex":0,"age":1,"regist":0,"remark":null}}},
+        {"code":10},
+    ]
+}
 ```
 ### 系统接口
 {
