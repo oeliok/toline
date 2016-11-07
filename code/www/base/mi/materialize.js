@@ -2835,14 +2835,14 @@ $(document).ready(function(){
     var text_area_selector = '.materialize-textarea';
 
     function textareaAutoResize($textarea) {
-      // Set font properties of hiddenDiv
+      // Set fonts properties of hiddenDiv
 
-      var fontFamily = $textarea.css('font-family');
-      var fontSize = $textarea.css('font-size');
+      var fontFamily = $textarea.css('fonts-family');
+      var fontSize = $textarea.css('fonts-size');
       var lineHeight = $textarea.css('line-height');
 
-      if (fontSize) { hiddenDiv.css('font-size', fontSize); }
-      if (fontFamily) { hiddenDiv.css('font-family', fontFamily); }
+      if (fontSize) { hiddenDiv.css('fonts-size', fontSize); }
+      if (fontFamily) { hiddenDiv.css('fonts-family', fontFamily); }
       if (lineHeight) { hiddenDiv.css('line-height', lineHeight); }
 
       if ($textarea.attr('wrap') === "off") {
@@ -6986,7 +6986,7 @@ Picker.extend( 'pickadate', DatePicker )
     $counterElement = $('<span/>')
                         .addClass('character-counter')
                         .css('float','right')
-                        .css('font-size','12px')
+                        .css('fonts-size','12px')
                         .css('height', 1);
 
     $input.parent().append($counterElement);
