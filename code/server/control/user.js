@@ -50,7 +50,7 @@ function regist(req, res) {
                         log.error(err);
                         res.json({code:-1});
                     } else if (results == null) {
-                        dbs.collection('user').insertOne({"name":data.name,"pwd":data.pwd,"type":1,"email":data.email,"sex":data.sex,"age":data.age,"regist":Date.now(),"remark":"","login":0,"socket":""},function (err, user) {
+                        dbs.collection('user').insertOne({"name":data.name,"pwd":data.pwd,"type":1,"email":data.email,"sex":parseInt(data.sex),"age":parseInt(data.age),"regist":Date.now(),"remark":null,"login":0,"socket":null},function (err, user) {
                             if (err) {
                                 log.error(err);
                                 res.json({code:-1});
@@ -284,17 +284,15 @@ function searchid(req, res) {
         res.json({code:10});
     }else {
         db.getConnection(function (dbs) {
-            dbs.collection('user').find({_id:ObjectId(req.query.id)}).toArray(function (err, result) {
+            dbs.collection('user').findOne({_id:ObjectId(req.query.id)},function (err, user) {
                 if (err) {
                     log.error(err);
-                    res.json({code:-1});
                 } else {
-                    log(result);
-                    var data = new Array(result.length);
-                    for (var i = 0; i < result.length; i++) {
-                        data[i] = {id:result[i]._id,name:result[i].name,remark:result[i].remark};
+                    if (user) {
+                        res.json({code:1,data:user});
+                    } else {
+                        res.json({code:0});
                     }
-                    res.json({code:1,data:data});
                 }
             })
         })

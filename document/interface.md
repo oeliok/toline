@@ -300,7 +300,7 @@ S -> C(服务器到客户端)
     return:[
         {code:-1}|
         {code:0}|
-        {code:1,data:{id:"",name:"","remark":""}}
+        {"code":1,"data":{"_id":ObjectId(),"name":"","pwd":null,"type":1,"email":"","sex":0,"age":0,"regist":0,"remark":""}}
     ]
 }
 ```
