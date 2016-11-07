@@ -67,7 +67,7 @@ app.post('/suser/private/user/uploadhead',user.uploadhead);
 app.get('/suser/private/user/modifyage',user.modifyage);
 app.get('/suser/private/user/modifysex',user.modifysex);
 app.get('/suser/private/friend/add',user.add);
-app.get('/private/friend/searchname',user.searchname);
+app.get('/suser/private/friend/searchname',user.searchname);
 app.get('/suser/private/friend/searchid',user.searchid);
 app.get('/suser/private/friend/delete',user.deletef);
 app.get('/suser/private/friend/modifyrm',user.modifyrm);

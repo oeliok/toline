@@ -11,25 +11,31 @@ JSON格式
 > 我的ID，好友ID，添加时间[long],好友备注[string,没有的话为null]
 
 JSON格式
-{"ids":ObjectId(""),"myid":ObjectId(""),"frid":ObjectId(""),"datetime":,"remark":}
+{"_id":ObjectId(""),"myid":ObjectId(""),"frid":ObjectId(""),"datetime":,"remark":""}
+
+### 好友聊天记录表(flog)
+> 好友关系表id，聊天内容[string]，时间[long]
+
+JSON格式
+{"_id":ObjectId(""),"fid":ObjectId(""),"msg":"","datetime":0}
 
 ### 聊天室列表(group)
 > 群ID，群名称[0-30个字符]，群标签[0-100个字符]，群的创建时间[long]，群的群主用户ID，群用户的用户ID
 
 JSON格式
-{"_id":ObjectId(""),"name":"","remark":"","datetime":"","owner":ObjectId(""),members:[ObjectId("")...]}
+{"_id":ObjectId(""),"name":"","remark":"","datetime":"","owner":ObjectId("")}
+
+### 群成员列表(guser)
+> 列表id，用户id，群id，加群时间，群备注
+
+JSON格式
+{"_id":ObjectId(""),"uid":ObjectId(""),"gid":ObjectId(""),"datetime":"","remark":""}
 
 ### 群聊天记录(glog)
 > 群ID,用户ID,对话内容[1-512个字符]，用户发表时间[long]
 
 JSON格式
-{"gid" : ObjectId(""),"uid" : ObjectId(""),"comment":"","date":}
-
-### 个人对话聊天记录(flog)
-> 好友表ID，用户对话内容[1-512个字符]，用户发表时间[long]
-
-JSON格式
-{"ids":ObjectId(""),"content":"","date":}
+{"_id":ObjectId(""),"gid" : ObjectId(""),"uid" : ObjectId(""),"comment":"","date":}
 
 ### 文件列表(file)
 > 用户ID，文件名[1-255个字符]，文件MD5值[64]，文件大小[long(B)]，过期时间[long]
