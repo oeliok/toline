@@ -312,31 +312,43 @@ function groupMsg(socket,userid) {
         redis.sismember(data.to,userid,function (err, reply) {
             if (err) {
                 log.error(err);
+                users[userid].emit('sgmsg',{"type":1,"sendDate":time,"code":0});
             } else {
-                if (reply){
-
+                if (reply == 1){
+                    redis.smembers(data.to,function (err, user) {
+                        for (var i = 0; i < user.length; i++) {
+                            users[user[i]].emit('sgmsg',{"form":data.to,"to":user[i],"Date":time,"msg":data.msg});
+                        }
+                    })
+                } else {
+                    mongo.getConnection(function (db) {
+                        db.collection('guser').findOne({uid:ObjectId(userid),gid:ObjectId(data.to)},function (err, user) {
+                            if (err) {
+                                log.error(err);
+                                users[userid].emit('sgmsg',{"type":1,"sendDate":time,"code":0});
+                            } else {
+                                if (user != null) {
+                                    redis.sadd(data.to,userid,function (err,reply) {
+                                        if (err) {
+                                            log.error(err);
+                                            users[userid].emit('sgmsg',{"type":1,"sendDate":time,"code":0});
+                                        } else {
+                                            log.debug(reply);
+                                            redis.smembers(data.to,function (err, user) {
+                                                for (var i = 0; i < user.length; i++) {
+                                                    users[user[i]].emit('sgmsg',{"form":data.to,"to":user[i],"Date":time,"msg":data.msg});
+                                                }
+                                            })
+                                        }
+                                    })
+                                } else {
+                                    log.debug(user);
+                                }
+                            }
+                        })
+                    })
                 }
             }
         })
     })
 }
-redis.get(data.to,function (err,result) {
-    if (err) {
-        log.error(err);
-    } else {
-        if (result) {
-
-        } else {
-
-        }
-        mongo.getConnection(function (db) {
-            db.collection('glog').insertOne({"gid":ObjectId(userid),"uid":ObjectId(data.to),"comment":data.msg,date:time},function (err, res) {
-                if (err) {
-                    log.error(err);
-                } else {
-                    log.debug(res);
-                }
-            })
-        })
-    }
-})
