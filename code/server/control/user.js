@@ -343,7 +343,7 @@ function getlist(req, res) {
                 if (result.length > 0) {
                     var data = new Array(result.length);
                     for (var i = 0; i < result.length; i++) {
-                        data[i] = {_id:ObjectId(result.frid)};
+                        data[i] = {_id:result[i].frid};
                         log.debug(result[i].frid);
                     }
                     log.debug(data);
@@ -354,7 +354,7 @@ function getlist(req, res) {
                         } else {
                             log.debug(results);
                             for (var i = 0; i < results.length; i++) {
-                                results[i].pwd = "";
+                                results[i].pwd = null;
                             }
                             log.debug(results);
                             res.json({code:1,data:results});

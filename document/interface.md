@@ -346,7 +346,7 @@ S -> C(服务器到客户端)
     return:[
         {code:-1}|
         {code:0}|
-        {code:1,data:[{"id" : "","name":"",remark":"","socket":""}]}|
+        {code:1,data:[{"_id":ObjectId(""),"name":"sw","pwd":null,"type":"1","email":"","sex":0,"age":21,"regist":0,"remark":"","socket":null}]}|
         {code:10}
     ]
 }
