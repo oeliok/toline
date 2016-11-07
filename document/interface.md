@@ -376,3 +376,15 @@ S -> C(服务器到客户端)
         {"type":"image/jpeg"}
     ]
 }
+{
+    "describe":"获取sessionid",
+    "name":"sessionid",
+    "url":"/suser/sessionid",
+    "method":"get",
+    "arg":[],
+    "return":[
+        {"code":7},
+        {"code":1,"id":""}
+    ]
+}
+
