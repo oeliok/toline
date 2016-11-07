@@ -74,6 +74,7 @@ app.get('/suser/private/friend/delete',user.deletef);
 app.get('/suser/private/friend/modifyrm',user.modifyrm);
 app.post('/suser/private/friend/getlist',user.getlist);
 app.get('/suser/sessionid',user.getSessionid);
+app.post('/suser/private/group/groupinfo',user.getgroupinfobyid);
 
 //启动服务器，并监听port端口
 var port = 8080;

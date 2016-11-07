@@ -19,8 +19,8 @@ JSON格式
 JSON格式
 {"_id":ObjectId(""),"fid":ObjectId(""),"msg":"","datetime":0}
 
-### 聊天室列表(group)
-> 群ID，群名称[0-30个字符]，群标签[0-100个字符]，群的创建时间[long]，群的群主用户ID，群用户的用户ID
+### 聊天室列表(groups)
+> 群ID，群名称[0-30个字符]，群标签[0-100个字符]，群的创建时间[long]，群的群主用户ID
 
 JSON格式
 {"_id":ObjectId(""),"name":"","remark":"","datetime":"","owner":ObjectId("")}

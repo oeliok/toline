@@ -546,6 +546,31 @@ function getSessionid(req, res) {
 		id: req.session.id
 	});
 }
+function getgroupinfobyid(req,res) {
+    if (req != null && vertify.mstring(req.query.id,[24,24])) {
+        db.getConnection(function (dbs) {
+            dbs.collection('groups').findOne({_id:ObjectId(req.query.id)},function (err,group) {
+                if (err) {
+                    log.error(err);
+                    res.json({code:-1});
+                } else {
+                    dbs.collection('user').findOne({_id:group.owner},function (err, user) {
+                        if (err) {
+                            log.error(err);
+                            res.json({code:-1});
+                        } else {
+                            user.pwd = null;
+                            group.owner = user;
+                            res.json(group);
+                        }
+                    })
+                }
+            })
+        })
+    } else {
+        res.json({code:10});
+    }
+}
 /*
  * 开放接口
  *
@@ -570,3 +595,4 @@ exports.deletef = deletef;
 exports.modifyrm = modifyrm;
 exports.getlist = getlist;
 exports.getSessionid = getSessionid;
+exports.getgroupinfobyid = getgroupinfobyid;
