@@ -54,3 +54,6 @@
 
 [bunyun](https://www.npmjs.com/package/bunyan#stream-errors)
 >一个nodejs项目的日志模块
+
+[node-canvas](https://github.com/Automattic/node-canvas)
+>node-canvas is a Cairo backed Canvas implementation for NodeJS.

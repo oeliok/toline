@@ -30,19 +30,32 @@
   "describe":"默认的房间的名称",
   "events":{
     {
+      "describe":"系统消息",
+      "info":[
+        {
+            "source":"server",
+            "event":"serror",
+            "arg":[
+              {"code":0,"msg":""}
+            ],
+            "describe":"发送一些服务器的错误消息，msg里面存放错误信息"
+        }
+      ]
+    },
+    {
       "describe":"socket认证",
       "info":[
         {
           "source":"client",
           "event","auth-c",
-          "value":{"sessionid":""},
+          "arg":{"sessionid":""},
           "dataType":"json",
           "decribe":"sessionid需要你在登录成功后，通过调用API的方法获取"
         },
         {
           "source":"server",
           "event":"auth-s",
-          "value":[
+          "arg":[
             {"code":-1},
             {"code":0},
             {"code":1}
@@ -58,7 +71,7 @@
         {
           "source":"client",
           "event":"caoff",
-          "value":[
+          "arg":[
             {"form":"my id","to":"server"}
           ],
           "dataType":"json",
@@ -67,10 +80,8 @@
         {
           "source":"server",
           "event":"saoff",
-          "value":[
-            {"form":"off-line","to":"your id","data":[
-              {"dataType":"group\friend\add friend\join group","from":"id","msg":""}
-            ]}
+          "arg":[
+            {"form":"off-line","to":"your id","flogs":[],"glogs":[]}
           ],
           "dataType":"json",
           "describe":"发送从上次离线开始的离线消息到你的客户端"
@@ -83,7 +94,7 @@
         {
           "source":"client",
           "event":"chistory",
-          "value":[
+          "arg":[
             {"form":"my id","to":"server","type":"group/friend","id":"the object id","date":0,"length":10}
           ],
           "dataType":"json",
@@ -92,11 +103,8 @@
         {
           "source":"server",
           "event":"shistory",
-          "value":[
-            {"form":"server","to":"your id","type":"friend/group","date":0,"data":[
-              {"ids":ObjectId(""),"content":"","date":},
-              {"gid" : ObjectId(""),"uid" : ObjectId(""),"comment":"","date":0}
-            ]}
+          "arg":[
+            {"form":"server","to":"your id","type":"friend/group","date":0,"flogs/glogs":[]}
           ],
           "dataType":"json",
           "describe":"从某个时间点之前n条消息"
@@ -109,16 +117,17 @@
         {
           "source":"server",
           "event":"sfmsg",
-          "value":[
-            {"form":"","to":"","sendDate":0,"msg":""}
+          "arg":[
+            {"type":0,"form":"","to":"","sendDate":0,"msg":""},
+            {"type":1,"sendDate":0,"code":0}
           ],
           "dataType":"json",
-          "describe":"监听服务器里从其他用户发到自己的信息"
+          "describe":"监听服务器里从其他用户发到自己的信息,或者上次发送的消息的回执"
         },
         {
           "source":"client",
           "event":"cfmsg",
-          "value":[
+          "arg":[
             {"form":"","to":"","sendDate":0,"msg":""}
           ],
           "dataType":"json",
@@ -127,7 +136,7 @@
         {
           "source":"server",
           "event":"sfonline",
-          "value":[
+          "arg":[
             {"Date":0,"id":""}
           ],
           "dataType":"json",
@@ -136,7 +145,7 @@
         {
           "source":"server",
           "event":"sfoffline",
-          "value":[
+          "arg":[
             {"Date":0,"id":""}
           ],
           "dataType":"json",
@@ -150,7 +159,7 @@
         {
           "source":"client",
           "event":"cgmsg",
-          "value":[
+          "arg":[
             {"form":"my id","to":"group id","Date":0,"msg":""}
           ],
           "dataType":"json",
@@ -159,7 +168,7 @@
         {
           "source":"server",
           "event":"sgmsg",
-          "value":[
+          "arg":[
             {"form":"group id","to":"my id","Date":0,"msg":""}
           ],
           "dataType":"json",

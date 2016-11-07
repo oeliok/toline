@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改邮箱</title>
+    <link rel="stylesheet" href="../base/mdl/material.css">
+    <link rel="stylesheet" href="../base/bs/bootstrap.css">
+    <link rel="stylesheet" href="../css/modify_password.css">
+    <link  type="application/javascript"  href="../base/mdl/material.js">
+    <script></script>
+
+</head>
+
+<body>
+<div>
+    <div id="content" class="mdl-grid">
+        <div id="send_case" class="mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-grid">
+            <div id="head1" class="mdl-cell--12-col-desktop">
+            </div>
+
+            <div id="text1" class="mdl-cell--12-col-desktop">
+                <div class="mdl-cell--10-col-desktop mdl-grid">
+                    <div class="mdl-textfield mdl-js-textfield mdl-cell--9-col-desktop mdl-cell--1-offset-desktop">
+                        <input class="mdl-textfield__input" type="text" placeholder="新的邮箱" id="new_email"  pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$">
+                        <span class="mdl-textfield__error">邮箱格式不正确</span>
+                    </div>
+                </div>
+                <div class="mdl-cell--8-col-desktop mdl-grid mdl-textfield">
+                    <div class="mdl-textfield mdl-js-textfield mdl-cell--6-col">
+                        <input class="mdl-textfield__input " placeholder="验证码" type="text" id="code_to_modify" pattern="^\w{6}$">
+                        <span class="mdl-textfield__error">字母或数字 长度6</span>
+                    </div>
+                    <h5>已向您的邮箱发送验证码，请在上方输入</h5>
+                </div>
+                <br>
+                <br>
+                <br>
+                <button type="button" id="modify_btn" class="mdl-cell--6-col mdl-cell--3-offset-desktop my-login-button mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent">
+                    保存新邮箱
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="../base/other/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="../base/other/reg_exp.js"></script>
+<script type="text/javascript" src="../js/modify_email.js"></script>
+<script src="../base/mdl/material.min.js"></script>
+
+</html>

@@ -44,6 +44,7 @@ app.get('/*',mware.errors);
 app.post('/*',mware.errors);
 //记录访问的post资源
 app.post('/*',mware.logConsolepost);
+app.get('/*',mware.logConsoleget);
 //校验验证码6位
 app.get('/cyzm6/*', mware.cyzm6);
 app.post('/cyzm6/*', mware.cyzm6);
@@ -67,7 +68,7 @@ app.post('/suser/private/user/uploadhead',user.uploadhead);
 app.get('/suser/private/user/modifyage',user.modifyage);
 app.get('/suser/private/user/modifysex',user.modifysex);
 app.get('/suser/private/friend/add',user.add);
-app.get('/private/friend/searchname',user.searchname);
+app.get('/suser/private/friend/searchname',user.searchname);
 app.get('/suser/private/friend/searchid',user.searchid);
 app.get('/suser/private/friend/delete',user.deletef);
 app.get('/suser/private/friend/modifyrm',user.modifyrm);
