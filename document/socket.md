@@ -169,7 +169,8 @@
           "source":"server",
           "event":"sgmsg",
           "arg":[
-            {"form":"group id","to":"my id","Date":0,"msg":""}
+            {"form":"group id","to":"my id","Date":0,"msg":""},
+            {"type":1,"sendDate":0,"code":0}
           ],
           "dataType":"json",
           "describe":"服务器转发消息"
