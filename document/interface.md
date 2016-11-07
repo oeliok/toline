@@ -218,7 +218,6 @@ S -> C(服务器到客户端)
     name:/suser/private/user/uploadhead,
     method:post,
     arg:[
-        
     ],
     return:[
         {code:-1}|
