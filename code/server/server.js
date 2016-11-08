@@ -10,6 +10,7 @@ var user = require("./control/user");
 var mware = require("./lib/middleware");
 var captcha = require("./lib/captcha");
 var bodyParser = require('body-parser');
+var io = require('./control/socket');
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -78,5 +79,6 @@ app.post('/suser/private/group/groupinfo',user.getgroupinfobyid);
 
 //启动服务器，并监听port端口
 var port = 8080;
-http.createServer(app).listen(port);
+var server = http.createServer(app).listen(port);
+io.listen(server);
 log.info("启动服务器并监听" + port + "端口");
