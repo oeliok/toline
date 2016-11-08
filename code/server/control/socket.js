@@ -3,7 +3,7 @@
  */
 var socket = require('socket.io');
 var redis = require('../lib/redis').redis;
-var log = require('../lib/mylog');
+var log = require('../log');
 var mongo = require('../lib/mongo');
 var ObjectId = require('mongodb').ObjectID;
 var users = [];
