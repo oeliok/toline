@@ -8,6 +8,7 @@ var email = require('./../lib/mail');
 var assert = require('assert');
 var upload = require('./../lib/multerupload');
 var ObjectId = require('mongodb').ObjectID;
+var fs = require("fs");
 
 function login(req, res) {
     var data = req.query;
@@ -194,7 +195,18 @@ function modifyname(req, res) {
     });
 }
 function uploadhead(req, res) {
-    upload.uploadavter(req, res, 'tx');
+    if (req.query.head.length > 1024) {
+        res.json({code:1});
+        return false;
+    }
+    fs.writeFile(__dirname+"/../../www/avator/"+req.session.user._id,req.query.head,function(err) {
+        if (err) {
+            log.error(err);
+            res.json({code:-1});
+        } else {
+            res.json({code:1});
+        }
+    });
 }
 function modifyage(req, res) {
     db.getConnection(function (dbs) {
