@@ -218,7 +218,9 @@ S -> C(服务器到客户端)
     name:/suser/private/user/uploadhead,
     method:post,
     arg:[
+
         {name:head,type:base64-string,min-len=50,max-len:1024}
+
     ],
     return:[
         {code:-1}|

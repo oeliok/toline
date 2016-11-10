@@ -75,10 +75,10 @@
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -277,10 +277,10 @@
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -704,10 +704,10 @@ main {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -1288,10 +1288,10 @@ ul, ol {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -3136,10 +3136,10 @@ ul, ol {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -3324,10 +3324,10 @@ ul, ol {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -3504,10 +3504,10 @@ ul, ol {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -3721,10 +3721,10 @@ ul, ol {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -4097,10 +4097,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -4364,10 +4364,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -4667,10 +4667,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -4909,10 +4909,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -5180,10 +5180,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -5405,10 +5405,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -5820,10 +5820,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -6055,10 +6055,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -6296,10 +6296,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -6617,10 +6617,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -6949,10 +6949,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -7231,10 +7231,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -7959,10 +7959,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -8249,10 +8249,10 @@ input.mdl-button[type="submit"] {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -8650,10 +8650,10 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -8917,10 +8917,10 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -9410,10 +9410,10 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -9726,10 +9726,10 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -9984,10 +9984,10 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -10308,10 +10308,10 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -10533,10 +10533,10 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
@@ -10746,10 +10746,10 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* ==========  TYPOGRAPHY  ========== */
 /* We're splitting fonts into "preferred" and "performance" in order to optimize
    page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
+   immediately and not wait for the web fonts load, whereas for other sections,
    such as headers and titles, we're OK with things taking a bit longer to load.
    We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
+   definitely want to make sure you're using the preferred fonts and don't mind
    the performance hit.
    We should be able to improve on this once CSS Font Loading L3 becomes more
    widely available.
