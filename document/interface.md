@@ -219,7 +219,7 @@ S -> C(服务器到客户端)
     method:post,
     arg:[
 
-        {name:head,type:base64-string,min-len=50,max-len:1024}
+        {name:head,type:base64-string,min-len=50,max-len:1024*256}
 
     ],
     return:[

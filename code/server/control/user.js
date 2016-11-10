@@ -311,8 +311,7 @@ function modifyname(req, res) {
 }
 
 function uploadhead(req, res) {
-
-	if (req.query.head.length > 1024) {
+	if (req.query.head.length > 1024*256) {
 		res.json({
 			code: 1
 		});
