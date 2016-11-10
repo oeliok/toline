@@ -18,10 +18,18 @@ exports.listen = function (server) {
             redisget(client,"sess:"+data.sessionid,function (reply) {
                 if (reply != null) {
                     var session = JSON.parse(reply);
-                    offlinelog(client,session.user._id);
+                    var userid = session.user._id;
+                    clientclose(client,userid);
+                    offlinelog(client,userid);
+                    historylog(client,userid);
+                    online(client,userid);
+                    offline(client,userid);
+                    fmsg(client,userid);
+                    gmsg(client,userid);
                     client.emit('auth-s',{code:1});
                 } else {
                     client.emit('auth-s',{code:0});
+                    systemclose(client);
                 }
             })
         });
@@ -29,7 +37,19 @@ exports.listen = function (server) {
 };
 
 function offlinelog(socket, userid) {
-    
+    socket.on('caoff',function (data) {
+        mongo.getConnection(function (db) {
+            db.collection('friend').find({myid:ObjectId(userid)}).toArray(function (err, friends) {
+                if (err) {
+                    log.error(err);
+                } else {
+                    if (friends != null) {
+
+                    }
+                }
+            })
+        })
+    })
 }
 
 function historylog(socket, userid) {
@@ -52,9 +72,17 @@ function offline(socket, userid) {
 
 }
 
+function systemclose(socket, userid) {
+
+}
+
+function clientclose(socket, userid) {
+    
+}
+
 function systemnews(socket,msg) {
     log.trace(msg);
-    socket.emit('serror',{code:0,msg:msg});
+    socket.emit('serror',msg);
 }
 
 function redisget(socket,key,action) {
