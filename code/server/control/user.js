@@ -8,6 +8,7 @@ var email = require('./../lib/mail');
 var assert = require('assert');
 var upload = require('./../lib/multerupload');
 var ObjectId = require('mongodb').ObjectID;
+var fs = require("fs");
 
 function login(req, res) {
 	var data = req.query;
@@ -55,35 +56,60 @@ function login(req, res) {
 }
 
 function regist(req, res) {
-    var data = req.query;
-    if (vertify.mmail(data.email)) {
-        if (vertify.mstring(data.name,[1,128]) && vertify.mstring(data.pwd,[6,128]) && vertify.mnum(data.age,[0,150]) && vertify.mnum(data.sex,[0,4])) {
-            db.getConnection(function (dbs) {
-                dbs.collection('user').findOne({email:data.email},function (err, results) {
-                    if (err) {
-                        log.error(err);
-                        res.json({code:-1});
-                    } else if (results == null) {
-                        dbs.collection('user').insertOne({"name":data.name,"pwd":data.pwd,"type":1,"email":data.email,"sex":parseInt(data.sex),"age":parseInt(data.age),"regist":Date.now(),"remark":null,"login":0,"socket":null},function (err, user) {
-                            if (err) {
-                                log.error(err);
-                                res.json({code:-1});
-                                return;
-                            }
-                            log.debug(user);
-                            res.json({code:1});
-                        })
-                    } else {
-                        res.json({code:4});
-                    }
-                })
-            });
-        } else {
-            res.json({code:0});
-        }
-    } else {
-        res.json({code:4});
-    }
+	var data = req.query;
+	if (vertify.mmail(data.email)) {
+		if (vertify.mstring(data.name, [1, 128]) && vertify.mstring(data.pwd, [6, 128]) && vertify.mnum(data.age, [0, 150]) && vertify.mnum(data.sex, [0, 4])) {
+			db.getConnection(function(dbs) {
+				dbs.collection('user').findOne({
+					email: data.email
+				}, function(err, results) {
+					if (err) {
+						log.error(err);
+						res.json({
+							code: -1
+						});
+					} else if (results == null) {
+						dbs.collection('user').insertOne({
+							"name": data.name,
+							"pwd": data.pwd,
+							"type": 1,
+							"email": data.email,
+							"sex": parseInt(data.sex),
+							"age": parseInt(data.age),
+							"regist": Date.now(),
+							"remark": null,
+							"login": 0,
+							"socket": null
+						}, function(err, user) {
+							if (err) {
+								log.error(err);
+								res.json({
+									code: -1
+								});
+								return;
+							}
+							log.debug(user);
+							res.json({
+								code: 1
+							});
+						})
+					} else {
+						res.json({
+							code: 4
+						});
+					}
+				})
+			});
+		} else {
+			res.json({
+				code: 0
+			});
+		}
+	} else {
+		res.json({
+			code: 4
+		});
+	}
 }
 
 function myinfo(req, res) {
@@ -285,7 +311,25 @@ function modifyname(req, res) {
 }
 
 function uploadhead(req, res) {
-	upload.uploadavter(req, res, 'tx');
+
+	if (req.query.head.length > 1024) {
+		res.json({
+			code: 1
+		});
+		return false;
+	}
+	fs.writeFile(__dirname + "/../../www/avator/" + req.session.user._id, req.query.head, function(err) {
+		if (err) {
+			log.error(err);
+			res.json({
+				code: -1
+			});
+		} else {
+			res.json({
+				code: 1
+			});
+		}
+	});
 }
 
 function modifyage(req, res) {
@@ -431,23 +475,32 @@ function searchname(req, res) {
 }
 
 function searchid(req, res) {
-    if (req.query.id == null) {
-        res.json({code:10});
-    }else {
-        db.getConnection(function (dbs) {
-            dbs.collection('user').findOne({_id:ObjectId(req.query.id)},function (err, user) {
-                if (err) {
-                    log.error(err);
-                } else {
-                    if (user) {
-                        res.json({code:1,data:user});
-                    } else {
-                        res.json({code:0});
-                    }
-                }
-            })
-        })
-    }
+	if (req.query.id == null) {
+		res.json({
+			code: 10
+		});
+	} else {
+		db.getConnection(function(dbs) {
+			dbs.collection('user').findOne({
+				_id: ObjectId(req.query.id)
+			}, function(err, user) {
+				if (err) {
+					log.error(err);
+				} else {
+					if (user) {
+						res.json({
+							code: 1,
+							data: user
+						});
+					} else {
+						res.json({
+							code: 0
+						});
+					}
+				}
+			})
+		})
+	}
 }
 
 function deletef(req, res) {
@@ -505,39 +558,54 @@ function modifyrm(req, res) {
 }
 
 function getlist(req, res) {
-    db.getConnection(function (dbs) {
-        dbs.collection('friend').find({myid:ObjectId(req.session.user._id)}).toArray(function (err, result) {
-            if (err) {
-                log.error(err);
-                res.json({code:-1});
-            } else {
-                log.debug(result);
-                if (result.length > 0) {
-                    var data = new Array(result.length);
-                    for (var i = 0; i < result.length; i++) {
-                        data[i] = {_id:result[i].frid};
-                        log.debug(result[i].frid);
-                    }
-                    log.debug(data);
-                    dbs.collection('user').find({$or:data}).toArray(function (errs, results) {
-                        if (err) {
-                            log.error(err);
-                            res.json({code:-1});
-                        } else {
-                            log.debug(results);
-                            for (var i = 0; i < results.length; i++) {
-                                results[i].pwd = null;
-                            }
-                            log.debug(results);
-                            res.json({code:1,data:results});
-                        }
-                    });
-                } else {
-                    res.json({code:1})
-                }
-            }
-        })
-    });
+	db.getConnection(function(dbs) {
+		dbs.collection('friend').find({
+			myid: ObjectId(req.session.user._id)
+		}).toArray(function(err, result) {
+			if (err) {
+				log.error(err);
+				res.json({
+					code: -1
+				});
+			} else {
+				log.debug(result);
+				if (result.length > 0) {
+					var data = new Array(result.length);
+					for (var i = 0; i < result.length; i++) {
+						data[i] = {
+							_id: result[i].frid
+						};
+						log.debug(result[i].frid);
+					}
+					log.debug(data);
+					dbs.collection('user').find({
+						$or: data
+					}).toArray(function(errs, results) {
+						if (err) {
+							log.error(err);
+							res.json({
+								code: -1
+							});
+						} else {
+							log.debug(results);
+							for (var i = 0; i < results.length; i++) {
+								results[i].pwd = null;
+							}
+							log.debug(results);
+							res.json({
+								code: 1,
+								data: results
+							});
+						}
+					});
+				} else {
+					res.json({
+						code: 1
+					})
+				}
+			}
+		})
+	});
 }
 
 function getSessionid(req, res) {
@@ -546,30 +614,41 @@ function getSessionid(req, res) {
 		id: req.session.id
 	});
 }
-function getgroupinfobyid(req,res) {
-    if (req != null && vertify.mstring(req.query.id,[24,24])) {
-        db.getConnection(function (dbs) {
-            dbs.collection('groups').findOne({_id:ObjectId(req.query.id)},function (err,group) {
-                if (err) {
-                    log.error(err);
-                    res.json({code:-1});
-                } else {
-                    dbs.collection('user').findOne({_id:group.owner},function (err, user) {
-                        if (err) {
-                            log.error(err);
-                            res.json({code:-1});
-                        } else {
-                            user.pwd = null;
-                            group.owner = user;
-                            res.json(group);
-                        }
-                    })
-                }
-            })
-        })
-    } else {
-        res.json({code:10});
-    }
+
+function getgroupinfobyid(req, res) {
+	if (req != null && vertify.mstring(req.query.id, [24, 24])) {
+		db.getConnection(function(dbs) {
+			dbs.collection('groups').findOne({
+				_id: ObjectId(req.query.id)
+			}, function(err, group) {
+				if (err) {
+					log.error(err);
+					res.json({
+						code: -1
+					});
+				} else {
+					dbs.collection('user').findOne({
+						_id: group.owner
+					}, function(err, user) {
+						if (err) {
+							log.error(err);
+							res.json({
+								code: -1
+							});
+						} else {
+							user.pwd = null;
+							group.owner = user;
+							res.json(group);
+						}
+					})
+				}
+			})
+		})
+	} else {
+		res.json({
+			code: 10
+		});
+	}
 }
 /*
  * 开放接口

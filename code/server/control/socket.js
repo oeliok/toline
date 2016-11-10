@@ -35,7 +35,7 @@ function whenconnect(socket) {
                     socket.emit('auth-s',{code:1});
                     //激活，提供用户各项功能，发送离线消息，并且在数据库注册登录信息
                     var user = JSON.parse(data);
-                    login(socket,user._id);
+                    login(socket,user.user._id);
                 }
             }
         });
