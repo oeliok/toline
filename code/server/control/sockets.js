@@ -13,7 +13,7 @@ exports.listen = function (server) {
     io = si.listen(server);
     log.info("socket.io启动服务");
     io.on('connection',function (client) {
-        systemnews(client,"连接上socket服务！");
+        systemnews(client,{info:"error",msg:""});
         client.on('auth-c',function (data) {
             redisget(client,"sess:"+data.sessionid,function (reply) {
                 if (reply != null) {

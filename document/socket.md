@@ -36,7 +36,7 @@
             "source":"server",
             "event":"serror",
             "arg":[
-              {"info":"","msg":""}
+              {"info":"error/info/","msg":""}
             ],
             "dataType":"json",
             "describe":"发送一些服务器的错误消息，msg里面存放错误信息"
