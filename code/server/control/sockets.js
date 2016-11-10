@@ -1,0 +1,70 @@
+/**
+ * Created by oeli on 16-11-10.
+ */
+var log = require('../log');
+var si = require('socket.io');
+var mongo = require('../lib/mongo');
+var ObjectId = require('mongodb').ObjectID;
+var redis = require('../lib/redis').redis;
+
+var user = [];
+
+exports.listen = function (server) {
+    io = si.listen(server);
+    log.info("socket.io启动服务");
+    io.on('connection',function (client) {
+        systemnews(client,"连接上socket服务！");
+        client.on('auth-c',function (data) {
+            redisget(client,"sess:"+data.sessionid,function (reply) {
+                if (reply != null) {
+                    var session = JSON.parse(reply);
+                    offlinelog(client,session.user._id);
+                    client.emit('auth-s',{code:1});
+                } else {
+                    client.emit('auth-s',{code:0});
+                }
+            })
+        });
+    })
+};
+
+function offlinelog(socket, userid) {
+    
+}
+
+function historylog(socket, userid) {
+
+}
+
+function fmsg(socket, userid) {
+    
+}
+
+function gmsg(socket, userid) {
+    
+}
+
+function online(socket, userid) {
+
+}
+
+function offline(socket, userid) {
+
+}
+
+function systemnews(socket,msg) {
+    log.trace(msg);
+    socket.emit('serror',{code:0,msg:msg});
+}
+
+function redisget(socket,key,action) {
+    redis.get(key,function (err, reply) {
+        if (err) {
+            log.error(err);
+            systemnews(socket,"redis访问时发生错误！");
+        } else {
+            log.debug(reply);
+            action(reply);
+        }
+    })
+}
