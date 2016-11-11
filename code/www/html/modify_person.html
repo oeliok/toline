@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>修改个人信息</title>
     <link rel="stylesheet" href="../base/mdl/material.css">
     <link rel="stylesheet" href="../base/bs/bootstrap.css">
     <link rel="stylesheet" href="../base/bs/bootstrap.css">
     <link rel="stylesheet" href="../css/cut.css">
     <style>
-
+        body{
+            background:url("../image/bg/m1.png");
+        }
         .demo-card-wide.mdl-card {
             width: 100%;
         }
@@ -25,6 +27,7 @@
 </head>
 <body>
 <!-- 按钮触发模态框 -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">修改个人信息模态框</button>
 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -45,6 +48,7 @@
                                         </div>
                                         <div class="mdl-textfield mdl-js-textfield mdl-cell--9-col-desktop">
                                             <input class="mdl-textfield__input" type="text"  id="name" value={{name}}>
+                                            <label class="mdl-textfield__label" for="name"></label>
                                         </div>
                                     </div>
 
@@ -52,6 +56,7 @@
                                         <h5 class="mdl-cell--3-col-desktop">Sign:</h5>
                                         <div class="mdl-textfield mdl-js-textfield mdl-cell--9-col-desktop">
                                             <input class="mdl-textfield__input" type="text"  id="sign" placeholder="主人很懒，什么都没有留下" value={{remark}}>
+                                            <label class="mdl-textfield__label" for="name"></label>
                                             <span class="mdl-textfield__error"></span>
                                         </div>
 
@@ -60,6 +65,7 @@
                                         <h5 class="mdl-cell--3-col-desktop">Email:</h5>
                                         <div class="mdl-textfield mdl-js-textfield mdl-cell--9-col-desktop">
                                             <input class="mdl-textfield__input" type="text"  id="Email" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$" value={{email}}>
+                                            <label class="mdl-textfield__label" for="name"></label>
                                             <span class="mdl-textfield__error">邮箱格式错误</span>
                                         </div>
                                     </div>
@@ -67,6 +73,7 @@
                                         <h5 class="mdl-cell--2-col-desktop">age:</h5>
                                         <div class="mdl-textfield mdl-js-textfield mdl-cell--2-col-desktop  mdl-cell--1-offset-desktop">
                                             <input class="mdl-textfield__input" type="text"  id="age" pattern="^\d{1,2}$" value={{age}}>
+                                            <label class="mdl-textfield__label" for="name"></label>
                                             <span class="mdl-textfield__error">请输入0-99</span>
                                         </div>
 
@@ -129,12 +136,6 @@
         });
 
     });
-    $(function(){
-
-            $("#myModale").modal("show");
-
-
-    })
 </script>
 </body>
 </html>
