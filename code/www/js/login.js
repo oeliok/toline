@@ -10,29 +10,34 @@ document.write("<script type='text/javascript' src='../base/other/reg_exp.js'></
 // 聚焦到密码框，全选密码
 // {"_id" : ObjectId(""),"name":"","pwd":"","type":"","email":"","sex":,"age":,"regist":,"remark":""}
 
-//设置每隔200ms 监听一次 激活登录按钮事件
 var active_login = new active_epc_btn("email_login","password_login","code_login","check_login_btn");
-window.setInterval(active_login.active,200);
-//设置每隔200ms 监听一次 激活注册按钮事件
 var active_register = new active_eppc_btn("email_register","password_register","confirm_register","code_register","check_register_btn");
-window.setInterval(active_register.active,200);
-
+active_login.active();
+active_register.active();
+//激活登录按钮事件
+$('#email_login,#password_login,#code_login').keyup(function () {
+	active_login.active();
+});
+//激活注册按钮事件
+$('#email_register,#password_register,#confirm_register,#code_register').keyup(function () {
+	active_register.active();
+});
 //点击刷新验证码图片--登录
-document.getElementById("code_img_login").onclick = function(){
+$("#code_img_login").click(function(){
 	this.src="/public/api/cyzm6?random?" + Math.random();
-};
+});
 //点击刷新验证码图片--注册
-document.getElementById("code_img_register").onclick = function(){
+$("#code_img_register").click(function(){
 	this.src="/public/api/cyzm6?random?" + Math.random();
-};
+});
 //点击 执行 验证登录行为
-document.getElementById("check_login_btn").onclick = function () {
+$("#check_login_btn").click(function () {
 	check_login();
-};
+});
 //点击 执行 验证注册行为
-document.getElementById("check_register_btn").onclick = function () {
+$("#check_register_btn").click (function () {
 	check_register();
-};
+});
 
 // 验证登录
 function check_login(){
@@ -86,8 +91,8 @@ function check_register(){
 			setTimeout(window.location.href="login.html",3000);
 		}else{
 			alert(code[data.code + 1]);
-			var codeImg_register = document.getElementById("code_img_register");
 		}
+		var codeImg_register = document.getElementById("code_img_register");
 		codeImg_register.src="/public/api/cyzm6?random?" + Math.random();
 	});
 }

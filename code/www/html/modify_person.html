@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改个人信息</title>
+    <link rel="stylesheet" href="../base/mdl/material.css">
+    <link rel="stylesheet" href="../base/bs/bootstrap.css">
+    <link rel="stylesheet" href="../base/bs/bootstrap.css">
+    <link rel="stylesheet" href="../css/cut.css">
+    <style>
+        body{
+            background:url("../image/bg/m1.png");
+        }
+        .demo-card-wide.mdl-card {
+            width: 100%;
+        }
+        .demo-card-wide > .mdl-card__title {
+            color: #000;
+
+            height: 80px;
+            background: url('../image/index_images/dog.png') center / cover;
+        }
+        .demo-card-wide > .mdl-card__menu {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<!-- 按钮触发模态框 -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">修改个人信息模态框</button>
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">修改个人信息</h4>
+            </div>
+            <div class="modal-body mdl-grid mdl-grid--no-spacing " >
+                <div class="content mdl-cell mdl-grid--no-spacing mdl-cell--12-col-desktop">
+                    <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+                        <div class="mdl-card__supporting-text" id="father">
+                            <script type="text/html" id="temp">
+
+                                <form action="">
+                                    <div class="mdl-grid" style="align-items: center">
+                                        <div class="mdl-cell--3-col-desktop">
+                                            <img class="img-circle" src="../avator/5812f0f77f67530755eb3837" id="header" style="width:100px;height:100px;" title="点击更换头像" alt="myPicture" data-toggle="modal" data-target="#mytest2">
+                                        </div>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-cell--9-col-desktop">
+                                            <input class="mdl-textfield__input" type="text"  id="name" value={{name}}>
+                                            <label class="mdl-textfield__label" for="name"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="mdl-grid" style="align-items: center">
+                                        <h5 class="mdl-cell--3-col-desktop">Sign:</h5>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-cell--9-col-desktop">
+                                            <input class="mdl-textfield__input" type="text"  id="sign" placeholder="主人很懒，什么都没有留下" value={{remark}}>
+                                            <label class="mdl-textfield__label" for="name"></label>
+                                            <span class="mdl-textfield__error"></span>
+                                        </div>
+
+                                    </div>
+                                    <div class="mdl-grid" style="align-items: center">
+                                        <h5 class="mdl-cell--3-col-desktop">Email:</h5>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-cell--9-col-desktop">
+                                            <input class="mdl-textfield__input" type="text"  id="Email" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$" value={{email}}>
+                                            <label class="mdl-textfield__label" for="name"></label>
+                                            <span class="mdl-textfield__error">邮箱格式错误</span>
+                                        </div>
+                                    </div>
+                                    <div class="mdl-grid" style="align-items: center">
+                                        <h5 class="mdl-cell--2-col-desktop">age:</h5>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-cell--2-col-desktop  mdl-cell--1-offset-desktop">
+                                            <input class="mdl-textfield__input" type="text"  id="age" pattern="^\d{1,2}$" value={{age}}>
+                                            <label class="mdl-textfield__label" for="name"></label>
+                                            <span class="mdl-textfield__error">请输入0-99</span>
+                                        </div>
+
+                                        <h5 class="mdl-cell--2-col-desktop mdl-cell--3-offset-desktop ">sex:</h5>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-cell--1-col-desktop">
+                                            <select name="" id="sex" value={{sex}}>
+                                                <option value="0">男</option>
+                                                <option value="1">女</option>
+                                                <option value="2">保密</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mdl-grid">
+                                        <button id="modify_btn" class="mdl-cell--3-col-desktop mdl-cell--1-offset-desktop mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent" type="button">保存</button>
+                                        <button class="mdl-cell--3-col-desktop mdl-cell--1-offset-desktop mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent" type="reset">重置</button>
+
+                                    </div>
+                                </form>
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mytest2">
+    <div class="modal-dialog">
+        <div class="imageBox">
+            <div class="thumbBox"></div>
+            <div class="spinner" style="display: none">Loading...</div>
+        </div>
+        <div class="action">
+            <!-- <input type="file" id="file" style=" width: 200px">-->
+            <div class="new-contentarea tc"> <a href="javascript:void(0)" class="upload-img">
+                <label for="upload-file">上传图像</label>
+            </a>
+                <input type="file" class="" name="upload-file" id="upload-file" />
+            </div>
+            <input type="button" id="cancel_btn"  class="Btnsty_peyton" data-dismiss="modal" value="取消">
+            <input type="button" id="save_btn"  class="Btnsty_peyton" value="保存">
+            <input type="button" id="btnCrop"  class="Btnsty_peyton" value="裁切">
+            <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
+            <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-" >
+        </div>
+        <div class="cropped"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../base/other/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="../base/other/template.js "></script>
+<script src="../js/cropbox.js"></script>
+<script type="text/javascript" src="../js/modify_myInfo.js"></script>
+<script src="../base/mdl/material.min.js"></script>
+<script src="../base/bs/bootstrap.min.js"></script>
+<script>
+    $(function(){
+        $("#cut").click(function(){
+            $("#cut_page").modal("show");
+        });
+
+    });
+</script>
+</body>
+</html>
