@@ -311,24 +311,7 @@ function modifyname(req, res) {
 }
 
 function uploadhead(req, res) {
-	if (req.query.head.length > 1024*256) {
-		res.json({
-			code: 1
-		});
-		return false;
-	}
-	fs.writeFile(__dirname + "/../../www/avator/" + req.session.user._id, req.query.head, function(err) {
-		if (err) {
-			log.error(err);
-			res.json({
-				code: -1
-			});
-		} else {
-			res.json({
-				code: 1
-			});
-		}
-	});
+	upload.uploadavter(req,res,'tx');
 }
 
 function modifyage(req, res) {

@@ -4,7 +4,7 @@
   "description": "make fast",
   "main": "server.js",
   "scripts": {
-    "test": "npm server.js"
+    "test": "node server.js | bunyan"
   },
   "author": "GT.GROUP",
   "license": "ISC",

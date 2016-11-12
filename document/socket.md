@@ -84,7 +84,7 @@
           "source":"server",
           "event":"saoff",
           "arg":[
-            {"from":"off-line","to":"your id","flogs":[],"glogs":[]}
+            {"from":"off-line","to":"your id","frinds":[],"flogs":[],"glogs":[]}
           ],
           "dataType":"json",
           "describe":"发送从上次离线开始的离线消息到你的客户端"

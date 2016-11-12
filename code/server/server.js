@@ -1,6 +1,18 @@
 /**
  * Created by oeli on 16-10-2.
  */
+var fs = require('fs');
+
+fs.writeFile('/tmp/toline.pid', process.pid,  function(err) {
+    if (err) {
+        console.error(err);
+    } else {
+        console.log("pid写入文件");
+    }
+});
+
+console.log("PID:"+process.pid);
+
 var log = require('./log');
 var assert = require("assert");
 var http = require("http");
