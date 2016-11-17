@@ -87,6 +87,6 @@ function modify_all(){
         sex: get_sex
     },function (data) {
         console.log(JSON.stringify(data) + " ");
-        alert(code[data.code+ 1 ]);
-    })
+        alert(code[data.code + 1]);
+     });
 }

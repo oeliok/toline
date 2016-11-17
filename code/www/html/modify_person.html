@@ -79,7 +79,7 @@
 
                                         <h5 class="mdl-cell--2-col-desktop mdl-cell--3-offset-desktop ">sex:</h5>
                                         <div class="mdl-textfield mdl-js-textfield mdl-cell--1-col-desktop">
-                                            <select name="" id="sex" value={{sex}}>
+                                            <select class="btn-primary" id="sex" value={{sex}}>
                                                 <option value="0">男</option>
                                                 <option value="1">女</option>
                                                 <option value="2">保密</option>
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                     <div class="mdl-grid">
-                                        <button id="modify_btn" class="mdl-cell--3-col-desktop mdl-cell--1-offset-desktop mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent" type="button">保存</button>
+                                        <button id="modify_btn" class="mdl-cell--3-col-desktop mdl-cell--1-offset-desktop mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent" type="button" onclick="modify_all()">保存</button>
                                         <button class="mdl-cell--3-col-desktop mdl-cell--1-offset-desktop mdl-button mdl-js-button mdl-button--raised md-js-ripple-effect mdl-button--accent" type="reset">重置</button>
 
                                     </div>
@@ -124,6 +124,7 @@
     </div>
 </div>
 <script type="text/javascript" src="../base/other/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="../base/other/reg_exp.js"></script>
 <script type="text/javascript" src="../base/other/template.js "></script>
 <script src="../js/cropbox.js"></script>
 <script type="text/javascript" src="../js/modify_myInfo.js"></script>
