@@ -35,7 +35,7 @@ JSON格式
 > 群ID,用户ID,对话内容[1-512个字符]，用户发表时间[long]
 
 JSON格式
-{"_id":ObjectId(""),"gid" : ObjectId(""),"uid" : ObjectId(""),"comment":"","date":}
+{"_id":ObjectId(""),"gid" : ObjectId(""),"uid" : ObjectId(""),"comment":"","datetime":}
 
 ### 文件列表(file)
 > 用户ID，文件名[1-255个字符]，文件MD5值[64]，文件大小[long(B)]，过期时间[long]

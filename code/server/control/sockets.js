@@ -75,7 +75,23 @@ function offlinelog(socket, userid) {
                                         if (err) {
                                             log.error(err);
                                         } else {
-                                            db
+                                            db.collection('guser').find({uid:ObjectId(userid)}).toArray(function (err , gps) {
+                                                if (err) {
+                                                    log.error(err);
+                                                } else {
+                                                    var gpsid = [];
+                                                    for (i in gps) {
+                                                        gpsid[i] = {gid:gps[i].gid};
+                                                    }
+                                                    db.collection('glog').find({$or:gpsid}).toArray(function (err, glog) {
+                                                        if (err) {
+                                                            log.error(err);
+                                                        } else {
+                                                            socket.emit('saoff',{"from":"off-line","to":"your id","frinds":friends,"flogs":flogs,"glogs":glog})
+                                                        }
+                                                    })
+                                                }
+                                            })
                                         }
                                     })
                                 }
@@ -93,11 +109,91 @@ function offlinelog(socket, userid) {
 }
 
 function historylog(socket, userid) {
-
+    socket.on('chistory',function (data) {
+        if (data.from != userid) {
+            log.info(data+'?????');
+        } else if (data.types == 'friend') {
+            mongo.getConnection(function (db) {
+                db.collection('friend').findOne({myid:ObjectId(userid),frid:ObjectId(data.id)},function (err, fr) {
+                    if (err) {
+                        log.error(err);
+                    } else {
+                        db.collection('flog').find({_id:fr._id,datetime:{$lt:data.date}}).toArray(function (err, flogs) {
+                            if (err) {
+                                log.error(err);
+                            } else {
+                                socket.emit('shistory',{"from":"server","to":userid,"types":"friend","date":data.date,"flogs":flogs});
+                            }
+                        })
+                    }
+                });
+            })
+        } else if (data.types == 'group') {
+            redis.sismember('g'+data.id,userid,function (err, reply) {
+                if (err) {
+                    log.error(err);
+                } else {
+                    if (reply) {
+                        mongo.getConnection(function (db) {
+                            db.collection('glog').find({gid:ObjectId(data.id),datetime:{$lt:data.date}}).toArray(function (err, glogs) {
+                                if (err) {
+                                    log.error(err);
+                                } else {
+                                    socket.emit('shistory',{"from":"server","to":userid,"types":"group","date":data.date,"groups":glogs});
+                                }
+                            })
+                        })
+                    } else {
+                        mongo.getConnection(function (db) {
+                            db.collection('guser').findOne({uid:ObjectId(userid),gid:ObjectId(data.id)},function (err, gu) {
+                                if (err) {
+                                    log.error(err);
+                                } else {
+                                    if (gu){
+                                        db.collection('glog').find({gid:ObjectId(data.id),datetime:{$lt:data.date}}).toArray(function (err, glogs) {
+                                            if (err) {
+                                                log.error(err);
+                                            } else {
+                                                socket.emit('shistory',{"from":"server","to":userid,"types":"group","date":data.date,"groups":glogs});
+                                            }
+                                        });
+                                        redis.sadd('f'+data.id,userid,function (err, reply) {
+                                            if (err) {
+                                                log.error(err);
+                                            } else {
+                                                log.debug(reply);
+                                            }
+                                        });
+                                    } else {
+                                        log.debug(gu);
+                                    }
+                                }
+                            })
+                        })
+                    }
+                }
+            })
+        } else {
+            log.info(data+'!!');
+            systemnews(socket,{code:'info',msg:"获取失败"})
+        }
+    })
 }
 
 function fmsg(socket, userid) {
-    
+    socket.on('cfmsg',function (data) {
+        redis.get(userid+data.to,function (err, reply) {
+            if (err) {
+                log.error(err);
+            } else {
+                if (reply) {
+                    
+                } else {
+
+                }
+            }
+        })
+    })
 }
 
 function gmsg(socket, userid) {

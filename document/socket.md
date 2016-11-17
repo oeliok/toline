@@ -23,6 +23,9 @@
 ### 系统事件
 认证请求，认证结果，用户发送聊天消息，用户获取系统时间，好友下线，好友上线，离线消息同步，历史消息
 
+### 一些想法
+为了获得一个速度可行，安全可靠地系统，需要充分的利用各种缓存，系统运行过程会需要利用的信息是 用户的登录信息 用户的好友群组关系
+
 ### 事件接口
 ```
 {
@@ -107,7 +110,7 @@
           "source":"server",
           "event":"shistory",
           "arg":[
-            {"from":"server","to":"your id","type":"friend/group","date":0,"flogs/glogs":[]}
+            {"from":"server","to":"your id","types":"friend/group","date":0,"flogs/glogs":[]}
           ],
           "dataType":"json",
           "describe":"从某个时间点之前n条消息"
