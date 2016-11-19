@@ -1,354 +1,399 @@
 /**
- * Created by oeli on 16-10-3.
+ * Created by oeli on 16-11-18.
  */
-var socket = require('socket.io');
-var redis = require('../lib/redis').redis;
+var si = require('socket.io');
+var ObjectId = require('mongodb').ObjectID;
+
 var log = require('../log');
 var mongo = require('../lib/mongo');
-var ObjectId = require('mongodb').ObjectID;
-var users = [];
+var redis = require('../lib/redis').redis;
 
-exports.listen = function (server) {
-    var io = socket.listen(server);
+var msgs = {
+    welcome:'你好，欢迎使用！',
+    userExist:'用户信息不存在！',
+    error:'服务器发生错误！'
+};
+
+exports.listen = function listen(server) {
+    var io = si.listen(server);
     log.info("socket.io启动服务");
-    io.on('connection',function (socket) {
-        whenconnect(socket);
-        whenclose(socket);
+    //监听用户的连接
+    io.on('connection',function (socket){
+        log.debug(socket.id+' join the server!');
+        systemInfoMsg(socket,msgs.welcome);
+        userAuth(io, socket, function (user) {
+            offlineMessage(socket, user.user._id, user.user.login);
+            friendOffline(io, socket, user.user._id);
+            friendOnline(io, socket, user.user._id);
+            friendMessage(io, socket, user.user._id);
+            groupMessage(io, socket, user.user._id);
+            historymsg(socket,user.user._id);
+            socket.emit('auth-s',{"code":1});
+        });
     });
 };
 
-//当用户连接到系统的时候
-function whenconnect(socket) {
-    log.debug(socket+" join the server !");
-    socket.on('auth-c',function (data) {
-        redis.get("sess:"+data.sessionid,function (err, data) {
-            if (err) {
-                log.error(err);
-                socket.emit('auth-s',{code:-1});
-                serverclose(socket);
-            } else {
-                log.trace(data);
-                if (data == null) {
-                    socket.emit('auth-s',{code:0});
-                    serverclose(socket);
-                } else {
-                    socket.emit('auth-s',{code:1});
-                    //激活，提供用户各项功能，发送离线消息，并且在数据库注册登录信息
-                    var user = JSON.parse(data);
-                    login(socket,user.user._id);
-                }
-            }
-        });
-    });
+
+//系统发送一些提示消息
+function systemInfoMsg(socket, msg) {
+    socket.emit("news",{info:"info",msg:msg});
 }
 
-//当用户登录之后离开系统的时候，删除各种资源
-function whenclose(socket,userid) {
-    socket.on('disconnect', function () {
-        log.trace(socket.id + " left room !");
-        //除去各种资源
-        friendoffline(socket,userid);
-        users[userid] = null;
-    });
-}
-
-//服务器主动关闭连接
-function serverclose(socket) {
-    log.debug("server colose the connection " + socket.id);
-    socket.disconnect(true,function (err) {
-        log.error(err);
-    });
-}
-
-//发送系统的各种消息
-function whenerror(socket, msg) {
-    socket.emit('serror',{code:0,msg:msg});
-}
-
-//用户登录验证
-function login(socket,userid) {
-    mongo.getConnection(function (db) {
-        db.collection('user').updateOne({_id:ObjectId(userid)},{$set:{socket:socket.id}},function (err, result) {
-            if (err) {
-                log.error(err);
-                whenerror(socket,"通讯系统登录失败，请刷新界面");
-            } else {
-                if (result.result.n > 0) {
-                    users[userid] = socket;
-                    offlinemsg(socket,userid);
-                    historymsg(socket,userid);
-                    friendMsg(socket,userid);
-                    groupMsg(socket,userid);
-                    friendonline(socket,userid);
-                    whenclose(socket,userid);
-                } else {
-                    whenerror(socket,"数据库更新socket失败");
-                }
-            }
-        })
-    })
-}
-function user(socket,next) {
-
-}
-//会读取这个人上次离线时间，然后把所有数据都发送到这个那里
-function offlinemsg(socket,userid) {
-    socket.on('caoff', function (data) {
-        mongo.getConnection(function (db) {
-            db.collection('user').find({_id:ObjectId(userid)},function (err, user) {
-                if (err) {
-                    log.error(err);
-                    whenerror(socket,"离线消息读取失败");
-                } else {
-                    if (user != null) {
-                        db.collection('friend').find({$or:[{myid:ObjectId(userid)},{frid:ObjectId(userid)}]}).toArray(function (err, friends) {
-                            if (err) {
-                                log.error(err);
-                                whenerror(socket,"离线消息读取失败");
-                            } else {
-                                if (friends != null) {
-                                    var fid = [];
-                                    for (var i = 0; i < friends.length; i++) {
-                                        fid[i] = {fid:friends[i]._id};
-                                    }
-                                    if (user.login == null) {
-                                        user.login = 0;
-                                    }
-                                } else {
-                                    log.debug(friends);
-                                    whenerror(socket,"好友不存在")
-                                }
-                                db.collection('flog').find({datetime:user.login,$or:fid}).toArray(function (err, flogs) {
-                                    if (err) {
-                                        log.error(err);
-                                        whenerror(socket,"获取好友信息失败");
-                                    } else {
-                                        db.collection('guser').find({uid:ObjectId(userid)}).toArray(function (err, groups) {
-                                            if (err) {
-                                                log.error(err);
-                                                whenerror(socket,"获取群列表失败");
-                                            } else {
-                                                if (groups != null) {
-                                                    var gid = [];
-                                                    for (var  i = 0; i < groups.length; i++) {
-                                                        gid[i] = {gid:groups[i].gid};
-                                                    }
-                                                    db.collection('glog').find({$or:gid}).toArray(function (err, glogs) {
-                                                        if (err){
-                                                            log.error(err);
-                                                            whenerror(socket,"获取用户群聊天记录失败")
-                                                        } else {
-                                                            if (glogs != null) {
-                                                                socket.emit("saoff",{form:"off-line",to:userid,flogs:flogs,glogs:glogs});
-                                                            } else {
-                                                                log.debug(glogs);
-                                                            }
-                                                        }
-                                                    })
-                                                }
-                                            }
-                                        })
-                                    }
-                                })
-                            }
-                        })
-                    } else {
-                        log.debug(user);
-                        whenerror(socket,"用户不存在")
-                    }
-                }
-            })
-        })
-    })
+//系统发送一些错误消息
+function systemErrorMsg(socket,msg) {
+    socket.emit("news",{info:"error",msg:msg});
 }
 
 //用户请求与某个人或者群的消息在某个时间点的前面n条数据
 function historymsg(socket,userid) {
     socket.on('chistory',function (data) {
         if (data.type == "group") {
-            mongo.getConnection(function (db) {
-                db.collection('friend').find({$or:[{myid:ObjectId(userid),frid:ObjectId(data.id)},{frid:ObjectId(userid),myid:ObjectId(data.id)}]}).toArray(function (err, user) {
-                    if (err) {
-                        log.error(err);
-                        whenerror(socket,"查找好友失败");
-                    } else {
-                        if (user != null) {
-                            var uid = [];
-                            for (var i = 0; i < user.length; i++) {
-                                uid[i] = user[i]._id;
-                            }
-                            db.collection('flog').find({$or:uid}).toArray(function (err,flogs) {
-                                if (err){
-                                    log.error(err);
-                                    whenerror(socket,"获取好友消息发生错误")
-                                } else {
-                                    socket.emit('',{"form":"server","to":userid,"type":"friend","date":Date.now(),flogs:flogs});
-                                }
-                            })
-                        } else {
-                            log.debug(user);
-                            whenerror(socket,"好友列表为空");
-                        }
-                    }
-                })
-            })
+            groupHsitoryMsg(socket, userid);
         } else if (data.type == "friend") {
-            mongo.getConnection(function (db) {
-                db.collection('guser').findOne({"uid":ObjectId(userid),"gid":ObjectId(data.id)},function (err, data) {
-                    if (err) {
-                        log.error(err);
-                        whenerror(socket,"获取群信息失败");
-                    } else {
-                        if (data != null) {
-                            db.collection('glog').find({gid:ObjectId(data.id)}).toArray(function (err, flogs) {
-                                if (err) {
-                                    log.error(err);
-                                    whenerror(socket,"获取群聊天记录发生错误");
-                                } else {
-                                    socket.emit('shistory',{form:"server",to:userid,type:"group","date":Date.now(),glogs:flogs});
-                                }
-                            })
-                        } else {
-                            log.error(data);
-                            whenerror(socket,"你并不在这个群里面！")
-                        }
-                    }
-                })
-            })
+            friendHistoryMsg(socket, userid);
         } else {
             log.debug(data);
-            whenerror(socket,"获取历史消息的数据类型有问题！");
         }
     })
 }
 
-//监听这个用户发送到好友的消息
-//发送别的用户发送的消息
-function friendMsg(socket,userid) {
-    socket.on('cfmsg',function (data) {
-        var time = Date.now();
-        redis.get(userid+data.to,function (err, friend) {
-            if (err) {
-                log.error(err);
-            } else {
-                if (friend != null) {
-                    users[data.to].emit('sfmsg',{"type":0,"form":userid,"to":data.to,"sendDate":time,"msg":data.msg});
-                    mongo.getConnection(function (db) {
-                        db.collection('flog').insertOne({"fid":ObjectId(friend),"msg":data.msg,"datetime":time},function (err,result) {
-                            if (err) {
-                                log.error(err);
-                            }
-                            log.debug(result);
-                        });
-                    })
-                } else {
-                    mongo.getConnection(function (db) {
-                        db.collection('friend').findOne({myid:ObjectId(userid),frid:ObjectId(data.to)},function (err, friend) {
-                            if (err) {
-                                log.error(err);
-                            } else {
-                                if (friend != null) {
-                                    users[data.to].emit('sfmsg',{type:1,sendDate:time,code:0});
-                                    redis.set(userid+data.to,friend._id+'',function (err,result) {
-                                        if (err) {
-                                            log.error(error);
-                                        } else {
-                                            log.debug(result);
-                                        }
-                                    });
-                                    db.collection('flog').insertOne({"fid":ObjectId(friend),"msg":data.msg,"datetime":time},function (err,result) {
-                                        if (err) {
-                                            log.error(err);
-                                        }
-                                        log.debug(result);
-                                    });
-                                } else {
-                                    users[data.to].emit('sfmsg',{type:1,sendDate:time,code:0});
-                                }
-                            }
-                        })
-                    })
-                }
-            }
-        })
-    })
-}
-
-//当服务器认证成功一个用户后，会把这个消息发送到用户的在线好友那里
-function friendonline(socket,userid) {
+function friendHistoryMsg(socket, userid) {
     mongo.getConnection(function (db) {
-        db.collection('friend').find({myid:ObjectId(userid)}).toArray(function (err, friends) {
+        db.collection('guser').findOne({"uid":ObjectId(userid),"gid":ObjectId(data.id)},function (err, data) {
             if (err) {
                 log.error(err);
             } else {
-                for (var i = 0; i < friends.length; i++) {
-                    users[friends._id+''].emit('sfonline',{"Date":Date.now(),"id":userid});
-                }
-            }
-        })
-    })
-}
-
-//当服务器监听到某个用户下线了，会把这个消息发送到他的在线好友那里
-function friendoffline(socket, userid) {
-    mongo.getConnection(function (db) {
-        db.collection('friend').find({myid:ObjectId(userid)}).toArray(function (err, friends) {
-            if (err) {
-                log.error(err);
-            } else {
-                for (var i = 0; i < friends.length; i++) {
-                    users[friends._id+''].emit('sfoffline',{"Date":Date.now(),"id":userid});
-                }
-            }
-        })
-    })
-}
-
-//监听用户向某个群发送的消息
-//转发用户想要发送的消息
-function groupMsg(socket,userid) {
-    socket.on('cgmsg',function (data) {
-        var time = Date.now();
-        redis.sismember(data.to,userid,function (err, reply) {
-            if (err) {
-                log.error(err);
-                users[userid].emit('sgmsg',{"type":1,"sendDate":time,"code":0});
-            } else {
-                if (reply == 1){
-                    redis.smembers(data.to,function (err, user) {
-                        for (var i = 0; i < user.length; i++) {
-                            users[user[i]].emit('sgmsg',{"form":data.to,"to":user[i],"Date":time,"msg":data.msg});
+                if (data != null) {
+                    db.collection('glog').find({gid:ObjectId(data.id)}).toArray(function (err, flogs) {
+                        if (err) {
+                            log.error(err);
+                        } else {
+                            socket.emit('shistory',{form:"server",to:userid,type:"group","date":Date.now(),glogs:flogs});
                         }
                     })
                 } else {
-                    mongo.getConnection(function (db) {
-                        db.collection('guser').findOne({uid:ObjectId(userid),gid:ObjectId(data.to)},function (err, user) {
-                            if (err) {
-                                log.error(err);
-                                users[userid].emit('sgmsg',{"type":1,"sendDate":time,"code":0});
-                            } else {
-                                if (user != null) {
-                                    redis.sadd(data.to,userid,function (err,reply) {
-                                        if (err) {
-                                            log.error(err);
-                                            users[userid].emit('sgmsg',{"type":1,"sendDate":time,"code":0});
-                                        } else {
-                                            log.debug(reply);
-                                            redis.smembers(data.to,function (err, user) {
-                                                for (var i = 0; i < user.length; i++) {
-                                                    users[user[i]].emit('sgmsg',{"form":data.to,"to":user[i],"Date":time,"msg":data.msg});
-                                                }
-                                            })
-                                        }
-                                    })
-                                } else {
-                                    log.debug(user);
-                                }
-                            }
-                        })
-                    })
+                    log.error(data);
                 }
             }
+        })
+    })
+}
+
+function groupHsitoryMsg(socket, userid) {
+    mongo.getConnection(function (db) {
+        db.collection('friend').find({$or:[{myid:ObjectId(userid),frid:ObjectId(data.id)},{frid:ObjectId(userid),myid:ObjectId(data.id)}]}).toArray(function (err, user) {
+            if (err) {
+                log.error(err);
+            } else {
+                if (user != null) {
+                    var uid = [];
+                    for (var i = 0; i < user.length; i++) {
+                        uid[i] = user[i]._id;
+                    }
+                    db.collection('flog').find({$or:uid}).toArray(function (err,flogs) {
+                        if (err){
+                            log.error(err);
+                        } else {
+                            socket.emit('',{"form":"server","to":userid,"type":"friend","date":Date.now(),flogs:flogs});
+                        }
+                    })
+                } else {
+                    log.debug(user);
+                }
+            }
+        })
+    })
+}
+
+function userAuth(io, socket, next) {
+    socket.on('auth-c',function (data) {
+        redis.get('sess:'+data.sessionid,function (err, reply) {
+            if (err) {
+                log.error(err);
+                systemErrorMsg(socket,msgs.error);
+                socket.emit('auth-s',{"code":-1});
+                return false;
+            }
+            if (!reply) {
+                log.debug(reply);
+                systemInfoMsg(socket,msgs.userExist);
+                socket.emit('auth-s',{"code":0});
+                return false;
+            }
+            var user = JSON.parse(reply);
+            next(user);
+        })
+    });
+}
+
+function offlineMessage(socket, userid, datetime) {
+    socket.on('caoff',function (data) {
+        if ((typeof data.from) != 'string' || data.from != userid) {
+            log.info(data);
+            systemInfoMsg(socket,msgs.userExist);
+            return false;
+        }
+        userFriendOfflineLogs(userid, datetime, function (flogs) {
+            userGroupOfflineLogd(userid, datetime, function (glogs) {
+                socket.emit('saoff',{from:"off-line",to:userid,flogs:flogs,glogs:glogs});
+            })
+        })
+    })
+}
+
+function userFriendOfflineLogs(userid, datetime, next) {
+    mongo.getConnection(function (db) {
+        var qery = {$or:[{myid:ObjectId(userid)},{frid:ObjectId(userid)}]};
+        db.collection('friend').find(qery).toArray(function (err, friends) {
+            if (err) {
+                log.error(err);
+                return false;
+            }
+            if (!friends || friends.length < 1) {
+                log.info(friends);
+                return false;
+            }
+            var fid = [];
+            for (var i in friends) {
+                fid[i] = {fid:friends[i]._id};
+            }
+            db.collection('flog').find({$or:fid,datetime:{$gte:datetime}}).toArray(function (err, flogs) {
+                if (err) {
+                    log.error(err);
+                    return false;
+                }
+                if (!flogs) {
+                    log.info(flogs);
+                }
+                next(flogs);
+            })
+        })
+    })
+}
+
+function userGroupOfflineLogd(userid, datetime, next) {
+    mongo.getConnection(function (db) {
+        db.collection('guser').find({uid:ObjectId(userid)}).toArray(function (err, groups) {
+            if (err) {
+                log.error(err);
+                return false;
+            }
+            if (!groups || groups.length < 1) {
+                log.info(groups);
+                return false;
+            }
+            var gid = [];
+            for (var i in  groups) {
+                gid[i] = {gid:groups[i].gid};
+            }
+            db.collection('glog').find({$or:gid,datetime:{$gte:datetime}}).toArray(function (err, glogs) {
+                if (err) {
+                    log.error(err);
+                    return false;
+                }
+                if (!glogs) {
+                    log.info(glogs);
+                }
+                next(glogs);
+            })
+        })
+    })
+}
+
+function friendOnline(io, socket, userid) {
+    userGetFriends(userid, function (friends) {
+        for (var i in friends) {
+            useridToSocketid(friends[i]._d, function (userID) {
+                try {
+                    io.sockets.sockets[reply].emit('sfonline',{"Date":Date.now(),"id":userid})
+                } catch (e) {
+                    log.fatal(e);
+                }
+            })
+        }
+    });
+    redis.set('f'+userid, socket.id, function (err, info) {
+        if (err) {
+            log.error(err);
+        } else {
+            log.debug(info);
+        }
+    });
+    mongo.getConnection(function (db) {
+        db.collection('user').updateOne({_id:ObjectId(userid)},{$set:{socket:true}}, function (err, info) {
+            if (err) {
+                log.error(err);
+            } else {
+                log.debug(info);
+            }
+        });
+    })
+}
+
+function userGetFriends(userid, next) {
+    mongo.getConnection(function (db) {
+        db.collection('friend').find({frid:ObjectId(userid)}).toArray(function (err, friend) {
+            if (err) {
+                log.error(err);
+                return false;
+            }
+            if (!friend || friend.length < 1) {
+                log.info(friend);
+                return false;
+            }
+            var fid = [];
+            for (var i in friend) {
+                fid[i] = {_id:friend[i].myid};
+            }
+            db.collection('user').find({$or:fid,login:true}).toArray(function (err, users) {
+                if (err) {
+                    log.error(err);
+                    return false;
+                }
+                if (!user || user.length < 1) {
+                    log.info(users);
+                    return false;
+                }
+                next(users);
+            });
+        })
+    })
+}
+
+function useridToSocketid(userid,next) {
+    redis.get('f'+userid, function (err , reply) {
+        if (err) {
+            log.error(err);
+            return false;
+        }
+        next(reply);
+    })
+}
+
+function friendOffline(io, socket, userid) {
+    socket.on('disconnect', function () {
+        log.debug(socket.id + " left room !");
+        userGetFriends(userid, function (friends) {
+            for (var i in friends) {
+                useridToSocketid(friends[i]._d, function (userID) {
+                    try {
+                        io.sockets.sockets[reply].emit('sfoffline',{"Date":Date.now(),"id":userid})
+                    } catch (e) {
+                        log.fatal(e);
+                    }
+                })
+            }
+        });
+        redis.del('f'+userid, socket.id, function (err, info) {
+            if (err) {
+                log.error(err);
+            } else {
+                log.debug(info);
+            }
+        });
+        mongo.getConnection(function (db) {
+            db.collection('user').updateOne({_id:ObjectId(userid)},{$set:{socket:false}}, function (err, info) {
+                if (err) {
+                    log.error(err);
+                } else {
+                    log.debug(info);
+                }
+            });
+        })
+    });
+}
+
+function friendMessage(io, socket, userid) {
+    socket.on('cfmsg',function (data) {
+        if ((typeof data.from) != 'string' || data.from != userid) {
+            log.info(data);
+            return false;
+        }
+        if ((typeof data.to) != 'string' || data.to.length != 24) {
+            log.info(data);
+            return;
+        }
+        data.sendDate = Date.now();
+        useridToSocketid(data.to,function (reply) {
+            if (reply) {
+                io.sockets.sockets[reply].emit('sfmsg',data);
+            }
+            socket.emit('sfmsg',data);
+        });
+        mongo.getConnection(function (db) {
+            db.collection('friend').findOne({myid:ObjectId(userid),frid:ObjectId(data.to)},function (err, friend) {
+                if (err){
+                    log.error(err);
+                    return false;
+                }
+                if (friend) {
+                    db.collection('flog').insertOne({fid:friend_id,msg:data.msg,datetime:data.sendDate}, function (err, reply) {
+                        if (err){
+                            log.error(err);
+                        } else {
+                            log.debug(reply);
+                        }
+                    })
+                }
+            })
+        })
+
+    })
+}
+
+function groupMessage(io, socket, userid) {
+    socket.on('cgmsg',function (data) {
+        if ((typeof data.from) != 'string' || data.from != userid) {
+            log.debug(data);
+            return false;
+        }
+        if (data.to) {
+            data.sendDate = Date.now();
+            checkGroupMenber(userid, data.to,function (gusers) {
+                for (var i in gusers) {
+                    useridToSocketid(gusers[i], function (socketid) {
+                        if (io.sockets.sockets[socketid]) {
+                            io.sockets.sockets[socketid].emit('sgmsg',data);
+                        }
+                    })
+                }
+            });
+        }
+    })
+}
+
+function checkGroupMenber(userid, groupid, next) {
+    redis.sismember('g'+groupid,userid, function (err, reply) {
+        if (err) {
+            log.error(err);
+            return false;
+        }
+        if (reply) {
+            redis.smembers('g'+groupid,function (err, gusers) {
+                if (err) {
+                    log.error(err);
+                    return false;
+                }
+                if (gusers) {
+                    next(gusers);
+                }
+            });
+            return false;
+        }
+        mongo.getConnection(function (db) {
+            db.collection('guser').find({gid:ObjectId(groupid)}).toArray(function (err, gusers) {
+                if (err) {
+                    log.error(err);
+                    return false;
+                }
+                if (gusers) {
+                    var gid = [];
+                    for (var i in gusers) {
+                        gid[i] = gusers[i].gid + '';
+                    }
+                    next(gid);
+                }
+            })
         })
     })
 }

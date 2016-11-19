@@ -14,8 +14,8 @@ fs.writeFile('/tmp/toline.pid', process.pid,  function(err) {
 console.log("PID:"+process.pid);
 
 var log = require('./log');
-var assert = require("assert");
-var http = require("http");
+var assert = require('assert');
+var http = require('http');
 var express = require("express");
 var session = require('express-session');
 var user = require("./control/user");
