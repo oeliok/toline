@@ -4,9 +4,9 @@
 var si = require('socket.io');
 var ObjectId = require('mongodb').ObjectID;
 
-var log = require('../log');
-var mongo = require('../lib/mongo');
-var redis = require('../lib/redis').redis;
+var log = require('../../log');
+var mongo = require('../../lib/mongo');
+var redis = require('../../lib/redis').redis;
 
 var msgs = {
     welcome:'你好，欢迎使用！',
@@ -48,62 +48,56 @@ function systemErrorMsg(socket,msg) {
 function historymsg(socket,userid) {
     socket.on('chistory',function (data) {
         if (data.type == "group") {
-            groupHsitoryMsg(socket, userid);
+            groupHistoryMsg(socket, userid, data.to, data.date, data.len, data.id);
         } else if (data.type == "friend") {
-            friendHistoryMsg(socket, userid);
+            friendHsitoryMsg(socket, userid, data.to, data.date, data.len, data.id);
         } else {
             log.debug(data);
         }
     })
 }
 
-function friendHistoryMsg(socket, userid) {
+function groupHistoryMsg(socket, userid, grid, datetime, limit, id) {
     mongo.getConnection(function (db) {
-        db.collection('guser').findOne({"uid":ObjectId(userid),"gid":ObjectId(data.id)},function (err, data) {
+        db.collection('guser').find({uid:ObjectId(userid),gid:ObjectId(grid)}).toArray(function (err, data) {
             if (err) {
                 log.error(err);
-            } else {
-                if (data != null) {
-                    db.collection('glog').find({gid:ObjectId(data.id)}).toArray(function (err, flogs) {
-                        if (err) {
-                            log.error(err);
-                        } else {
-                            socket.emit('shistory',{form:"server",to:userid,type:"group","date":Date.now(),glogs:flogs});
-                        }
-                    })
-                } else {
-                    log.error(data);
-                }
+                return false;
             }
+            if (!data) {
+                log.debug(data);
+                return false;
+            }
+            db.collection('glog').find({"gid":ObjectId(grid),datetime:{$lt:datetime}}).limit(limit).toArray(function (err, glogs) {
+                if (err) {
+                    log.error(err);
+                    return false;
+                }
+                socket.emit('shistory',{id:id,from:grid,to:userid,types:'group',sendDate:Date.now(),data:glogs});
+            })
         })
     })
 }
 
-function groupHsitoryMsg(socket, userid) {
+function friendHsitoryMsg(socket, userid, frid, datetime, limit, id) {
     mongo.getConnection(function (db) {
-        db.collection('friend').find({$or:[{myid:ObjectId(userid),frid:ObjectId(data.id)},{frid:ObjectId(userid),myid:ObjectId(data.id)}]}).toArray(function (err, user) {
-            if (err) {
-                log.error(err);
-            } else {
-                if (user != null) {
-                    var uid = [];
-                    for (var i = 0; i < user.length; i++) {
-                        uid[i] = user[i]._id;
-                    }
-                    db.collection('flog').find({$or:uid}).toArray(function (err,flogs) {
-                        if (err){
-                            log.error(err);
-                        } else {
-                            socket.emit('',{"form":"server","to":userid,"type":"friend","date":Date.now(),flogs:flogs});
-                        }
-                    })
-                } else {
-                    log.debug(user);
-                }
+        var query = {$or:[{myid:ObjectId(userid),frid:ObjectId(frid)},{myid:ObjectId(frid),frid:ObjectId(userid)}]};
+        db.collection('friend').find(query).limit(limit).toArray(function (err, friends) {
+            var fid = [];
+            for (var i in friends) {
+                fid[i] = {fid:friends[i]._id};
             }
+            db.collection('flog').find({$or:fid,datetime:{$lt:datetime}}).limit(limit).toArray(function (err, flogs) {
+                if (err) {
+                    log.error(err);
+                    return false;
+                }
+                socket.emit('shistory',{id:id,from:frid,to:userid,types:'friend',sendDate:Date.now(),data:flogs});
+            })
         })
     })
 }
+
 
 function userAuth(io, socket, next) {
     socket.on('auth-c',function (data) {

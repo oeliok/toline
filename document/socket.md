@@ -101,7 +101,7 @@
           "source":"client",
           "event":"chistory",
           "arg":[
-            {"from":"my id","to":"server","type":"group/friend","id":"the object id","date":0,"length":10}
+            {"id":0,"from":"my id","to":"the object id","type":"group/friend","date":0,"len":10}
           ],
           "dataType":"json",
           "describe":"从某个时间点之前n条消息"
@@ -110,7 +110,7 @@
           "source":"server",
           "event":"shistory",
           "arg":[
-            {"from":"server","to":"your id","types":"friend/group","date":0,"flogs/glogs":[]}
+            {"id":0,"from":"the object id","to":"your id","types":"friend/group","sendDate":0,"data":[]}
           ],
           "dataType":"json",
           "describe":"从某个时间点之前n条消息"
