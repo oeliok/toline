@@ -497,7 +497,7 @@ function checkGroupMenber(userid, groupid, next) {
         mongo.getConnection(function(db) {
             db.collection('guser').findOne({
                 uid: ObjectId(userid),
-                gid: groupid
+                gid: ObjectId(groupid)
             }, function(err, guser) {
                 if (err) {
                     log.error(err);
