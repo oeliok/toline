@@ -459,8 +459,6 @@ function groupMessage(io, socket, userid) {
                             io.sockets.sockets[socketid].emit('sgmsg', data);
                         }
                     })
-
-
                 }
             });
         }
