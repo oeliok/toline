@@ -452,6 +452,7 @@ function groupMessage(io, socket, userid) {
         if (data.to) {
             data.sendDate = Date.now();
             checkGroupMenber(userid, data.to, function(gusers) {
+                savegroupLogs(userid, data.to, data.msg, data.sendDate);
                 for (var i in gusers) {
                     useridToSocketid(gusers[i], function(socketid) {
                         if (io.sockets.sockets[socketid]) {
@@ -461,6 +462,17 @@ function groupMessage(io, socket, userid) {
                 }
             });
         }
+    })
+}
+
+function savegroupLogs(userid, groupid, msg, datetime) {
+    mongo.getConnection(function(db) {
+        db.collection('glog').insertOne({
+            uid: ObjectId(userid),
+            gid: ObjectId(groupid),
+            datetime: datetime,
+            remark: msg
+        });
     })
 }
 
