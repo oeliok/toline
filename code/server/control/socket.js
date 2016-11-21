@@ -4,9 +4,9 @@
 var si = require('socket.io');
 var ObjectId = require('mongodb').ObjectID;
 
-var log = require('../../log');
-var mongo = require('../../lib/mongo');
-var redis = require('../../lib/redis').redis;
+var log = require('../log');
+var mongo = require('../lib/mongo');
+var redis = require('../lib/redis').redis;
 
 var msgs = {
     welcome:'你好，欢迎使用！',
@@ -244,7 +244,7 @@ function userGetFriends(userid, next) {
                     log.error(err);
                     return false;
                 }
-                if (!user || user.length < 1) {
+                if (!users || users.length < 1) {
                     log.info(users);
                     return false;
                 }
