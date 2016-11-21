@@ -410,7 +410,7 @@ function friendMessage(io, socket, userid) {
         }
         data.sendDate = Date.now();
         useridToSocketid(data.to, function(reply) {
-            if (reply) {
+            if (reply && io.sockets.sockets[reply]) {
                 io.sockets.sockets[reply].emit('sfmsg', data);
             }
             socket.emit('sfmsg', data);
@@ -426,7 +426,7 @@ function friendMessage(io, socket, userid) {
                 }
                 if (friend) {
                     db.collection('flog').insertOne({
-                        fid: friend_id,
+                        fid: friend._id,
                         msg: data.msg,
                         datetime: data.sendDate
                     }, function(err, reply) {
@@ -459,6 +459,8 @@ function groupMessage(io, socket, userid) {
                             io.sockets.sockets[socketid].emit('sgmsg', data);
                         }
                     })
+
+
                 }
             });
         }
@@ -495,21 +497,41 @@ function checkGroupMenber(userid, groupid, next) {
             return false;
         }
         mongo.getConnection(function(db) {
-            db.collection('guser').find({
-                gid: ObjectId(groupid)
-            }).toArray(function(err, gusers) {
+            db.collection('guser').findOne({
+                uid: ObjectId(userid),
+                gid: groupid
+            }, function(err, guser) {
                 if (err) {
                     log.error(err);
                     return false;
                 }
-                if (gusers) {
-                    var gid = [];
-                    for (var i in gusers) {
-                        gid[i] = gusers[i].gid + '';
-                    }
-                    next(gid);
+                if (guser) {
+                    db.collection('guser').find({
+                        gid: ObjectId(groupid)
+                    }).toArray(function(err, gusers) {
+                        if (err) {
+                            log.error(err);
+                            return false;
+                        }
+                        if (gusers) {
+                            var gid = [];
+                            for (var i in gusers) {
+                                gid[i] = gusers[i].uid + '';
+                            }
+                            redis.sadd('g' + groupid, gid, function(err, reply) {
+                                if (err) {
+                                    log.error(err);
+                                } else {
+                                    log.debug(reply);
+                                }
+                            });
+                            next(gid);
+                        }
+                    })
+                } else {
+                    log.debug(guser);
                 }
-            })
+            });
         })
     })
 }
