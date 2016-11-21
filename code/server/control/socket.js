@@ -336,7 +336,7 @@ function userGetFriends(userid, next) {
                     log.error(err);
                     return false;
                 }
-                if (!user || user.length < 1) {
+                if (!users || users.length < 1) {
                     log.info(users);
                     return false;
                 }
