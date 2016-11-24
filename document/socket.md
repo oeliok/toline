@@ -37,9 +37,9 @@
       "info":[
         {
             "source":"server",
-            "event":"serror",
+            "event":"news",
             "arg":[
-              {"info":"error/info/","msg":""}
+              {"info":"error/info","msg":""}
             ],
             "dataType":"json",
             "describe":"发送一些服务器的错误消息，msg里面存放错误信息"
@@ -87,7 +87,7 @@
           "source":"server",
           "event":"saoff",
           "arg":[
-            {"from":"off-line","to":"your id","frinds":[],"flogs":[],"glogs":[]}
+            {"from":"off-line","to":"your id","flogs":[],"glogs":[]}
           ],
           "dataType":"json",
           "describe":"发送从上次离线开始的离线消息到你的客户端"
@@ -101,7 +101,7 @@
           "source":"client",
           "event":"chistory",
           "arg":[
-            {"from":"my id","to":"server","type":"group/friend","id":"the object id","date":0,"length":10}
+            {"id":0,"from":"my id","to":"the object id","type":"group/friend","date":0,"len":10}
           ],
           "dataType":"json",
           "describe":"从某个时间点之前n条消息"
@@ -110,7 +110,7 @@
           "source":"server",
           "event":"shistory",
           "arg":[
-            {"from":"server","to":"your id","types":"friend/group","date":0,"flogs/glogs":[]}
+            {"id":0,"from":"the object id","to":"your id","types":"friend/group","sendDate":0,"data":[]}
           ],
           "dataType":"json",
           "describe":"从某个时间点之前n条消息"
@@ -124,8 +124,7 @@
           "source":"server",
           "event":"sfmsg",
           "arg":[
-            {"type":0,"from":"","to":"","sendDate":0,"msg":""},
-            {"type":1,"sendDate":0,"code":0}
+            {"id":0,"from":"","to":"","sendDate":0,"msg":""}
           ],
           "dataType":"json",
           "describe":"监听服务器里从其他用户发到自己的信息,或者上次发送的消息的回执"
@@ -134,7 +133,7 @@
           "source":"client",
           "event":"cfmsg",
           "arg":[
-            {"from":"","to":"","sendDate":0,"msg":""}
+            {"id":0,"from":"","to":"","sendDate":0,"msg":""}
           ],
           "dataType":"json",
           "describe":"发送消息到服务器，让服务器转发"
@@ -166,7 +165,7 @@
           "source":"client",
           "event":"cgmsg",
           "arg":[
-            {"from":"my id","to":"group id","Date":0,"msg":""}
+            {"id":0,"from":"my id","to":"group id","sendDate":0,"msg":""}
           ],
           "dataType":"json",
           "describe":"向一个群发送消息"
@@ -175,8 +174,7 @@
           "source":"server",
           "event":"sgmsg",
           "arg":[
-            {"from":"group id","to":"my id","Date":0,"msg":""},
-            {"type":1,"sendDate":0,"code":0}
+            {"id":0,"from":"my id","to":"group id","sendDate":0,"msg":""}
           ],
           "dataType":"json",
           "describe":"服务器转发消息"
