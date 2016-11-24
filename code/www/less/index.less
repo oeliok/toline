@@ -1,0 +1,89 @@
+@bg-color:white;
+//color-ios
+@light-blue:#54c7fc;
+@yellow:#ffcd00;
+@orange:#ff9600;
+@deep-orange:#fb6018;
+@purple:#ff2851;
+@blue:#0076ff;
+@green:#44db5e;
+@red:#ff3824;
+@gray:#8e8e93;
+@light-gray:#c2c2c2;
+
+//color-ios-@lightBlue 的配色
+@blue-blue:#0391d3;
+@light-dark:#5c5c5c;
+
+body {
+  background-color:@bg-color;
+  .container{
+    padding:0;
+  }
+}
+a:hover{
+  text-decoration: none;
+}
+.index{
+  padding: 2px;
+
+}
+//index.html
+@head-height:50px;
+.my-row(@top:0;@left:0px){
+  margin:@head-height 0 0 @left;
+  padding:0;
+}
+.head-row{
+  .my-row;
+}
+.part(@bg-color: lightseagreen;){
+  background-color: @bg-color;
+}
+//header.html
+.header(@head-height:50px){
+  height:@head-height;
+  margin: 0;
+  padding: 0;
+  background-color: @deep-orange;
+}
+.my-head{
+  .header(50px);
+}
+
+@head-picture-top:5px;
+@picture-width: @head-height - @head-picture-top * 2;
+//头像
+.head-img{
+  width: @picture-width;
+  height: @picture-width;
+}
+.my-picture{
+  margin: 0 0 0 15px;
+  padding-top: @head-picture-top;
+  .head-img;
+}
+.my-menu{
+  padding: @head-picture-top * 2 ;
+}
+//left.html
+.my-left{
+  .part;
+}
+//middle.html
+.my-middle{
+  .part;
+}
+.chat-body{
+
+}
+.chat-list{
+
+}
+.chat-send{
+
+}
+//right.html
+.my-right{
+  .part;
+}

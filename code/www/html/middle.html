@@ -1,0 +1,55 @@
+            <div class="mdl-card  mdl-shadow--4dp my-middle" style="padding-top: 8px;height: 400px;width:100%;">
+                <!--聊天信息-->
+                <div id="content" style="overflow:auto;height:80%; text-align: center;">
+
+                    <div class="mdl-grid" style="padding-bottom: 0;padding-top: 0">
+                        <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
+                            <img class="circular--square" style="width: 48px;height: 48px;" border="0" src="../image/index_images/friendPic.png" alt="friend picture" vspace="36">
+                        </div>
+                        <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone" style="margin-left: auto;margin-right: auto;">
+                            <h4 style="text-align: left;">
+                                <small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">{{user}}</small> <small style="color: black">{{date | dateFormat:'yyyy年 MM月 dd日 hh:mm:ss'}}</small></h4>
+
+                            <p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 2px;text-align: left;word-wrap: break-word;word-break: break-all;">{{msg}}</p>
+                        </div>
+                        <div class="mdl-cell--2-col-desktop mdl-cell--1-col-phone"></div>
+                    </div>
+                    <br>
+                    <div class="mdl-grid">
+                        <div class="mdl-cell--2-col-desktop mdl-cell--1-col-phone"></div>
+                        <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone "  style="margin-left: auto;
+margin-right: auto;">
+                            <h4 style="text-align: right;">
+                                <small style="color: black;">{{date | dateFormat:'yyyy年 MM月 dd日 hh:mm:ss'}}</small><small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">{{user}}</small> </h4>
+
+                            <p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 2px;text-align: left;word-wrap: break-word;word-break: break-all;">{{msg}}</p>
+                        </div>
+                        <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
+                            <img class="circular--square" style="width: 48px;height: 48px;" border="0" src="../image/index_images/friendPic.png" alt="friend picture" vspace="36">
+                        </div>
+                    </div>
+
+                <!-- tip类型 -->
+
+                    <div style="text-align: center;">
+                        <h6 style="padding: 10px;">
+                            <small style="color: white;background-color:#c1c6c9;padding: 5px;border-radius: 5px; ">欢迎{{msg}}的到来</small></h6>
+                    </div>
+
+
+
+                </div>
+                <hr width="100%">
+                <div class="mdl-grid" >
+                    <div style=" width: 75%;">
+                        <textarea class="mdl-textfield__input" type="text" rows= "1" id="msg" style="height: 38px;"></textarea>
+                    </div>
+                    <div style=" width: 25%;text-align: center">
+                        <button style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="msgSendBtn" onclick="say() ">
+                            Send
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+

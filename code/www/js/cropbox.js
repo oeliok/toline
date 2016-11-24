@@ -1,5 +1,6 @@
 /**
  * Created by ezgoing on 14/9/2014.
+ * 截取头像 插件
  */
 
 "use strict";
