@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="../base/bs/bootstrap.min.css">
     <link rel="stylesheet" href="../css/index_md.css">
     <link rel="stylesheet/less" type="text/css" href="../less/index.less">
-    <script type="text/javascript" src="../base/other/angular1.5.js"></script>
+    <!--<script type="text/javascript" src="../base/other/angular1.5.js"></script>-->
     <script type="text/javascript" src="../base/other/less.js"></script>
 
  </head>
 <body>
-    <div ng-app="myApp" class="container " style="height:100%;">
+    <div ng-app="myApp"  class="container ng-scope" style="height:100%;">
             <div ng-include="'header.html'" class="navbar-fixed-top">
             </div>
             <div class="head-row">
@@ -21,15 +21,20 @@
                 <div ng-include="'middle.html'" class="col-md-6 index" style="height:100%;"></div>
                 <div ng-include="'right.html'" class="visible-md visible-lg  col-md-3 index"></div>
             </div>
+
+        <div ng-view=""></div>
     </div>
 
     <script src="./../base/mdl/material.min.js"></script>
     <script type="text/javascript" src="../base/other/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="../base/other/template.js"></script>
     <script type="text/javascript" src="../base/other/angular1.5.js"></script>
+    <script type="text/javascript" src="../base/other/angular-route.js"></script>
+    <script type="text/javascript" src="../js/controller.js"></script>
+
+    <script type="text/javascript" src="../js/index.js"></script>
     <script>
 
-        var app = angular.module('myApp',[]);
         app.controller('friends',function ($scope) {
             $scope.friends = [
                 { name:'Earnit',sign:'say hi'},
@@ -40,5 +45,6 @@
             ];
         });
     </script>
+
 </body>
 </html>

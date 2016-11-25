@@ -1,11 +1,11 @@
-<div class=" mdl-grid my-left" ng-controller="friends">
-    <ul class="mdl-list">
-        <li ng-repeat="friend in friends" class="mdl-list__item">
-            <img src="../image/bg/m1.png" alt="" class="img-circle head-img">&nbsp;
-            <a href="#">
-            <span>{{friend.name}}</span>&nbsp;&nbsp;&nbsp;
-            <span>{{friend.sign}}</span>
-            </a>
-        </li>
-    </ul>
-</div>
+    <div class=" mdl-grid my-left" ng-controller="friends-list">
+        <ul class="mdl-list">
+            <li ng-repeat="friend in friends" class="mdl-list__item">
+                <img src="../avator/{{friend._id}}" alt="" class="img-circle head-img"  >&nbsp;
+                <a href="#">
+                    <span>{{friend.name}}</span>&nbsp;&nbsp;&nbsp;
+                    <span>{{friend.remark}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
