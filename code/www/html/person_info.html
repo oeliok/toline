@@ -1,0 +1,13 @@
+<script type="text/ng-template" id="person_info.html">
+    <div class=" mdl-grid my-left" >
+        <ul class="mdl-list">
+            <li ng-repeat="infomation in myInfo" class="mdl-list__item">
+                <img src="../avator/{{infomation._id}}" alt="" class="img-circle head-img"  >&nbsp;
+                <a href="#">
+                    <span>{{infomation.name}}</span>&nbsp;&nbsp;&nbsp;
+                    <span>{{infomation.remark}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</script>

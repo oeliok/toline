@@ -16,13 +16,49 @@
     <div ng-app="myApp"  class="container ng-scope" style="height:100%;">
             <div ng-include="'header.html'" class="navbar-fixed-top">
             </div>
-            <div class="head-row">
-                <div ng-include="'left.html'" class="visible-md visible-lg  col-md-3 index"></div>
-                <div ng-include="'middle.html'" class="col-md-6 index" style="height:100%;"></div>
-                <div ng-include="'right.html'" class="visible-md visible-lg  col-md-3 index"></div>
-            </div>
+            <!--<div class="head-row">-->
+                <!--<div ng-include="'friends_list.html'" class="visible-md visible-lg  col-md-3 index"></div>-->
+                <!--<div ng-include="'middle.html'" class="col-md-6 index" style="height:100%;"></div>-->
+                <!--<div ng-include="'right.html'" class="visible-md visible-lg  col-md-3 index"></div>-->
+            <!--</div>-->
 
-        <div ng-view=""></div>
+        <!--公共聊天室-->
+        <script type="text/ng-template" id="chat_pub.html">
+            <div class=" mdl-grid my-left" >
+                <h5>welcome to public chatroom</h5>
+            </div>
+        </script>
+        <!--好友列表-->
+        <script type="text/ng-template" id="friends_list.html">
+            <div class=" mdl-grid my-left" >
+                <ul class="mdl-list">
+                    <li ng-repeat="friend in friends" class="mdl-list__item">
+                        <img src="../avator/{{friend._id}}" alt="" class="img-circle head-img"  >&nbsp;
+                        <a href="#">
+                            <span>{{friend.name}}</span>&nbsp;&nbsp;&nbsp;
+                            <span>{{friend.remark}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </script>
+        <!--个人信息-->
+        <script type="text/ng-template" id="person_info.html">
+            <div class=" mdl-grid my-left" >
+
+                        <img src="../avator/{{myInfo._id}}" alt="" class="img-circle head-img"  >&nbsp;
+                        <a href="#">
+                            <span>{{myInfo.name}}</span>&nbsp;&nbsp;&nbsp;
+                            <span>{{myInfo.remark}}</span>
+                        </a>
+            </div>
+        </script>
+        <div class="head-row">
+
+            <div ng-view=""></div>
+
+
+        </div>
     </div>
 
     <script src="./../base/mdl/material.min.js"></script>
@@ -33,18 +69,8 @@
     <script type="text/javascript" src="../js/controller.js"></script>
 
     <script type="text/javascript" src="../js/index.js"></script>
-    <script>
 
-        app.controller('friends',function ($scope) {
-            $scope.friends = [
-                { name:'Earnit',sign:'say hi'},
-                { name:'sukurax',sign:'say hi'},
-                { name:'oeli',sign:'say hi'},
-                { name:'余秋雨',sign:'say hi'},
-                { name:'kevin',sign:'say hi'}
-            ];
-        });
-    </script>
+
 
 </body>
 </html>

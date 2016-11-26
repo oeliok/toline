@@ -1,4 +1,5 @@
-    <div class=" mdl-grid my-left" ng-controller="friends-list">
+<script type="text/ng-template" id="friends_list.html">
+    <div class=" mdl-grid my-left" >
         <ul class="mdl-list">
             <li ng-repeat="friend in friends" class="mdl-list__item">
                 <img src="../avator/{{friend._id}}" alt="" class="img-circle head-img"  >&nbsp;
@@ -9,3 +10,4 @@
             </li>
         </ul>
     </div>
+</script>

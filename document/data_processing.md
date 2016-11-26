@@ -32,7 +32,7 @@
 ###好友/群管理
 
 * 获取好友列表
-    * loadFriendList() 
+    * loadFriendList()
     * 存储：localStorage.("chatIfo_" + localStorage.currentId);
     * 格式：{["_id","name","remark"]..}
 * 聊天消息获取(双人/群) 
