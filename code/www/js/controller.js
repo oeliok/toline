@@ -58,6 +58,6 @@ app.config(function ($routeProvider) {
         controller:'settings'
     }).
     otherwise({
-        redirectTo: '/chat_pub'
+        redirectTo: '/chatPub_panel'
     });
 });
