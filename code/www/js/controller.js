@@ -4,6 +4,7 @@
 
 var app = angular.module('myApp',['ngRoute']);
 app.controller('chatPubCtrl',function($scope,$route){$scope.$route = $route;});
+app.controller('chatRoomCtrl',function($scope,$route){$scope.$route = $route;});
 app.controller('person_info',function($scope){
     getCurrentId();
     getPersonalIfo();
@@ -31,6 +32,10 @@ app.config(function ($routeProvider) {
     when('/chat_pub',{
         templateUrl:'chat_pub.html',
         controller:'chatPubCtrl'
+    }).
+    when('/chat_panel',{
+        templateUrl:'chat_panel.html',
+        controller:'chatRoomCtrl'
     }).
     when('/friends-list',{
         templateUrl:'friends_list.html',
