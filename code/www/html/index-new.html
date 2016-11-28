@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../base/mdl/material.min.css">
     <link rel="stylesheet" href="../base/bs/bootstrap.min.css">
     <link rel="stylesheet" href="../css/index_md.css">
+    <link rel="stylesheet" href="../css/myStyle.css">
     <link rel="stylesheet/less" type="text/css" href="../less/index.less">
     <!--<script type="text/javascript" src="../base/other/angular1.5.js"></script>-->
     <script type="text/javascript" src="../base/other/less.js"></script>
@@ -23,16 +24,39 @@
             <!--</div>-->
 
         <!--公共聊天室-->
-        <script type="text/ng-template" id="chat_pub.html" style="">
-            <div class=" mdl-grid my-left" style="">
-                <h5>welcome to public chatroom</h5>
-            </div>
+        <script type="text/ng-template" id="chat_pub.html">
+            <div id="content" class="mdl-grid">
+                <div id="messages" class="mdl-cell--12-col-desktop mdl-cell--12-col-phone">
+                    <div id="help">
+                        <ul>
+                            <li>修改昵称: <code>/nick 新昵称</code></li>
+                        </ul>
+                    </div>
+                </div>
 
+                <!--<form id="send-form">-->
+                    <!--<input id="send-message" />-->
+                    <!--<input id="send-button" type="submit" value="Send"/>-->
+                <!--</form>-->
+
+
+                <form id="send-form" class="">
+                    <div  class="mdl-grid " style="background-color: white;">
+                        <div class="mdl-cell--6-col-phone" style=" width: 75%;" >
+                            <input id="send-message" class="mdl-textfield__input" type="text" rows= "1"  style="height: 38px;">
+                        </div>
+                        <div class="mdl-cell--12-col-phone" style=" width: 25%;text-align: center">
+                            <input id="send-button" value="Send" type="submit" style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
         </script>
         <!--聊天面板modal-->
         <script type="text/ng-template" id="chat_pane.html">
             <div class="mdl-card  mdl-shadow--4dp my-middle" style="padding-top: 8px;width:100%;">
-                <div id="content" style="height:80%;overflow:auto; text-align: center;">
+                <div id="content2" style="height:80%;overflow:auto; text-align: center;">
                     <div class="mdl-grid" style="padding-bottom: 0;padding-top: 0">
                         <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
                             <img src="../image/bg/m1.png" class="img-circle" style="width: 48px;height: 48px;" border="0"  alt="friend picture" vspace="36">
@@ -113,10 +137,10 @@
 
                 <div class="mdl-grid navbar-fixed-bottom" style="background-color: deepskyblue;">
                     <div class="" style=" width: 75%;" >
-                        <textarea class="mdl-textfield__input" type="text" rows= "1" id="msg" style="height: 38px;"></textarea>
+                        <textarea class="mdl-textfield__input" type="text" rows= "1" style="height: 38px;"></textarea>
                     </div>
                     <div style=" width: 25%;text-align: center">
-                        <button style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="msgSendBtn" onclick="say() ">
+                        <button style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"  onclick="say() ">
                             Send
                         </button>
                     </div>
@@ -161,11 +185,14 @@
     <script type="text/javascript" src="../base/other/template.js"></script>
     <script type="text/javascript" src="../base/other/angular1.5.js"></script>
     <script type="text/javascript" src="../base/other/angular-route.js"></script>
+    <!--square-->
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="../js/chat.js"></script>
+    <script type="text/javascript" src="../js/chat_ui.js"></script>
+
     <script type="text/javascript" src="../js/controller.js"></script>
 
     <script type="text/javascript" src="../js/index.js"></script>
-
-
 
 </body>
 </html>
