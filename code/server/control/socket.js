@@ -14,25 +14,35 @@ var msgs = {
     error: '服务器发生错误！'
 };
 
+var IO = null;
+
 exports.listen = function listen(server) {
-    var io = si.listen(server);
+    IO = si.listen(server);
     log.info("socket.io启动服务");
     //监听用户的连接
-    io.on('connection', function(socket) {
+    IO.on('connection', function(socket) {
         log.debug(socket.id + ' join the server!');
         systemInfoMsg(socket, msgs.welcome);
-        userAuth(io, socket, function(user) {
+        userAuth(IO, socket, function(user) {
             offlineMessage(socket, user.user._id, user.user.login);
-            friendOffline(io, socket, user.user._id);
-            friendOnline(io, socket, user.user._id);
-            friendMessage(io, socket, user.user._id);
-            groupMessage(io, socket, user.user._id);
+            friendOffline(IO, socket, user.user._id);
+            friendOnline(IO, socket, user.user._id);
+            friendMessage(IO, socket, user.user._id);
+            groupMessage(IO, socket, user.user._id);
             historymsg(socket, user.user._id);
             socket.emit('auth-s', {
                 "code": 1
             });
         });
     });
+};
+
+exports.socketIO = function (next) {
+    if (IO) {
+        next(IO);
+    } else {
+        log.info('IO is null');
+    }
 };
 
 
