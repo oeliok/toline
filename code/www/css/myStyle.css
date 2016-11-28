@@ -18,10 +18,11 @@ a {
 
 #messages {
     height: 400px;
+    width:100%;
     overflow: auto;
     background-color: #eee;
     margin-bottom: 1em;
-    margin-right: 10px;
+    padding:10px;
 }
 
 #room-list {
