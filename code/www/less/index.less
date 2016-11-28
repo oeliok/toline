@@ -1,4 +1,5 @@
 @bg-color:white;
+@header-bgc:@blue;
 //color-ios
 @light-blue:#54c7fc;
 @yellow:#ffcd00;
@@ -38,7 +39,7 @@ a:hover{
 .head-row{
   .my-row;
 }
-.part(@bg-color: lightseagreen;){
+.part(@bg-color: white;){
   background-color: @bg-color;
 }
 //header.html
@@ -46,7 +47,7 @@ a:hover{
   height:@head-height;
   margin: 0;
   padding: 0;
-  background-color: @red;
+  background-color:@header-bgc;
 }
 .my-head{
   .header(50px);
@@ -67,7 +68,7 @@ a:hover{
 .my-menu{
   padding: @head-picture-top * 2 ;
 }
-//left.html
+//friends_list.html
 .my-left{
   .part;
 }

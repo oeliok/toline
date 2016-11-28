@@ -1,0 +1,14 @@
+<!--好友列表-->
+<script type="text/ng-template" id="friends_list.html">
+    <div class=" mdl-grid my-left" >
+        <ul class="mdl-list">
+            <li ng-repeat="friend in friends" class="mdl-list__item">
+                <img src="../avator/{{friend._id}}" alt="" class="img-circle head-img"  >&nbsp;
+                <a href="#/chat_panel">
+                    <span>{{friend.name}}</span>&nbsp;&nbsp;&nbsp;
+                    <span>{{friend.remark}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</script>
