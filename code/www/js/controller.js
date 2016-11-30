@@ -33,14 +33,19 @@ app.config(function ($routeProvider) {
         templateUrl:'chat_pub.html',
         controller:'chatPubCtrl'
     }).
-    when('/chatToFr_panel',{
-        templateUrl:'chat_panel.html',
-        controller:'chatToFrCtrl'
-    }).
+        //一级菜单 好友列表
     when('/friends_list',{
         templateUrl:'friends_list.html',
         controller:'friends_list'
     }).
+        //好友列表子菜单 好友聊天界面
+    when('/friends_list/chatToFr_panel',{
+        templateUrl:'chat_panel.html',
+        controller:'chatToFrCtrl'
+    }).
+
+
+
     when('/person',{
         templateUrl:'person_info.html',
         controller:'person_info'

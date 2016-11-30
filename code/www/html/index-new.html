@@ -146,15 +146,28 @@
         <!--好友列表-->
         <script type="text/ng-template" id="friends_list.html">
             <div class=" mdl-grid my-left" >
-                <ul class="mdl-list">
-                    <li ng-repeat="friend in friends" class="mdl-list__item">
+                <!--<ul class="mdl-list">-->
+                    <!--<li ng-repeat="friend in friends" class="mdl-list__item">-->
+                        <!--<img src="../avator/{{friend._id}}" alt="" class="img-circle head-img"  >&nbsp;-->
+                        <!--<a href="#/friends_list/chatToFr_panel" class="mdl-navigation__link">-->
+                            <!--<span>{{friend.name}}</span>&nbsp;&nbsp;&nbsp;-->
+                            <!--<span>{{friend.remark}}</span>-->
+
+                        <!--</a>-->
+
+                    <!--</li>-->
+
+                <!--</ul>-->
+
+                <nav ng-repeat="friend in friends" class=" mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;border-bottom: darkgray solid 1px;">
+                    <a href="#/friends_list/chatToFr_panel" class="mdl-navigation__link">
                         <img src="../avator/{{friend._id}}" alt="" class="img-circle head-img"  >&nbsp;
-                        <a href="#/chatToFr_panel">
-                            <span>{{friend.name}}</span>&nbsp;&nbsp;&nbsp;
-                            <span>{{friend.remark}}</span>
-                        </a>
-                    </li>
-                </ul>
+                        <span>{{friend.name}}</span>&nbsp;&nbsp;&nbsp;
+                        <span>{{friend.remark}}</span>
+                    </a>
+                    <hr style="background-color: black;">
+                </nav>
+
             </div>
         </script>
         <!--个人信息-->
