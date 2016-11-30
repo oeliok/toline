@@ -24,8 +24,7 @@ function processUserInput(chatApp, socket) {
   $('#send-message').val('');
 }
 
-var socket = io.connect('toline.oeli.pub:3001');
-// toline.oeli.pub:3001
+var socket = io.connect("http://toline.oeli.pub:3001");
 $(document).ready(function() {
   var chatApp = new Chat(socket);
 

@@ -1,5 +1,6 @@
 body {
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+
 }
 
 a {
@@ -9,6 +10,8 @@ a {
 #content {
     margin-left: auto;
     margin-right: auto;
+    background-color: #eee;
+
 }
 
 #room {
@@ -17,6 +20,7 @@ a {
 }
 
 #messages {
+    font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
     height: 400px;
     width:100%;
     overflow: auto;
@@ -43,6 +47,9 @@ a {
 #send-message {
     margin-bottom: 1em;
     margin-right: 1em;
+}
+#send-form{
+    background-color: #eee;
 }
 
 #help {
