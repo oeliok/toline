@@ -159,13 +159,16 @@
 
                 <!--</ul>-->
 
-                <nav ng-repeat="friend in friends" class=" mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;border-bottom: darkgray solid 1px;">
+                <nav ng-repeat="friend in friends" class=" mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;border-bottom: darkgray solid 1px;
+display: block;
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;">
                     <a href="#/friends_list/chatToFr_panel" class="mdl-navigation__link">
                         <img src="../avator/{{friend._id}}" alt="" class="img-circle head-img"  >&nbsp;
                         <span>{{friend.name}}</span>&nbsp;&nbsp;&nbsp;
                         <span>{{friend.remark}}</span>
                     </a>
-                    <hr style="background-color: black;">
                 </nav>
 
             </div>
