@@ -1,0 +1,57 @@
+body {
+
+
+}
+
+a {
+    color: #00B7FF;
+}
+
+#content {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #eee;
+
+}
+
+#room {
+    background-color: #ddd;
+    margin-bottom: 1em;
+}
+
+#messages {
+    font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+    height: 400px;
+    width:100%;
+    overflow: auto;
+    background-color: #eee;
+    margin-bottom: 1em;
+    padding:10px;
+}
+
+#room-list {
+    float: right;
+    width: 100px;
+    height: 300px;
+    overflow: auto;
+}
+
+#room-list div {
+    border-bottom: 1px solid #eee;
+}
+
+#room-list div:hover {
+    background-color: #ddd;
+}
+
+#send-message {
+    margin-bottom: 1em;
+    margin-right: 1em;
+}
+#send-form{
+    background-color: #eee;
+}
+
+#help {
+    font: 10px "Lucida Grande", Helvetica, Arial, sans-serif;
+}

@@ -18,13 +18,19 @@
 
 body {
   background-color:@bg-color;
-  min-width: 100px;
   .container{
     padding:0;
   }
 }
 a:hover{
   text-decoration: none;
+}
+.text-overflow{
+  width:100%;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .index{
   padding: 2px;
@@ -41,6 +47,7 @@ a:hover{
 }
 .part(@bg-color: white;){
   background-color: @bg-color;
+  padding:0;
 }
 //header.html
 .header(@head-height:50px){
@@ -61,12 +68,12 @@ a:hover{
   height: @picture-width;
 }
 .my-picture{
-  margin: 0 0 0 15px;
+  margin: 0 0 0 5px;
   padding-top: @head-picture-top;
   .head-img;
 }
 .my-menu{
-  padding: @head-picture-top * 2 ;
+  padding: @head-picture-top * 2 @head-picture-top;
 }
 //friends_list.html
 .my-left{
