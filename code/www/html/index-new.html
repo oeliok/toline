@@ -146,39 +146,53 @@
         <!--好友列表-->
         <script type="text/ng-template" id="friends_list.html">
             <div class=" mdl-grid my-left" >
+                <ul  class="mdl-list" id="friends_list">
                 <!--<ul class="mdl-list">-->
                     <!--<li ng-repeat="friend in friends" class="mdl-list__item">-->
                         <!--<img src="../avator/{{friend._id}}" alt="" class="img-circle head-img"  >&nbsp;-->
                         <!--<a href="#/friends_list/chatToFr_panel" class="mdl-navigation__link">-->
                             <!--<span>{{friend.name}}</span>&nbsp;&nbsp;&nbsp;-->
                             <!--<span>{{friend.remark}}</span>-->
-
                         <!--</a>-->
-
                     <!--</li>-->
-
                 <!--</ul>-->
-
-                <nav ng-repeat="friend in friends" class=" mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;">
+                <li ng-repeat="friend in friends" title="{{friend._id}}"  class=" mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;">
                     <img src="../avator/{{friend._id}}" alt="" class="img-circle head-img">&nbsp;
-                    <a href="#/friends_list/chatToFr_panel" class="mdl-navigation__link text-overflow" style="border-bottom: black dashed 1px;">
+                    <a href="#/friends_list/chatToFr_panel" ng-click="click()" class="mdl-navigation__link text-overflow" style="border-bottom: black dashed 1px;">
                         <span >{{friend.name}}</span>&nbsp;&nbsp;&nbsp;
                         <span >{{friend.remark}}</span>
                     </a>
-                </nav>
-
+                </li>
+            </ul>
             </div>
-        </script>
+      </script>
         <!--个人信息-->
         <script type="text/ng-template" id="person_info.html">
-            <div class=" mdl-grid mdl-list my-left" >
+                <div class="mdl-list">
+                    <div class=" mdl-navigation mdl-color-black-white-800 mdl-list__item text-overflow mdl-grid">
+                        <span class="mdl-cell--2-col"><img src="../avator/{{myInfo._id}}" alt="" class="img-circle head-img"></span>
+                        <span style="float:right;">
+                        <a href="#"  class="mdl-navigation__link mdl-cell--2-col-desktop  mdl-cell--2-col-phone">修改头像</a>
+                        </span>
+                        <hr>
+                    </div>
 
-                        <img src="../avator/{{myInfo._id}}" alt="" class="img-circle head-img"  >&nbsp;
-                        <a href="#">
-                            <span>{{myInfo.name}}</span>&nbsp;&nbsp;&nbsp;
-                            <span>{{myInfo.remark}}</span>
-                        </a>
-            </div>
+                    <div class=" mdl-navigation mdl-color-black-white-800 mdl-list__item text-overflow mdl-grid">
+                        <span>{{myInfo.name}}</span>
+                        <span style="float:right;">
+                        <a href="#"  class="mdl-navigation__link mdl-cell--2-col-desktop  mdl-cell--2-col-phone">修改签名</a>
+                        </span>
+                        <hr>
+                    </div>
+
+                    <div class=" mdl-navigation mdl-color-black-white-800 mdl-list__item text-overflow mdl-grid">
+                        <span class="">{{myInfo.remark}}</span>
+                        <span style="float:right;">
+                        <a href="#"  class="mdl-navigation__link mdl-cell--2-col-desktop  mdl-cell--2-col-phone">修改签名</a>
+                        </span>
+
+                    </div>
+                </div>
         </script>
         <div class="head-row">
 

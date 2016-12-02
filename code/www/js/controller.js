@@ -1,12 +1,19 @@
 /**
  * Created by kevin on 16-11-24.
  */
-var myfriends;
+//全部好友
+var myfriends ;
+var indexOfFriends = 0;
 var app = angular.module('myApp',['ngRoute']);
+
 app.controller('chatPubCtrl',function($scope,$route){$scope.$route = $route;});
 app.controller('chatToFrCtrl',function($scope,$route){$scope.$route = $route;
     getSesssionId();
-    console.log("friends-chat:"+myfriends[1].name);
+    console.log("friends-chat:"+myfriends[indexOfFriends].name);
+    indexOfFriends = 0;
+    $scope.$on('to-child',function (event,data) {
+        console.log('chatToFrCtrl' + data + "parent->child");
+    })
 });
 app.controller('person_info',function($scope){
     getCurrentId();
@@ -28,6 +35,10 @@ app.controller('friends_list',function ($scope,$route) {
     console.log("friends_list：" + friends[0].name);
     console.log("friends_list：" + friends[0].remark);
     console.log(JSON.stringify($scope.friends));
+    $scope.click = function () {
+        $scope.$broadcast('to-child', 'child');
+        $scope.$emit('to-parent', 'parent');
+    }
 });
 
 app.config(function ($routeProvider) {
@@ -46,9 +57,6 @@ app.config(function ($routeProvider) {
         templateUrl:'chat_panel.html',
         controller:'chatToFrCtrl'
     }).
-
-
-
     when('/person',{
         templateUrl:'person_info.html',
         controller:'person_info'
@@ -69,3 +77,23 @@ app.config(function ($routeProvider) {
         redirectTo: '/chatPub_panel'
     });
 });
+$(function () {
+   // $(' li a').on('click',function () {
+   //     console.log('ul write');
+   //     indexOfFriends = $('li a').index($(this));
+   //     console.log('ul write');
+   // });
+    $(' li a').onclick= function () {
+        console.log('ul write');
+        indexOfFriends = $(this).index();
+        console.log('ul write');
+    }
+});
+
+function index() {
+    indexOfFriends++;
+    console.log(indexOfFriends);
+    $('li a').removeEventListener('click',index);
+
+}
+$('li a').addEventListener('click',index);
