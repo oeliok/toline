@@ -25,6 +25,11 @@
   * 3.测试群聊接口，尝试完成群聊
   * 4.通过好友id查找好友
 
+  **过程记录**
+  * 1.居中：<p style="margin:0 auto;"><span style="text-align:center;">message</span></p>
+
+
+
 
 
 

@@ -146,39 +146,39 @@
         <!--好友列表-->
         <script type="text/ng-template" id="friends_list.html">
             <div class=" mdl-grid my-left" >
+                <ul  class="mdl-list" id="friends_list">
                 <!--<ul class="mdl-list">-->
                     <!--<li ng-repeat="friend in friends" class="mdl-list__item">-->
                         <!--<img src="../avator/{{friend._id}}" alt="" class="img-circle head-img"  >&nbsp;-->
                         <!--<a href="#/friends_list/chatToFr_panel" class="mdl-navigation__link">-->
                             <!--<span>{{friend.name}}</span>&nbsp;&nbsp;&nbsp;-->
                             <!--<span>{{friend.remark}}</span>-->
-
                         <!--</a>-->
-
                     <!--</li>-->
-
                 <!--</ul>-->
-
-                <nav ng-repeat="friend in friends" class=" mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;">
+                <li ng-repeat="friend in friends" title="{{friend._id}}"  class=" mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;">
                     <img src="../avator/{{friend._id}}" alt="" class="img-circle head-img">&nbsp;
-                    <a href="#/friends_list/chatToFr_panel" class="mdl-navigation__link text-overflow" style="border-bottom: black dashed 1px;">
+                    <a href="#/friends_list/chatToFr_panel" ng-click="click()" class="mdl-navigation__link text-overflow" style="border-bottom: black dashed 1px;">
                         <span >{{friend.name}}</span>&nbsp;&nbsp;&nbsp;
                         <span >{{friend.remark}}</span>
                     </a>
-                </nav>
-
+                </li>
+            </ul>
             </div>
-        </script>
+      </script>
         <!--个人信息-->
         <script type="text/ng-template" id="person_info.html">
-            <div class=" mdl-grid mdl-list my-left" >
-
-                        <img src="../avator/{{myInfo._id}}" alt="" class="img-circle head-img"  >&nbsp;
-                        <a href="#">
-                            <span>{{myInfo.name}}</span>&nbsp;&nbsp;&nbsp;
-                            <span>{{myInfo.remark}}</span>
-                        </a>
-            </div>
+                <div class="person_card mdl-grid" style="margin:0 auto;">
+                    <div class="mdl-cell--4-col-phone mdl-cell--4-col-desktop mdl-grid" >
+                        <p style="margin:0 auto;">
+                            <img src="../avator/{{myInfo._id}}" title="我的头像" alt="" class="img-circle"  style="text-align:center;width:80px;height:80px;">
+                        </p>
+                    </div>
+                    <div class="mdl-cell--8-col-phone mdl-cell--8-col-desktop "  >
+                        <p style="text-align: center;" contenteditable="true"><span>{{myInfo.name}}</span></p>
+                        <p style="text-align: center;" contenteditable="true">{{myInfo.remark}}</p>
+                    </div>
+                </div>
         </script>
         <div class="head-row">
 
