@@ -169,12 +169,14 @@
         <!--个人信息-->
         <script type="text/ng-template" id="person_info.html">
                 <div class="person_card mdl-grid" style="margin:0 auto;">
-                    <div class="mdl-cell--4-col-phone mdl-cell--4-col-desktop">
-                        <img src="../avator/{{myInfo._id}}" title="我的头像" alt="" class="img-circle" style="width:80px;height:80px;">
+                    <div class="mdl-cell--4-col-phone mdl-cell--4-col-desktop mdl-grid" >
+                        <p style="margin:0 auto;">
+                            <img src="../avator/{{myInfo._id}}" title="我的头像" alt="" class="img-circle"  style="text-align:center;width:80px;height:80px;">
+                        </p>
                     </div>
-                    <div class="mdl-cell--8-col-phone mdl-cell--8-col-desktop">
-                        <p class=''>{{myInfo.name}}</p>
-                        <p>{{myInfo.remark}}</p>
+                    <div class="mdl-cell--8-col-phone mdl-cell--8-col-desktop "  >
+                        <p style="text-align: center;" contenteditable="true"><span>{{myInfo.name}}</span></p>
+                        <p style="text-align: center;" contenteditable="true">{{myInfo.remark}}</p>
                     </div>
                 </div>
         </script>
