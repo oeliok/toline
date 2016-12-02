@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>广场</title>
+</head>
+<body>
+<h3>用户</h3>
+<div id="names"></div>
+<h3>系统消息</h3>
+<div id="news"></div>
+<h3>输入消息</h3>
+<input type="text" placeholder="输入聊天内容" id="it">
+<input type="submit" value="提交" onclick="sendmsg()">
+<input type="text" placeholder="名称" id="in">
+<input type="submit" value="修改名字" onclick="changeName()">
+<h3>用户信息</h3>
+<div id="msgs"></div>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    var socket = io.connect('toline.oeli.pub:9876');
+    var names = document.getElementById('names');
+    var news = document.getElementById('news');
+    var msgs = document.getElementById('msgs');
+    var it = document.getElementById('it');
+    var nn = document.getElementById('in');
+    window.onload = function () {
+        var person=prompt("请输入你的名字","Harry Potter");
+        socket.emit('name',person);
+        addevent();
+    };
+    function addevent() {
+        socket.on('users',function (data) {
+            console.log(JSON.stringify(data));
+            var html = "";
+            for (var i in data) {
+                html += '['+data[i]+']';
+            }
+            names.innerHTML = html;
+        });
+        socket.on('namejoin',function (data) {
+            news.innerHTML += '<p>'+data+'</p>';
+        });
+        socket.on('newmsg',function (data) {
+            msgs.innerHTML += '<p>'+data+'</p>';
+        });
+    }
+    function changeName() {
+        if (nn.value != "")
+            socket.emit('name',nn.value);
+        else
+            alert("输入名字不能为空");
+    }
+    function sendmsg() {
+        if (it.value != "")
+            socket.emit('msg', it.value);
+        else
+            alert("输入内容不能为空");
+    }
+</script>
+</body>
+</html>
