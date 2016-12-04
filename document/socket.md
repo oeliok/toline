@@ -25,6 +25,8 @@
 
 ### 一些想法
 为了获得一个速度可行，安全可靠地系统，需要充分的利用各种缓存，系统运行过程会需要利用的信息是 用户的登录信息 用户的好友群组关系
+![添加好友](http://cloud.oeli.pub/img/addfriends.png)
+
 
 ### 事件接口
 ```
@@ -148,13 +150,24 @@
           "describe":"好友上线的消息"
         },
         {
-          "source":"server",
-          "event":"sfoffline",
+          "source":"client",
+          "event":"cfaddfriend",
           "arg":[
-            {"Date":0,"id":""}
+            {"type":0,"id":0,"from":"A","to":"B"},
+            {"type":1,"id":0,"from":"B","to":"A"}
           ],
           "dataType":"json",
-          "describe":"好友下线的消息"
+          "describe":"0:发送(添加好友)请求，1:发送（添加好友）的回执消息"
+        },
+        {
+          "source":"server",
+          "event":"sfaddfriend",
+          "arg":[
+            {"type":0,"id":0,"from":"A","to":"B"},
+            {"type":1,"id":0,"from":"B","to":"A"}
+          ],
+          "dataType":"json",
+          "describe":"0:接收添加好友的请求，1:接收（添加好友）的回执消息"
         }
       ]
     },

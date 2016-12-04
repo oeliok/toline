@@ -3,4 +3,3 @@
  */
 var soketIO = require('../control/socket');
 var friend = require('../model/mfriend');
-

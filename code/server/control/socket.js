@@ -45,7 +45,6 @@ exports.socketIO = function (next) {
     }
 };
 
-
 //系统发送一些提示消息
 function systemInfoMsg(socket, msg) {
     socket.emit("news", {

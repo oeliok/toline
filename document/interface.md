@@ -366,21 +366,156 @@ C -> S(客户端到服务器)
 ---
 ```
 {
-    "describe":"通过ID获取群信息",
-    "name":"groupinfo",
-    "url":"/suser/private/group/groupinfo",
+    "describe":"创建群组",
+    "name":"creategroup"
+    "url":"/suser/private/group/creategroup",
     "method":"post",
-    "security":[],
-    "server":[
-        {"type":"session","name":"user"}
-    ],
     "arg":[
-        {"type":"String","name":"id"}
+        {"name":"name","type":"string","limit":"1,36"},
+        {"name":"remark","type":"string","limit":"1,128"}
     ],
     "return":[
         {"code":-1},
-        {"code":1,"data":{"_id":ObjectId(),"name":"","remark":"","datetime":0,"owner":{"_id":ObjectId(),"name":"","pwd":null,"type":1,"email":"","sex":0,"age":1,"regist":0,"remark":null}}},
-        {"code":10},
+        {"code":0},
+        {"code":1,"groupid":""},
+        {"code":10}
+    ]
+}
+{
+    "describe":"群主删除群组",
+    "name":"deletegroup"
+    "url":"/suser/private/group/deletegroup",
+    "method":"post",
+    "arg":[
+        {"name":"id","type":"string","describe":"群组id"}
+    ],
+    "return":[
+        {"code":-1},
+        {"code":0},
+        {"code":1},
+        {"code":10}
+    ]
+}
+{
+    "describe":"搜索群组(通过群id)|获取群组信息",
+    "name":"searchgroupbyid"
+    "url":"/suser/private/group/searchgroupbyid",
+    "method":"post",
+    "arg":[
+        {"name":"gid","type":"string","describe":"群组id"}
+    ],
+    "return":[
+        {"code":-1},
+        {"code":0},
+        {"code":1,"group":{"_id":ObjectId(""),"name":"","remark":"","datetime":"","owner":ObjectId("")}},
+        {"code":10}
+    ]
+}
+{
+    "describe":"搜索群组(通过群名称)",
+    "name":"searchgroupbykeyword"
+    "url":"/suser/private/group/searchgroupbykeyword",
+    "method":"post",
+    "arg":[
+        {"name":"keyword","type":"string","limit":"1,10","describe":"关键词"},
+        {"name":"page","type":"unsigned int","describe":"页码"},
+        {"name":"size","type":"unsigned int","describe":"页面大小"}
+    ],
+    "return":[
+        {"code":-1},
+        {"code":0},
+        {"code":1,"groups":[{"_id":ObjectId(""),"name":"","remark":"","datetime":"","owner":ObjectId("")}]},
+        {"code":10}
+    ]
+}
+{
+    "describe":"设置群组名称",
+    "name":"setgroupname"
+    "url":"/suser/private/group/setgroupname",
+    "method":"post",
+    "arg":[
+        {"name":"gname","type":"string","describe":"群名称","limit":"1,36"}
+    ],
+    "return":[
+        {"code":-1},
+        {"code":0},
+        {"code":1},
+        {"code":10}
+    ]
+}
+{
+    "describe":"设置群组备注",
+    "name":"setgroupremark"
+    "url":"/suser/private/group/setgroupremark",
+    "method":"post",
+    "arg":[
+        {"name":"gremark","type":"string","limit":"1,128","describe":"群备注"}
+    ],
+    "return":[
+        {"code":-1},
+        {"code":0},
+        {"code":1},
+        {"code":10}
+    ]
+}
+{
+    "describe":"设置群组头像",
+    "name":"setgrouphead"
+    "url":"/suser/private/group/setgrouphead",
+    "method":"post",
+    "arg":[
+       
+    ],
+    "return":[
+        {"code":-1},
+        {"code":0},
+        {"code":1},
+        {"code":10}
+    ]
+}
+{
+    "describe":"获取群成员列表",
+    "name":"getgroupmembers"
+    "url":"/suser/private/group/getgroupmembers",
+    "method":"post",
+    "arg":[
+        {"name":"id","type":"string","describe":"群组id"}
+    ],
+    "return":[
+        {"code":-1},
+        {"code":0},
+        {"code":1,"members":[{"_id":ObjectId(""),"uid":ObjectId(""),"gid":ObjectId(""),"datetime":"","remark":""}]},
+        {"code":10}
+    ]
+}
+{
+    "describe":"申请加入群组",
+    "name":"applygroup"
+    "url":"/suser/private/group/applygroup",
+    "method":"post",
+    "arg":[
+        {"name":"id","type":"string","describe":"群组id"}
+    ],
+    "return":[
+        {"code":-1},
+        {"code":0},
+        {"code":1},
+        {"code":10}
+    ]
+}
+{
+    "describe":"成员退出群组",
+    "name":"exitgroup"
+    "url":"/suser/private/group/exitgroup",
+    "method":"post",
+    "arg":[
+        {"name":"id","type":"string","describe":"群组id"}
+    ],
+    "return":[
+        {"code":-1},
+        {"code":0},
+        {"code":1},
+        {"code":10}
     ]
 }
 ```
