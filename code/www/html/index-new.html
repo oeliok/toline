@@ -12,115 +12,113 @@
     <!--<script type="text/javascript" src="../base/other/angular1.5.js"></script>-->
     <script type="text/javascript" src="../base/other/less.js"></script>
 
- </head>
+</head>
 <body>
-    <div ng-app="myApp"  class="container ng-scope" style="height:100%;">
-            <div ng-include="'header.html'" class="navbar-fixed-top">
-            </div>
-            <!--<div class="head-row">-->
-                <!--<div ng-include="'friends_list.html'" class="visible-md visible-lg  col-md-3 index"></div>-->
-                <!--<div ng-include="'middle.html'" class="col-md-6 index" style="height:100%;"></div>-->
-                <!--<div ng-include="'right.html'" class="visible-md visible-lg  col-md-3 index"></div>-->
-            <!--</div>-->
+<div ng-app="myApp"  class="container ng-scope" style="height:100%;">
+    <div ng-include="'header.html'" class="navbar-fixed-top">
+    </div>
+    <!--<div class="head-row">-->
+    <!--<div ng-include="'friends_list.html'" class="visible-md visible-lg  col-md-3 index"></div>-->
+    <!--<div ng-include="'middle.html'" class="col-md-6 index" style="height:100%;"></div>-->
+    <!--<div ng-include="'right.html'" class="visible-md visible-lg  col-md-3 index"></div>-->
+    <!--</div>-->
 
-        <!--公共聊天室-->
-        <script type="text/ng-template" id="chat_pub.html">
-            <div id="content" class="mdl-grid">
-                <div id="messages" class="mdl-cell--12-col-desktop mdl-cell--12-col-phone">
-
+    <!--公共聊天室-->
+    <!--<script type="text/ng-template" id="chat_pub.html">-->
+    <h3>系统消息</h3>
+    <div ng-model="pub_news" id="pub_news" style="background-color: red;"></div>
+    <input title="" type="text" id="in"/>
+    <div ng-model="pub_newName" id="pub_newName"></div>
+    <div id="content" class="mdl-grid">
+        <div title="" id="pub_message" style="border: none;background-color: white;" ng-model="pub_message" class="mdl-cell--12-col-desktop mdl-cell--12-col-phone">
+        </div>
+        <form id="send-form" class="">
+            <div ng-controller="" class="mdl-grid navbar-fixed-bottom" style="background-color: #eee;">
+                您的昵称: <div ng-model="pub_names"></div>
+                <div class="mdl-cell--6-col-phone" style=" width: 75%;" >
+                    <input title="" id="pub_input_mess" ng-model="pub_input_mess" class="mdl-textfield__input" type="text" rows= "1"  style="height: 38px;">
                 </div>
-
-                <!--<form id="send-form">-->
-                    <!--<input id="send-message" />-->
-                    <!--<input id="send-button" type="submit" value="Send"/>-->
-                <!--</form>-->
-
-                <form id="send-form" class="">
-                    <div  class="mdl-grid navbar-fixed-bottom" style="background-color: #eee;">
-                        修改昵称: <code>/nick 新昵称</code>
-                        <div class="mdl-cell--6-col-phone" style=" width: 75%;" >
-                            <input id="send-message" class="mdl-textfield__input" type="text" rows= "1"  style="height: 38px;">
-                        </div>
-                        <div class="mdl-cell--12-col-phone" style=" width: 25%;text-align: center">
-                            <input id="send-button" value="Send" type="submit" style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </script>
-        <!--聊天面板modal-->
-        <script type="text/ng-template" id="chat_pane.html">
-            <div class="mdl-card  mdl-shadow--4dp my-middle" style="padding-top: 8px;width:100%;">
-                <div id="content2" style="height:80%;overflow:auto; text-align: center;">
-                    <div class="mdl-grid" style="padding-bottom: 0;padding-top: 0">
-                        <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
-                            <img src="../image/bg/m1.png" class="img-circle" style="width: 48px;height: 48px;" border="0"  alt="friend picture" vspace="36">
-                        </div>
-                        <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone" style="margin-left: auto;margin-right: auto;">
-                            <h4 style="text-align: left;">
-                                <small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">test.name</small> <small style="color: black">2016.11.26</small></h4>
-                            <p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 2px;text-align: left;word-wrap: break-word;word-break: break-all;">this is a test!</p>
-                        </div>
-                        <div class="mdl-cell--2-col-desktop mdl-cell--1-col-phone"></div>
-                    </div>
-                    <br>
-                    <div class="mdl-grid" style="padding-bottom: 0;padding-top: 0">
-                        <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
-                            <img class="circular--square" style="width: 48px;height: 48px;" border="0" src="../image/bg/m1.png" alt="friend picture" vspace="36">
-                        </div>
-                        <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone" style="margin-left: auto;margin-right: auto;">
-                            <h4 style="text-align: left;">
-                                <small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">test.name</small> <small style="color: black">2016.11.26</small></h4>
-                            <p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 2px;text-align: left;word-wrap: break-word;word-break: break-all;">this is a test!</p>
-                        </div>
-                        <div class="mdl-cell--2-col-desktop mdl-cell--1-col-phone"></div>
-                    </div>
-                    <br>
-                    <div class="mdl-grid" style="padding-bottom: 0;padding-top: 0">
-                        <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
-                            <img class="circular--square" style="width: 48px;height: 48px;" border="0" src="../image/bg/m1.png" alt="friend picture" vspace="36">
-                        </div>
-                        <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone" style="margin-left: auto;margin-right: auto;">
-                            <h4 style="text-align: left;">
-                                <small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">test.name</small> <small style="color: black">2016.11.26</small></h4>
-                            <p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 2px;text-align: left;word-wrap: break-word;word-break: break-all;">this is a test!</p>
-                        </div>
-                        <div class="mdl-cell--2-col-desktop mdl-cell--1-col-phone"></div>
-                    </div>
-                    <br>
-                    <div class="mdl-grid">
-                        <div class="mdl-cell--2-col-desktop mdl-cell--1-col-phone"></div>
-                        <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone "  style="margin-left: auto;margin-right: auto;">
-                            <h4 style="text-align: right;">
-                                <small style="color: black;">2016.11.26</small><small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">user</small> </h4>
-                            <p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 2px;text-align: left;word-wrap: break-word;word-break: break-all;">test}</p>
-                        </div>
-                        <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
-                            <img class="circular--square" style="width: 48px;height: 48px;" border="0" src="../image/index_images/friendPic.png" alt="friend picture" vspace="36">
-                        </div>
-                    </div>
-                    <!-- tip类型 -->
-                    <div style="text-align: center;">
-                        <h6 style="padding: 10px;">
-                            <small style="color: white;background-color:#c1c6c9;padding: 5px;border-radius: 5px; ">欢迎到来</small></h6>
-                    </div>
-                </div>
-                <div class="mdl-grid navbar-fixed-bottom" style="background-color: deepskyblue;">
-                    <div class="" style=" width: 75%;" >
-                        <textarea class="mdl-textfield__input" type="text" rows= "1" id="msg" style="height: 38px;"></textarea>
-                    </div>
-                    <div style=" width: 25%;text-align: center">
-                        <button style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="msgSendBtn" onclick="say() ">
-                            Send
-                        </button>
-                    </div>
+                <div class="mdl-cell--12-col-phone" style=" width: 25%;text-align: center">
+                    <button onclick="sendmsg()" type="submit" ng-click="pub_sendMess(pub_input_mess)" value="Send"  style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                        Send
+                    </button>
                 </div>
             </div>
-        </script>
-        <!--聊天面板-->
-        <script type="text/ng-template" id="chat_panel.html">
-            <div class="mdl-card  mdl-shadow--4dp my-middle" style="padding-top: 8px;width:100%;">
+        </form>
+    </div>
+    <!--//      </script>-->
+    <!--聊天面板modal-->
+    <script type="text/ng-template" id="chat_pane.html">
+        <div class="mdl-card  mdl-shadow--4dp my-middle" style="padding-top: 8px;width:100%;">
+            <div id="content2" style="height:80%;overflow:auto; text-align: center;">
+                <div class="mdl-grid" style="padding-bottom: 0;padding-top: 0">
+                    <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
+                        <img src="../image/bg/m1.png" class="img-circle" style="width: 48px;height: 48px;" border="0"  alt="friend picture" vspace="36">
+                    </div>
+                    <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone" style="margin-left: auto;margin-right: auto;">
+                        <h4 style="text-align: left;">
+                            <small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">test.name</small> <small style="color: black">2016.11.26</small></h4>
+                        <p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 2px;text-align: left;word-wrap: break-word;word-break: break-all;">this is a test!</p>
+                    </div>
+                    <div class="mdl-cell--2-col-desktop mdl-cell--1-col-phone"></div>
+                </div>
+                <br>
+                <div class="mdl-grid" style="padding-bottom: 0;padding-top: 0">
+                    <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
+                        <img class="circular--square" style="width: 48px;height: 48px;" border="0" src="../image/bg/m1.png" alt="friend picture" vspace="36">
+                    </div>
+                    <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone" style="margin-left: auto;margin-right: auto;">
+                        <h4 style="text-align: left;">
+                            <small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">test.name</small> <small style="color: black">2016.11.26</small></h4>
+                        <p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 2px;text-align: left;word-wrap: break-word;word-break: break-all;">this is a test!</p>
+                    </div>
+                    <div class="mdl-cell--2-col-desktop mdl-cell--1-col-phone"></div>
+                </div>
+                <br>
+                <div class="mdl-grid" style="padding-bottom: 0;padding-top: 0">
+                    <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
+                        <img class="circular--square" style="width: 48px;height: 48px;" border="0" src="../image/bg/m1.png" alt="friend picture" vspace="36">
+                    </div>
+                    <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone" style="margin-left: auto;margin-right: auto;">
+                        <h4 style="text-align: left;">
+                            <small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">test.name</small> <small style="color: black">2016.11.26</small></h4>
+                        <p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 2px;text-align: left;word-wrap: break-word;word-break: break-all;">this is a test!</p>
+                    </div>
+                    <div class="mdl-cell--2-col-desktop mdl-cell--1-col-phone"></div>
+                </div>
+                <br>
+                <div class="mdl-grid">
+                    <div class="mdl-cell--2-col-desktop mdl-cell--1-col-phone"></div>
+                    <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone "  style="margin-left: auto;margin-right: auto;">
+                        <h4 style="text-align: right;">
+                            <small style="color: black;">2016.11.26</small><small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">user</small> </h4>
+                        <p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 2px;text-align: left;word-wrap: break-word;word-break: break-all;">test}</p>
+                    </div>
+                    <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
+                        <img class="circular--square" style="width: 48px;height: 48px;" border="0" src="../image/index_images/friendPic.png" alt="friend picture" vspace="36">
+                    </div>
+                </div>
+                <!-- tip类型 -->
+                <div style="text-align: center;">
+                    <h6 style="padding: 10px;">
+                        <small style="color: white;background-color:#c1c6c9;padding: 5px;border-radius: 5px; ">欢迎到来</small></h6>
+                </div>
+            </div>
+            <div class="mdl-grid navbar-fixed-bottom" style="background-color: deepskyblue;">
+                <div class="" style=" width: 75%;" >
+                    <textarea class="mdl-textfield__input" type="text" rows= "1" id="msg" style="height: 38px;"></textarea>
+                </div>
+                <div style=" width: 25%;text-align: center">
+                    <button style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="msgSendBtn" onclick="say() ">
+                        Send
+                    </button>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!--聊天面板-->
+    <script type="text/ng-template" id="chat_panel.html">
+        <div class="mdl-card  mdl-shadow--4dp my-middle" style="padding-top: 8px;width:100%;">
             <div>
                 <h1>message</h1>
                 <h1>message</h1>
@@ -131,30 +129,30 @@
                 <h1>message</h1>
             </div>
 
-                <div class="mdl-grid navbar-fixed-bottom" style="background-color: deepskyblue;">
-                    <div class="" style=" width: 75%;" >
-                        <textarea class="mdl-textfield__input" type="text" rows= "1" style="height: 38px;"></textarea>
-                    </div>
-                    <div style=" width: 25%;text-align: center">
-                        <button style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"  onclick="say() ">
-                            Send
-                        </button>
-                    </div>
+            <div class="mdl-grid navbar-fixed-bottom" style="background-color: deepskyblue;">
+                <div class="" style=" width: 75%;" >
+                    <textarea class="mdl-textfield__input" type="text" rows= "1" style="height: 38px;"></textarea>
+                </div>
+                <div style=" width: 25%;text-align: center">
+                    <button style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"  onclick="say() ">
+                        Send
+                    </button>
                 </div>
             </div>
-        </script>
-        <!--好友列表-->
-        <script type="text/ng-template" id="friends_list.html">
-            <div class=" mdl-grid my-left" >
-                <ul  class="mdl-list" id="friends_list">
+        </div>
+    </script>
+    <!--好友列表-->
+    <script type="text/ng-template" id="friends_list.html">
+        <div class=" mdl-grid my-left" >
+            <ul  class="mdl-list" id="friends_list">
                 <!--<ul class="mdl-list">-->
-                    <!--<li ng-repeat="friend in friends" class="mdl-list__item">-->
-                        <!--<img src="../avator/{{friend._id}}" alt="" class="img-circle head-img"  >&nbsp;-->
-                        <!--<a href="#/friends_list/chatToFr_panel" class="mdl-navigation__link">-->
-                            <!--<span>{{friend.name}}</span>&nbsp;&nbsp;&nbsp;-->
-                            <!--<span>{{friend.remark}}</span>-->
-                        <!--</a>-->
-                    <!--</li>-->
+                <!--<li ng-repeat="friend in friends" class="mdl-list__item">-->
+                <!--<img src="../avator/{{friend._id}}" alt="" class="img-circle head-img"  >&nbsp;-->
+                <!--<a href="#/friends_list/chatToFr_panel" class="mdl-navigation__link">-->
+                <!--<span>{{friend.name}}</span>&nbsp;&nbsp;&nbsp;-->
+                <!--<span>{{friend.remark}}</span>-->
+                <!--</a>-->
+                <!--</li>-->
                 <!--</ul>-->
                 <li ng-repeat="friend in friends" title="{{friend._id}}"  class=" mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;">
                     <img src="../avator/{{friend._id}}" alt="" class="img-circle head-img">&nbsp;
@@ -164,43 +162,43 @@
                     </a>
                 </li>
             </ul>
-            </div>
-      </script>
-        <!--个人信息-->
-        <script type="text/ng-template" id="person_info.html">
-                <div class="person_card mdl-grid" style="margin:0 auto;">
-                    <div class="mdl-cell--4-col-phone mdl-cell--4-col-desktop mdl-grid" >
-                        <p style="margin:0 auto;">
-                            <img src="../avator/{{myInfo._id}}" title="我的头像" alt="" class="img-circle"  style="text-align:center;width:80px;height:80px;">
-                        </p>
-                    </div>
-                    <div class="mdl-cell--8-col-phone mdl-cell--8-col-desktop "  >
-                        <p style="text-align: center;" contenteditable="true"><span>{{myInfo.name}}</span></p>
-                        <p style="text-align: center;" contenteditable="true">{{myInfo.remark}}</p>
-                    </div>
-                </div>
-        </script>
-        <div class="head-row">
-
-            <div ng-view=""></div>
-
-
         </div>
+    </script>
+    <!--个人信息-->
+    <script type="text/ng-template" id="person_info.html">
+        <div class="person_card mdl-grid" style="margin:0 auto;">
+            <div class="mdl-cell--4-col-phone mdl-cell--4-col-desktop mdl-grid" >
+                <p style="margin:0 auto;">
+                    <img src="../avator/{{myInfo._id}}" title="我的头像" alt="" class="img-circle"  style="text-align:center;width:80px;height:80px;">
+                </p>
+            </div>
+            <div class="mdl-cell--8-col-phone mdl-cell--8-col-desktop "  >
+                <p style="text-align: center;" contenteditable="true"><span>{{myInfo.name}}</span></p>
+                <p style="text-align: center;" contenteditable="true">{{myInfo.remark}}</p>
+            </div>
+        </div>
+    </script>
+    <div class="head-row">
+
+        <div ng-view=""></div>
+
+
     </div>
+</div>
 
-    <script src="./../base/mdl/material.min.js"></script>
-    <script type="text/javascript" src="../base/other/jquery-3.1.1.min.js"></script>
-    <script type="text/javascript" src="../base/other/template.js"></script>
-    <script type="text/javascript" src="../base/other/angular1.5.js"></script>
-    <script type="text/javascript" src="../base/other/angular-route.js"></script>
-    <!--square-->
-    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="../js/chat.js"></script>
-    <script type="text/javascript" src="../js/chat_ui.js"></script>
+<script src="./../base/mdl/material.min.js"></script>
+<script type="text/javascript" src="../base/other/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="../base/other/template.js"></script>
+<script type="text/javascript" src="../base/other/angular1.5.js"></script>
+<script type="text/javascript" src="../base/other/angular-route.js"></script>
+<!--square-->
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<!--<script type="text/javascript" src="../js/chat.js"></script>-->
+<script type="text/javascript" src="../js/controller.js"></script>
 
-    <script type="text/javascript" src="../js/controller.js"></script>
+<script type="text/javascript" src="../js/index.js"></script>
+<script type="text/javascript">
 
-    <script type="text/javascript" src="../js/index.js"></script>
-
+</script>
 </body>
 </html>

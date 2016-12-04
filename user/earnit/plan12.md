@@ -24,6 +24,7 @@
   * 2.个人信息的展示页面。
   * 3.测试群聊接口，尝试完成群聊
   * 4.通过好友id查找好友
+  * 5.下周三的JavaEE映射文档
 
   **过程记录**
   * 1.居中：<p style="margin:0 auto;"><span style="text-align:center;">message</span></p>
