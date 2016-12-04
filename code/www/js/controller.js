@@ -40,8 +40,10 @@ function changeName() {
         alert("输入名字不能为空");
 }
 function sendmsg() {
-    if (it.value != "")
+    if (it.value != ""){
         pubChat.emit('msg', it.value);
+        $('#pub_input_mess').val('');
+    }
     else
         alert("输入内容不能为空");
 }
