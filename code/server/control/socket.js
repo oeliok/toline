@@ -355,6 +355,8 @@ function userGetFriends(userid, next) {
     })
 }
 
+exports.useridTosocketid = useridToSocketid;
+
 function useridToSocketid(userid, next) {
     redis.get('f' + userid, function(err, reply) {
         if (err) {

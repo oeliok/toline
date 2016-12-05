@@ -377,7 +377,7 @@ C -> S(客户端到服务器)
     "return":[
         {"code":-1},
         {"code":0},
-        {"code":1,"groupid":""},
+        {"code":1,"_id":ObjectId(""),"name":"","remark":"","datetime":"","owner":ObjectId("")},
         {"code":10}
     ]
 }
@@ -387,7 +387,7 @@ C -> S(客户端到服务器)
     "url":"/suser/private/group/deletegroup",
     "method":"post",
     "arg":[
-        {"name":"id","type":"string","describe":"群组id"}
+        {"name":"_id","type":"string","describe":"群组id"}
     ],
     "return":[
         {"code":-1},
@@ -413,8 +413,8 @@ C -> S(客户端到服务器)
 }
 {
     "describe":"搜索群组(通过群名称)",
-    "name":"searchgroupbykeyword"
-    "url":"/suser/private/group/searchgroupbykeyword",
+    "name":"searchgroupbyname"
+    "url":"/suser/private/group/searchgroupbyname",
     "method":"post",
     "arg":[
         {"name":"keyword","type":"string","limit":"1,10","describe":"关键词"},

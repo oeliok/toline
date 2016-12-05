@@ -148,26 +148,6 @@
           ],
           "dataType":"json",
           "describe":"好友上线的消息"
-        },
-        {
-          "source":"client",
-          "event":"cfaddfriend",
-          "arg":[
-            {"type":0,"id":0,"from":"A","to":"B"},
-            {"type":1,"id":0,"from":"B","to":"A"}
-          ],
-          "dataType":"json",
-          "describe":"0:发送(添加好友)请求，1:发送（添加好友）的回执消息"
-        },
-        {
-          "source":"server",
-          "event":"sfaddfriend",
-          "arg":[
-            {"type":0,"id":0,"from":"A","to":"B"},
-            {"type":1,"id":0,"from":"B","to":"A"}
-          ],
-          "dataType":"json",
-          "describe":"0:接收添加好友的请求，1:接收（添加好友）的回执消息"
         }
       ]
     },

@@ -23,6 +23,7 @@ var mware = require("./lib/middleware");
 var captcha = require("./lib/captcha");
 var bodyParser = require('body-parser');
 var io = require('./control/socket');
+var group = require('./control/groupAction');
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -88,6 +89,17 @@ app.get('/suser/private/friend/modifyrm',user.modifyrm);
 app.post('/suser/private/friend/getlist',user.getlist);
 app.get('/suser/sessionid',user.getSessionid);
 app.post('/suser/private/group/groupinfo',user.getgroupinfobyid);
+//群组操作
+app.post('/suser/private/group/creategroup',group.creategroup);
+app.post('/suser/private/group/deletegroup', group.deletegroup);
+app.post('/suser/private/group/searchgroupbyid', group.searchgroupbyid);
+app.post('/suser/private/group/searchgroupbyname', group.searchgroupbyname);
+app.post('/suser/private/group/setgroupname', group.setgroupname);
+app.post('/suser/private/group/setgroupremark', group.setgroupremark);
+app.post('/suser/private/group/setgrouphead', group.setgrouphead);
+app.post('/suser/private/group/getgroupmembers', group.getgroupmembers);
+app.post('/suser/private/group/applygroup', group.applygroup);
+app.post('/suser/private/group/exitgroup', group.exitgroup);
 
 //启动服务器，并监听port端口
 var port = 8080;
