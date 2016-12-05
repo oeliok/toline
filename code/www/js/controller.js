@@ -8,7 +8,7 @@ var news = document.getElementById('pub_news');
 var msgs = document.getElementById('pub_message');
 var it = document.getElementById('pub_input_mess');
 
-window.onload = function () {
+ function inputName () {
     var person=prompt("请输入你的名字","Harry Potter");
     pubChat.emit('name',person);
     addevent();
@@ -57,63 +57,14 @@ var myfriends ;
 var indexOfFriends = 0;
 var app = angular.module('myApp',['ngRoute']);
 
-app.controller('chatPub_parentCtrl',function($scope,$route){
-    $scope.$route = $route;
-
-    // var pubChat = io.connect('toline.oeli.pub:9876');
-    // var pub_names = document.getElementById('pub_names');
-    // var pub_news = document.getElementById('pub_news');
-    // var pub_message = document.getElementById('pub_message');
-    // inputName();
-    // function inputName() {
-    //     var person=prompt("请输入你的名字","Harry Potter");
-    //     pubChat.emit('name',person);
-    //     addevent();
-    // }
-    // function addevent() {
-    //     pubChat.on('users',function (data) {
-    //         console.log(JSON.stringify(data));
-    //         var html = "";
-    //         for (var i in data) {
-    //             html += '['+data[i]+']';
-    //         }
-    //         pub_names.innerHTML = html;
-    //     });
-    //     pubChat.on('namejoin',function (data) {
-    //         pub_news.innerHTML += '<p>'+data+'</p>';
-    //     });
-    //     pubChat.on('newmsg',function (data) {
-    //         pub_message.innerHTML += '<p>'+data+'</p>';
-    //     });
-    // }
-    // function changeName() {
-    //     if (pub_newName.value != "")
-    //         pubChat.emit('name',pub_newName.value);
-    //     else
-    //         alert("输入名字不能为空");
-    // }
-    // $scope.pub_sendMess = function (message) {
-    //     if (message != "")
-    //         pubChat.emit('msg', message);
-    //     else
-    //         alert("输入内容不能为空");
-    // }
-});
-app.controller('chatPub_childCtrl',function($scope,$route){
-    $scope.$route = $route;
-    $scope.pub_showMess = '';
-    $scope.pub_getMess = '';
-    $scope.pub_names = '';
-    $scope.pub_news = '';
-    $scope.pub_newName = '';
+app.controller('chatPubCtrl',function($scope){
+    inputName();
 });
 app.controller('chatToFrCtrl',function($scope,$route){$scope.$route = $route;
     getSesssionId();
-    console.log("friends-chat:"+myfriends[indexOfFriends].name);
-    indexOfFriends = 0;
-    $scope.$on('to-child',function (event,data) {
-        console.log('chatToFrCtrl' + data + "parent->child");
-    })
+
+    var friendIndex = indexOfFriends;
+    console.log("friends-chat:"+myfriends[friendIndex].name);
 });
 app.controller('person_info',function($scope){
     getCurrentId();
@@ -124,7 +75,7 @@ app.controller('person_info',function($scope){
 app.controller('group',function($scope,$route){$scope.$route = $route;});
 app.controller('search',function($scope,$route){$scope.$route = $route;});
 app.controller('settings',function($scope,$route){$scope.$route = $route;});
-app.controller('friends_list',function ($scope,$route) {
+app.controller('frListCtrl',function ($scope,$route) {
     // 获取好友列表
     $scope.$route = $route;
     getCurrentId();
@@ -135,22 +86,18 @@ app.controller('friends_list',function ($scope,$route) {
     console.log("friends_list：" + friends[0].name);
     console.log("friends_list：" + friends[0].remark);
     console.log(JSON.stringify($scope.friends));
-    $scope.handleMess = function () {
-        $scope.$broadcast('to-child', 'child');
-        $scope.$emit('to-parent', 'parent');
+    $scope.index = function () {
+        indexOfFriends = $(this).index();
     }
+
 });
 
 app.config(function ($routeProvider) {
     $routeProvider.
-    when('/chatPub_panel',{
-        templateUrl:'chat_pub.html',
-        controller:'chatPub_parentCtrl'
-    }).
         //一级菜单 好友列表
     when('/friends_list',{
         templateUrl:'friends_list.html',
-        controller:'friends_list'
+        controller:'frListCtrl'
     }).
         //好友列表子菜单 好友聊天界面
     when('/friends_list/chatToFr_panel',{
@@ -162,31 +109,27 @@ app.config(function ($routeProvider) {
         controller:'person_info'
     }).
     when('/group',{
-        templateUrl:'home.html',
+        templateUrl:'group.html',
         controller:'group'
     }).
     when('/search',{
-        templateUrl:'header.html',
+        templateUrl:'search.html',
         controller:'search'
     }).
     when('/settings',{
-        templateUrl:'right.html',
+        templateUrl:'setting.html',
         controller:'settings'
     }).
     otherwise({
-        redirectTo: '/chatPub_panel'
+        // redirectTo: '/frListCtrl'
+        templateUrl:'friends_list.html',
+        controller:'frListCtrl'
     });
 });
 $(function () {
-    $(' li a').onclick= function () {
-        console.log('ul write');
+    $(' #friends_list #friend').click(function () {
         indexOfFriends = $(this).index();
         console.log('ul write');
-    }
+    });
 });
 
-function index() {
-    indexOfFriends++;
-    console.log(indexOfFriends);
-    $('li a').removeEventListener('click',index);
-}
