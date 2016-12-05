@@ -274,7 +274,8 @@ C -> S(客户端到服务器)
     name:/suser/private/friend/add,
     method:get,
     arg:[
-        {name:fid,type:string}
+        {"name":"id","type":"string","describe":"用户的id"},
+        {"name":"msg","type":"string","describe":"发送给用户的话","minlen":1,"maxlen":128}
     ],
     return:[
         {code:-1}|
@@ -282,6 +283,21 @@ C -> S(客户端到服务器)
         {code:1}|
         {code:2}|
         {code:11}
+    ]
+}
+{
+    "describe":"申请添加好友确认",
+    "name":"applygroup"
+    "url":"/suser/private/friend/addcheck",
+    "method":"post",
+    "arg":[
+        {"name":"fid","type":"string","describe":"好友id"}
+    ],
+    "return":[
+        {"code":-1},
+        {"code":0},
+        {"code":1},
+        {"code":10}
     ]
 }
 ```
@@ -320,7 +336,8 @@ C -> S(客户端到服务器)
     name:/suser/private/friend/delete,
     method:get,
     arg:[
-        {name:id,type:string}
+        {"name":"id","type":"string","describe":"用户的id"},
+        {"name":"msg","type":"string","describe":"发送给用户的话","minlen":1,"maxlen":128}
     ],
     return:[
         {code:-1}|
@@ -494,7 +511,25 @@ C -> S(客户端到服务器)
     "url":"/suser/private/group/applygroup",
     "method":"post",
     "arg":[
-        {"name":"id","type":"string","describe":"群组id"}
+        {"name":"id","type":"string","describe":"群主的id"},
+        {"name":"gid","type":"string","describe":"群id"},
+        {"name":"msg","type":"string","describe":"发送给群主的话","minlen":1,"maxlen":128}
+    ],
+    "return":[
+        {"code":-1},
+        {"code":0},
+        {"code":1},
+        {"code":10}
+    ]
+}
+{
+    "describe":"申请加入群组确认",
+    "name":"applygroup"
+    "url":"/suser/private/group/applygroupcheck",
+    "method":"post",
+    "arg":[
+        {"name":"gid","type":"string","describe":"群id"},
+        {"name":"uid","type":"string","describe":"用户id"},
     ],
     "return":[
         {"code":-1},
@@ -509,7 +544,9 @@ C -> S(客户端到服务器)
     "url":"/suser/private/group/exitgroup",
     "method":"post",
     "arg":[
-        {"name":"id","type":"string","describe":"群组id"}
+        {"name":"id","type":"string","describe":"群主的id"},
+        {"name":"gid","type":"string","describe":"群id"},
+        {"name":"msg","type":"string","describe":"发送给群主的话","minlen":1,"maxlen":128}
     ],
     "return":[
         {"code":-1},

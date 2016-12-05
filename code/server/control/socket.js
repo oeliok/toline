@@ -30,6 +30,7 @@ exports.listen = function listen(server) {
             friendMessage(IO, socket, user.user._id);
             groupMessage(IO, socket, user.user._id);
             historymsg(socket, user.user._id);
+            sendmsg(socket, user.user._id);
             socket.emit('auth-s', {
                 "code": 1
             });
@@ -541,6 +542,22 @@ function checkGroupMenber(userid, groupid, next) {
                     log.debug(guser);
                 }
             });
+        })
+    })
+}
+
+function sendmsg(socket, userid) {
+    mongo.getConnection(function (db) {
+        var msg = db.collection('msg');
+        msg.find({to:ObjectId(userid)}).toArray(function (err, r) {
+            if (err) {
+                log.error(err);
+                return false;
+            }
+            for (var i in  r) {
+                socket.emit(r[i].type,r[i]);
+            }
+            msg.delete({to:ObjectId(userid)});
         })
     })
 }
