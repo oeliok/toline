@@ -32,6 +32,9 @@ a:hover{
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.top { width:100%;top:0;}
+.middle { width:100%;bottom:100px; height:300px;}
+.foot {width:100%;bottom:0;}
 .index{
   padding: 2px;
 
@@ -39,7 +42,7 @@ a:hover{
 //index.html
 @head-height:50px;
 .my-row(@top:0;@left:0px){
-  margin:@head-height 0 0 @left;
+  margin:@head-height 0 120px @left;
   padding:0;
 }
 .head-row{
