@@ -7,6 +7,8 @@ var ObjectId = require('mongodb').ObjectID;
 var fuser = require('../model/fuser');
 var io = require('../control/socket');
 var Msg = require('../model/msg');
+var fs = require("fs");
+
 
 function creategroup(req, res) {
     var data = req.query;
@@ -206,7 +208,29 @@ function getgroupmembers(req, res) {
 }
 
 function setgrouphead(req, res) {
-    
+    var data = req.body;
+    var rule = {
+        gid:{
+            require:true,
+            len:24
+        }
+    };
+    var v = new Validate();
+    v.setData(data);
+    v.setRules(rule);
+    if (v.isok()) {
+        var blob = new Buffer(req.body.head, 'base64');
+        fs.writeFile('../../www/groupavator/'+req.body.gid,blob,function (err) {
+            if (err) {
+                log.error(err);
+                res.json({code:0});
+            } else {
+                res.json({code:1});
+            }
+        })
+    } else {
+        res.json({code:10});
+    }
 }
 
 function applygroup(req, res) {

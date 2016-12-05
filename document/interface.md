@@ -481,7 +481,8 @@ C -> S(客户端到服务器)
     "url":"/suser/private/group/setgrouphead",
     "method":"post",
     "arg":[
-       
+       {"name":"head","type":"base64"},
+       {"name":"gid","type":"string","describe":"群id"}
     ],
     "return":[
         {"code":-1},

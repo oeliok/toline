@@ -311,7 +311,15 @@ function modifyname(req, res) {
 }
 
 function uploadhead(req, res) {
-	upload.uploadavter(req,res,'tx');
+    var blob = new Buffer(req.body.head, 'base64');
+    fs.writeFile('../../www/avator/'+req.session.user._id,blob,function (err) {
+        if (err) {
+            log.error(err);
+            res.json({code:0});
+        } else {
+            res.json({code:1});
+        }
+    })
 }
 
 function modifyage(req, res) {

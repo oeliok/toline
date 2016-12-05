@@ -45,6 +45,10 @@ var router = express.Router();
 app.use(express.static(__dirname + '/../www'));
 app.use(express.static(__dirname + '/../lib'));
 
+//头像上传
+app.post('/suser/private/user/uploadhead',user.uploadhead);
+app.post('/suser/private/group/setgrouphead', group.setgrouphead);
+
 //验证码
 app.get('/public/api/cyzm6',function (req,res) {
     captcha.captcha(req,res,6);
