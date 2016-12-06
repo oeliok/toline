@@ -146,6 +146,7 @@ function friendHsitoryMsg(socket, userid, frid, datetime, limit, id) {
                     to: userid,
                     types: 'friend',
                     sendDate: Date.now(),
+                    fid:friends,
                     data: flogs
                 });
             })

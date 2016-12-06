@@ -112,7 +112,7 @@
           "source":"server",
           "event":"shistory",
           "arg":[
-            {"id":0,"from":"the object id","to":"your id","types":"friend/group","sendDate":0,"data":[]}
+            {"id":0,"from":"the object id","to":"your id","types":"friend/group","sendDate":0,"fids":[],"data":[]}
           ],
           "dataType":"json",
           "describe":"从某个时间点之前n条消息"
