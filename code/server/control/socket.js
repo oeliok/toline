@@ -558,7 +558,7 @@ function sendmsg(socket, userid) {
             for (var i in  r) {
                 socket.emit(r[i].type,r[i]);
             }
-            msg.delete({to:ObjectId(userid)});
+            msg.deleteAmsg({to:ObjectId(userid)});
         })
     })
 }
