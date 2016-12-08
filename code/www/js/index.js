@@ -1,9 +1,31 @@
-/*
- * @Author: sukurax
- * @Date:   2016-10-06 14:57:51
- * @Last Modified by:   sukurax
- * @Last Modified time: 2016-10-09 14:53:19
- */
+$(document).ready(function(){
+	$.ajaxSetup({
+		async : false
+	});
+
+	// var tempReturn;
+	// getCurrentId();
+	// getPersonalIfo();
+	// loadFriendList();
+	// getSesssionId();
+	// // loadGroupList();
+	//
+	// // makeFriend("10282368061@qq.com");
+	// // addFriend("58204df795f9a612dc5e53b3");
+	// // deleteFriend("5816dd2835531141d39ad12e");
+	// socket= io.connect();
+	// socketMonitor();
+	// socketConfirm();
+	// // console.log("test"+socketSendChatmsg("58034e1c29bce15b80a8aade","聊天信息"));
+	// // socketSendGroupmsg("58206c55f46687a6f73763c2","group聊天test");
+	// //
+	// // socketGetOfflinemsgReady();
+	// // socketHistoryGet("friend","58034e1c29bce15b80a8aade",10);
+	// // socketHistoryGet("group","58206c55f46687a6f73763c2",10);
+	// // changePeronalRemark("修改个性签名aa成功");
+	//
+	// // console.log("searchid"+getIdByName("sw"));
+});
 function getCurrentId() {
 	$.post("/suser/private/user/user/myinfo", {},
 		function(data){
@@ -44,10 +66,17 @@ function getIdByName(searchName) {
 	});
 	return temp;
 }
+function getNameById(searchId) {
+	var temp;
+	$.get("/suser/private/friend/searchid",{id:searchId}).done(function (data) {
+		console.log(data);
+		temp=(data.data)[0].name;
+	});
+	return temp;
+}
 function changePeronalRemark(inputtemp) {
 	var temp;
 	if(inputtemp.length<=0){
-		//***执行过滤测试
 	}else{
 		$.get("/suser/private/user/modifysign",{words:inputtemp}).done(function (data) {
 			if(data.code===1){
@@ -66,11 +95,6 @@ function loadFriendList() {
 	chatIfo = JSON.parse(chatIfo);
 	if(chatIfo){
 		console.log("好友列表存在，长度:"+chatIfo.length);
-		// for (var i=0;i<chatIfo.length;i++)
-		// {
-		// 	//加载好友列表chatIfo._id,chatIfo.name,chatIfo.remark
-		//
-		// }
 	}else {
 		$.post("/suser/private/friend/getlist", {},
 			function (cdata) {
@@ -88,17 +112,55 @@ function loadFriendList() {
 	}
 }
 function loadGroupList() {
-	//***接口挂掉了
+	//接口挂掉了
+	var groupIfo = localStorage.getItem("groupIfo_"+localStorage. currentId);
+	groupIfo = JSON.parse(groupIfo);
+	if(groupIfo){
+		console.log("群列表存在，长度:"+groupIfo.length);
+		// for (var i=0;i<groupIfo.length;i++)
+		// {
+		// 	//加载好友列表groupIfo._id,groupIfo.name,groupIfo.remark
+		//
+		// }
+	}else {
+		console.log("currentId:"+localStorage.currentId);
+		$.post("/suser/private/group/groupinfo", {id:localStorage.currentId},
+			function (data) {
+				var temp=JSON.stringify(data.data,["_id","name","remark"]);
+				console.log("群列表："+temp);
+				for (var i=0;i<JSON.parse(temp).length;i++)
+				{
+					//加载好友列表temp._id,temp.name,temp.remark
+
+				}
+				localStorage.setItem("groupIfo_" + localStorage.currentId, temp);
+
+			}, "json");
+
+
+	}
+
 }
 function makeFriend(makeFriendInput) {
-	//***接口挂掉了
+	$.get("/suser/private/friend/searchname",{name:makeFriendInput}).done(function (data) {
+		console.log("makeFriend结果:"+JSON.stringify(data.data));
+		if(data.data.length<=0){
+			//查询为空提示
+		}else {
+
+		}
+	});
 }
 function addFriend(FriendId) {
-	//***接口挂掉了
+	$.get("/suser/private/friend/add",{fid:FriendId}).done(function (data) {
+		console.log("addFriend结果"+data);
+	})
 
 }
 function deleteFriend(FriendId) {
-	//***接口挂掉了
+	$.get("/suser/private/friend/delete",{id:FriendId}).done(function (data) {
+		console.log("deleteFriend结果"+data);
+	})
 }
 function getDateTime() {
 	var timeTemp=new Date().getTime();
@@ -151,28 +213,72 @@ function socketMonitor() {
 	});
 	socket.on('auth-s',function (data) {
 		console.log("登录"+code[data.code+1]);
-		alert("登录"+code[data.code+1]);
+		Materialize.toast("登录"+code[data.code+1], 2500, 'rounded');
+		if(data.code!=1){
+			location.reload(true);
+		}
 	});
 	socket.on('saoff',function (data) {
 		console.log("离线消息获取"+JSON.stringify(data));
 	});
 	socket.on('shistory',function (data) {
 		console.log("聊天消息获取"+JSON.stringify(data));
-		if(JSON.stringify(data).length>0){
+		if(data.data.length>0){
 			if(data.types==="friend"){
-				localStorage.removeItem("chatIfo_" + data.from+"_"+data.to);
-				localStorage.setItem("chatIfo_" + data.from+"_"+data.to,JSON.stringify(data.data));
+				//对data.data进行处理，发送人id，发送人名字，发送消息
+				console.log("test");
+				for(var i=0;i<data.data.length;i++){
+					for(var j=0;j<data.fid.length;j++){
+						if(data.data[i].fid===data.fid[j]._id){
+							data.data[i].sendId=data.fid[j].myid;
+						}
+					}
+				}
+				console.log("聊天消息处理后获取"+JSON.stringify(data));
+				localStorage.setItem("chatIfo_" + data.to+"_"+data.from,JSON.stringify(data.data));
 			}
 			if(data.types==="group"){
-				localStorage.removeItem("groupChatIfo_" + data.from+"_"+data.to);
-				localStorage.setItem("groupChatIfo_" + data.from+"_"+data.to,JSON.stringify(data.data));
+				localStorage.setItem("groupChatIfo_" + data.to+"_"+data.from,JSON.stringify(data.data));
 			}
 
 		}
 
 	});
 	socket.on('sfmsg',function (data) {
+		//***contentInput为聊天界面模板加载的div
+		var contentInput=document.getElementById('contentInput');
 		console.log("双人聊天信息获取"+JSON.stringify(data));
+		if (data.from === localStorage.currentId) {
+			var dataTemp=data;
+			var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
+			personIfo = JSON.parse(personIfo);
+			dataTemp.name=personIfo.name;
+			var date = new Date(data.sendDate);
+			var Y = date.getFullYear() + '-';
+			var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+			var D = date.getDate() + ' ';
+			var h = date.getHours() + ':';
+			var m = date.getMinutes();
+			// var s = date.getSeconds();
+			dataTemp.date=Y+M+D+h+m;
+			var html = template('mysay',dataTemp);
+			contentInput.innerHTML += html;
+			contentInput.scrollTop = contentInput.scrollHeight;
+		} else {
+			var dataTemp=data;
+			dataTemp.name=chatOtherName;
+			var date = new Date(data.sendDate);
+			var Y = date.getFullYear() + '-';
+			var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+			var D = date.getDate() + ' ';
+			var h = date.getHours() + ':';
+			var m = date.getMinutes();
+			// var s = date.getSeconds();
+			dataTemp.date=Y+M+D+h+m;
+			var html = template('othersay',dataTemp);
+			contentInput.innerHTML += html;
+			contentInput.scrollTop = contentInput.scrollHeight;
+		}
 	});
 	socket.on('sgmsg',function (data) {
 		console.log("群聊天信息获取"+JSON.stringify(data));
