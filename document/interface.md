@@ -383,6 +383,20 @@ C -> S(客户端到服务器)
 ---
 ```
 {
+    "describe":"获取个人群列表",
+    "name":"getgroups"
+    "url":"/suser/private/group/getgroups",
+    "method":"post",
+    "arg":[
+        
+    ],
+    "return":[
+        {"code":-1},
+        {"code":0},
+        {"code":1,"groups":[{"_id":ObjectId(""),"name":"","remark":"","datetime":"","owner":ObjectId("")}])}
+    ]
+}
+{
     "describe":"创建群组",
     "name":"creategroup"
     "url":"/suser/private/group/creategroup",

@@ -366,6 +366,23 @@ function exitgroup(req, res) {
     }
 }
 
+function getgroups(req, res) {
+    var uid = req.session.user._id;
+    group.findgroupin({uid:ObjectId(uid)}, function (gids) {
+        if (gids){
+            var q = [];
+            for (var i in gids) {
+                q[i] = {_id:gids[i].gid};
+            }
+            group.findgroups({$or:q},function (gs) {
+                res.json({code:1,groups:gs});
+            })
+        } else {
+            res.json({code:1,groups:[]})
+        }
+    })
+}
+
 exports.creategroup = creategroup;
 exports.deletegroup = deletegroup;
 exports.searchgroupbyid = searchgroupbyid;
@@ -377,3 +394,4 @@ exports.setgrouphead = setgrouphead;
 exports.applygroup = applygroup;
 exports.applygroupcheck = applyGroupcheck;
 exports.exitgroup = exitgroup;
+exports.getgroups = getgroups;

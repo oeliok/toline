@@ -99,6 +99,7 @@ app.get('/suser/private/friend/add', friend.addfriend);
 app.post('/suser/private/friend/delete', friend.deletefriend);
 app.post('/suser/private/friend/addcheck', friend.addfriendcheck);
 //群组操作
+app.post('/suser/private/group/getgroups',group.getgroups);
 app.post('/suser/private/group/creategroup',group.creategroup);
 app.post('/suser/private/group/deletegroup', group.deletegroup);
 app.post('/suser/private/group/searchgroupbyid', group.searchgroupbyid);

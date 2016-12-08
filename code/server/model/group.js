@@ -117,9 +117,39 @@ function findgmembers(q, next) {
     })
 }
 
+function findgroups(q, next) {
+    mongo.getConnection(function (db) {
+        var group = db.collection(dbt.name);
+        group.find(q).toArray(function (err, gs) {
+            if (err) {
+                log.error(err);
+                next([]);
+            } else {
+                next(gs);
+            }
+        })
+    })
+}
+
+function findgroupin(q,next) {
+    mongo.getConnection(function (db) {
+        var group = db.collection(dbt.guser);
+        group.find(q).toArray(function (err, gs) {
+            if(err) {
+                log.error(err);
+                next(null);
+            } else {
+                next(gs);
+            }
+        })
+    })
+}
+
 exports.insertagroup = insertAgroup;
 exports.findAgroup = findAgroup;
 exports.deleteAgroup = deleteAgroup;
 exports.findgroupbyregex = findgroupbyregex;
 exports.updategname = updategname;
 exports.findgmembers = findgmembers;
+exports.findgroupin = findgroupin;
+exports.findgroups = findgroups;
