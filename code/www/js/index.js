@@ -32,16 +32,15 @@ function getCurrentId() {
 			console.log("当前id:"+data._id );
 			localStorage. currentId=data._id;
 		}, "json");
-
+	getPersonalIfo();
+	loadFriendList();
+	loadGroupList();
 }
 function getSesssionId() {
 	$.get("/suser/sessionid",{}).done(function (data) {
 		console.log("sessionId:"+data.id);
 		localStorage.sessionId=data.id;
 	});
-	getPersonalIfo();
-	loadFriendList();
-	loadGroupList();
 }
 function getPersonalIfo(){
 	var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
@@ -64,16 +63,16 @@ function getPersonalIfo(){
 function getIdByName(searchName) {
 	var temp;
 	$.get("/suser/private/friend/searchname",{name:searchName}).done(function (data) {
-		console.log(data);
-		temp=(data.data)[0].id;
+		console.log(JSON.stringify(data));
+		temp=(JSON.stringify(data))[0]._id;
 	});
 	return temp;
 }
 function getNameById(searchId) {
 	var temp;
 	$.get("/suser/private/friend/searchid",{id:searchId}).done(function (data) {
-		console.log(data);
-		temp=(data.data)[0].name;
+		console.log(JSON.stringify(data));
+		temp=(JSON.stringify(data))[0].name;
 	});
 	return temp;
 }
@@ -118,19 +117,16 @@ function loadGroupList() {
 		console.log("群列表存在，长度:"+groupIfo.length);
 	}else {
 		console.log("currentId:"+localStorage.currentId);
-		$.post("/suser/private/group/getgroups", {id:localStorage.currentId},
+		$.post("/suser/private/group/getgroups",
 			function (data) {
 				console.log("群列表："+JSON.stringify(data));
-				// if(JSON.stringify(data).data.length>0){
-				// 	var temp=JSON.stringify(data.data,["_id","name","remark"]);
-				// 	console.log("群列表："+temp);
-				// 	localStorage.setItem("groupIfo_" + localStorage.currentId, temp);
-				// }
+				if(JSON.stringify(data.groups).length>0){
+					var temp=JSON.stringify(data.groups,["_id","name","remark"]);
+					console.log("群列表："+temp);
+					localStorage.setItem("groupIfo_" + localStorage.currentId, temp);
+				}
 			}, "json");
-
-
 	}
-
 }
 function makeFriend(makeFriendInput) {
 	$.get("/suser/private/friend/searchname",{name:makeFriendInput}).done(function (data) {
@@ -215,6 +211,9 @@ function socketMonitor() {
 	socket.on('shistory',function (data) {
 		console.log("聊天消息获取"+JSON.stringify(data));
 		if(data.data.length>0){
+			if(data.types==="group"){
+				localStorage.setItem("groupChatIfo_" + data.to+"_"+data.from,JSON.stringify(data.data));
+			};
 			if(data.types==="friend"){
 				//对data.data进行处理，发送人id，发送人名字，发送消息
 				for(var i=0;i<data.data.length;i++){
@@ -224,13 +223,9 @@ function socketMonitor() {
 						}
 					}
 				}
-				console.log("聊天消息处理后获取"+JSON.stringify(data));
-				localStorage.setItem("chatIfo_" + data.to+"_"+data.from,JSON.stringify(data.data));
-			}
-			if(data.types==="group"){
-				localStorage.setItem("groupChatIfo_" + data.to+"_"+data.from,JSON.stringify(data.data));
-			}
-
+				// console.log("聊天消息处理后获取"+JSON.stringify(data));
+				localStorage.setItem("friendChatIfo_" + data.to+"_"+data.from,JSON.stringify(data.data));
+			};
 		}
 
 	});
@@ -239,53 +234,100 @@ function socketMonitor() {
 		var contentInput=document.getElementById('contentInput');
 		var chatOtherId=sessionStorage.getItem("chatOtherId");
 		var chatOtherName=sessionStorage.getItem("chatOtherName");
-		console.log("双人聊天信息获取"+JSON.stringify(data));
+		console.log("双人聊天信息当前获取"+JSON.stringify(data));
 		if (data.from === localStorage.currentId) {
-			var dataTemp=data;
-			var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
-			personIfo = JSON.parse(personIfo);
-			dataTemp.name=personIfo.name;
-			var date = new Date(data.sendDate);
-			var Y = date.getFullYear() + '-';
-			var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-			var D = date.getDate() + ' ';
-			var h = date.getHours() + ':';
-			var m = date.getMinutes();
-			// var s = date.getSeconds();
-			dataTemp.date=Y+M+D+h+m;
-			var html = template('mysay',dataTemp);
 			if(data.to===chatOtherId){
+				var dataTemp=data;
+				var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
+				personIfo = JSON.parse(personIfo);
+				dataTemp.name=personIfo.name;
+				var date = new Date(data.sendDate);
+				var Y = date.getFullYear() + '-';
+				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+				var D = date.getDate() + ' ';
+				var h = date.getHours() + ':';
+				var m = date.getMinutes();
+				// var s = date.getSeconds();
+				dataTemp.date=Y+M+D+h+m;
+				var html = template('mysay',dataTemp);
 				contentInput.innerHTML += html;
 				contentInput.scrollTop = contentInput.scrollHeight;
 			};
-			if(localStorage.getItem("chatIfo_"+localStorage.currentId+"_"+data.to)){
-				localStorage.removeItem("chatIfo_"+localStorage.currentId+"_"+data.to);
+			if(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+data.to)){
+				localStorage.removeItem("friendChatIfo_"+localStorage.currentId+"_"+data.to);
 				socketHistoryGet("friend",data.to,100);
 			};
-		} else {
-			var dataTemp=data;
-			dataTemp.name=chatOtherName;
-			var date = new Date(data.sendDate);
-			var Y = date.getFullYear() + '-';
-			var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-			var D = date.getDate() + ' ';
-			var h = date.getHours() + ':';
-			var m = date.getMinutes();
-			// var s = date.getSeconds();
-			dataTemp.date=Y+M+D+h+m;
-			var html = template('othersay',dataTemp);
-			if(data.to===chatOtherId){
+		} else if(data.to===localStorage.currentId){
+			if(data.to===localStorage.currentId){
+				var dataTemp=data;
+				dataTemp.name=chatOtherName;
+				var date = new Date(data.sendDate);
+				var Y = date.getFullYear() + '-';
+				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+				var D = date.getDate() + ' ';
+				var h = date.getHours() + ':';
+				var m = date.getMinutes();
+				// var s = date.getSeconds();
+				dataTemp.date=Y+M+D+h+m;
+				var html = template('othersay',dataTemp);
 				contentInput.innerHTML += html;
 				contentInput.scrollTop = contentInput.scrollHeight;
 			};
-			if(localStorage.getItem("chatIfo_"+localStorage.currentId+"_"+data.from)){
-				localStorage.removeItem("chatIfo_"+localStorage.currentId+"_"+data.from);
+			if(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+data.from)){
+				localStorage.removeItem("friendChatIfo_"+localStorage.currentId+"_"+data.from);
 				socketHistoryGet("friend",data.from,100);
 			};
 		};
 	});
 	socket.on('sgmsg',function (data) {
-		console.log("群聊天信息获取"+JSON.stringify(data));
+		console.log("群聊天信息当前获取"+JSON.stringify(data));
+		var contentInput=document.getElementById('contentInput');
+		var chatOtherId=sessionStorage.getItem("chatOtherId");
+		var chatOtherName=sessionStorage.getItem("chatOtherName");
+		if (data.from === localStorage.currentId) {
+			if(data.to===chatOtherId) {
+				var dataTemp=data;
+				var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
+				personIfo = JSON.parse(personIfo);
+				dataTemp.name=personIfo.name;
+				dataTemp.from=personIfo._id;
+				var date = new Date(data.sendDate);
+				var Y = date.getFullYear() + '-';
+				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+				var D = date.getDate() + ' ';
+				var h = date.getHours() + ':';
+				var m = date.getMinutes();
+				// var s = date.getSeconds();
+				dataTemp.date=Y+M+D+h+m;
+				var html = template('mysay',dataTemp);
+				contentInput.innerHTML += html;
+				contentInput.scrollTop = contentInput.scrollHeight;
+			};
+			if(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+data.to)){
+				localStorage.removeItem("groupChatIfo_"+localStorage.currentId+"_"+data.to);
+				socketHistoryGet("group",data.to,100);
+			};
+		} else{
+			if(data.to===chatOtherId){
+				var dataTemp=data;
+				dataTemp.name=chatOtherName;
+				var date = new Date(data.sendDate);
+				var Y = date.getFullYear() + '-';
+				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+				var D = date.getDate() + ' ';
+				var h = date.getHours() + ':';
+				var m = date.getMinutes();
+				// var s = date.getSeconds();
+				dataTemp.date=Y+M+D+h+m;
+				var html = template('othersay',dataTemp);
+				contentInput.innerHTML += html;
+				contentInput.scrollTop = contentInput.scrollHeight;
+			};
+			if(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+data.to)){
+				localStorage.removeItem("groupChatIfo_"+localStorage.currentId+"_"+data.to);
+				socketHistoryGet("group",data.to,100);
+			};
+		};
 	});
 	socket.on('sfonline',function (data) {
 		console.log("好友上线"+data);
