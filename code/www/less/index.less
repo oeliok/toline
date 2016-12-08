@@ -1,4 +1,4 @@
-@bg-color:#eee;
+@bg-color:white;
 @header-bgc:@blue;
 //color-ios
 @light-blue:#54c7fc;
@@ -69,6 +69,7 @@ a:hover{
 .head-img{
   width: @picture-width;
   height: @picture-width;
+  margin:0;
 }
 .my-picture{
   margin: 0 0 0 5px;
@@ -79,23 +80,26 @@ a:hover{
   padding: @head-picture-top * 2 @head-picture-top;
 }
 //friends_list.html
-.my-left{
-  .part;
+.friends-list{
+  padding:0;
 }
-//middle.html
-.my-middle{
-  .part;
+.a-friend{
+  margin:10px;
+  text-align: center;
 }
-.chat-body{
-
+//chatpanel
+.panel_container{
+  height:100%;
 }
-.chat-list{
-
+.panel_head{
+  height:15%;
+  background-color: blue;
 }
-.chat-send{
-
+.panel_content{
+  height:70%;
+  background-color: red;
 }
-//right.html
-.my-right{
-  .part;
+.panel_bottom{
+  height:15%;
+  background-color: green;
 }

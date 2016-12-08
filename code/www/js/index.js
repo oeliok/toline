@@ -4,6 +4,7 @@
  * @Last Modified by:   sukurax
  * @Last Modified time: 2016-10-09 14:53:19
  */
+var socket = io.connect('toline.oeli.pub:8080');
 function getCurrentId() {
 	$.post("/suser/private/user/user/myinfo", {},
 		function(data){
