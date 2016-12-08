@@ -38,7 +38,10 @@ function getSesssionId() {
 	$.get("/suser/sessionid",{}).done(function (data) {
 		console.log("sessionId:"+data.id);
 		localStorage.sessionId=data.id;
-	})
+	});
+	getPersonalIfo();
+	loadFriendList();
+	loadGroupList();
 }
 function getPersonalIfo(){
 	var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
@@ -98,43 +101,31 @@ function loadFriendList() {
 	}else {
 		$.post("/suser/private/friend/getlist", {},
 			function (cdata) {
-				var temp=JSON.stringify(cdata.data,["_id","name","remark"]);
-				console.log("好友列表："+temp);
-				for (var i=0;i<JSON.parse(temp).length;i++)
-				{
-					//加载好友列表temp._id,temp.name,temp.remark
-
+				if(JSON.stringify(cdata.data).length>0){
+					var temp=JSON.stringify(cdata.data,["_id","name","remark"]);
+					// console.log("好友列表："+temp);
+					localStorage.setItem("chatIfo_" + localStorage.currentId, temp);
 				}
-				localStorage.setItem("chatIfo_" + localStorage.currentId, temp);
 
 			}, "json");
 
 	}
 }
 function loadGroupList() {
-	//接口挂掉了
 	var groupIfo = localStorage.getItem("groupIfo_"+localStorage. currentId);
 	groupIfo = JSON.parse(groupIfo);
 	if(groupIfo){
 		console.log("群列表存在，长度:"+groupIfo.length);
-		// for (var i=0;i<groupIfo.length;i++)
-		// {
-		// 	//加载好友列表groupIfo._id,groupIfo.name,groupIfo.remark
-		//
-		// }
 	}else {
 		console.log("currentId:"+localStorage.currentId);
-		$.post("/suser/private/group/groupinfo", {id:localStorage.currentId},
+		$.post("/suser/private/group/getgroups", {id:localStorage.currentId},
 			function (data) {
-				var temp=JSON.stringify(data.data,["_id","name","remark"]);
-				console.log("群列表："+temp);
-				for (var i=0;i<JSON.parse(temp).length;i++)
-				{
-					//加载好友列表temp._id,temp.name,temp.remark
-
-				}
-				localStorage.setItem("groupIfo_" + localStorage.currentId, temp);
-
+				console.log("群列表："+JSON.stringify(data));
+				// if(JSON.stringify(data).data.length>0){
+				// 	var temp=JSON.stringify(data.data,["_id","name","remark"]);
+				// 	console.log("群列表："+temp);
+				// 	localStorage.setItem("groupIfo_" + localStorage.currentId, temp);
+				// }
 			}, "json");
 
 
@@ -226,7 +217,6 @@ function socketMonitor() {
 		if(data.data.length>0){
 			if(data.types==="friend"){
 				//对data.data进行处理，发送人id，发送人名字，发送消息
-				console.log("test");
 				for(var i=0;i<data.data.length;i++){
 					for(var j=0;j<data.fid.length;j++){
 						if(data.data[i].fid===data.fid[j]._id){
@@ -247,6 +237,8 @@ function socketMonitor() {
 	socket.on('sfmsg',function (data) {
 		//***contentInput为聊天界面模板加载的div
 		var contentInput=document.getElementById('contentInput');
+		var chatOtherId=sessionStorage.getItem("chatOtherId");
+		var chatOtherName=sessionStorage.getItem("chatOtherName");
 		console.log("双人聊天信息获取"+JSON.stringify(data));
 		if (data.from === localStorage.currentId) {
 			var dataTemp=data;
@@ -262,8 +254,14 @@ function socketMonitor() {
 			// var s = date.getSeconds();
 			dataTemp.date=Y+M+D+h+m;
 			var html = template('mysay',dataTemp);
-			contentInput.innerHTML += html;
-			contentInput.scrollTop = contentInput.scrollHeight;
+			if(data.to===chatOtherId){
+				contentInput.innerHTML += html;
+				contentInput.scrollTop = contentInput.scrollHeight;
+			};
+			if(localStorage.getItem("chatIfo_"+localStorage.currentId+"_"+data.to)){
+				localStorage.removeItem("chatIfo_"+localStorage.currentId+"_"+data.to);
+				socketHistoryGet("friend",data.to,100);
+			};
 		} else {
 			var dataTemp=data;
 			dataTemp.name=chatOtherName;
@@ -276,9 +274,15 @@ function socketMonitor() {
 			// var s = date.getSeconds();
 			dataTemp.date=Y+M+D+h+m;
 			var html = template('othersay',dataTemp);
-			contentInput.innerHTML += html;
-			contentInput.scrollTop = contentInput.scrollHeight;
-		}
+			if(data.to===chatOtherId){
+				contentInput.innerHTML += html;
+				contentInput.scrollTop = contentInput.scrollHeight;
+			};
+			if(localStorage.getItem("chatIfo_"+localStorage.currentId+"_"+data.from)){
+				localStorage.removeItem("chatIfo_"+localStorage.currentId+"_"+data.from);
+				socketHistoryGet("friend",data.from,100);
+			};
+		};
 	});
 	socket.on('sgmsg',function (data) {
 		console.log("群聊天信息获取"+JSON.stringify(data));

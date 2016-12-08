@@ -1,9 +1,6 @@
 var app = angular.module("toline", ['ngRoute']);
 app.controller('personalIfoCtrl',function($scope){
 	getCurrentId();
-	getPersonalIfo();
-	loadFriendList();
-	// loadGroupList();
 	getSesssionId();
 	socket= io.connect();
 	socketMonitor();
@@ -56,7 +53,6 @@ app.controller('chatCtrl',function ($scope) {
 	//聊天模板[from,name,date,msg]
 	//***聊天界面模板加载的div
 	var contentInput=document.getElementById('contentInput');
-
 	var chatOtherId=sessionStorage.getItem("chatOtherId");
 	var chatOtherName=sessionStorage.getItem("chatOtherName");
 	$("#prompt").text(chatOtherName);
