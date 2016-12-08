@@ -6,6 +6,10 @@ var Canvas = require('canvas');
 function yzm(req, res, len) {
     var canvas = new Canvas(100, 50);
     var ctx = canvas.getContext('2d');
+    ctx.rect(0,0,100,35);
+    ctx.fillStyle="#FFFFFF";
+    ctx.fill();
+    ctx.fillStyle="#000000";
     ctx.font = '30px Impact';
     ctx.fillText(randomtxt(len), 50, 100);
     var str = canvas.toDataURL().split(',');
@@ -19,6 +23,7 @@ function randomtxt(len){//Custom the function to generate captcha text
     for (var i = 0; i < len; i++) {
         text += str[parseInt(Math.random()*100%36)];
     }
+    log.debug(text);
     return text;//return the captcha text
 }
 
