@@ -24,6 +24,7 @@ var captcha = require("./lib/captcha");
 var bodyParser = require('body-parser');
 var io = require('./control/socket');
 var group = require('./control/groupAction');
+var friend = require('./control/friendAction');
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -43,6 +44,10 @@ var router = express.Router();
 //指定静态文件目录
 app.use(express.static(__dirname + '/../www'));
 app.use(express.static(__dirname + '/../lib'));
+
+//头像上传
+app.post('/suser/private/user/uploadhead',user.uploadhead);
+app.post('/suser/private/group/setgrouphead', group.setgrouphead);
 
 //验证码
 app.get('/public/api/cyzm6',function (req,res) {
@@ -89,6 +94,10 @@ app.get('/suser/private/friend/modifyrm',user.modifyrm);
 app.post('/suser/private/friend/getlist',user.getlist);
 app.get('/suser/sessionid',user.getSessionid);
 app.post('/suser/private/group/groupinfo',user.getgroupinfobyid);
+//好友操作
+app.get('/suser/private/friend/add', friend.addfriend);
+app.post('/suser/private/friend/delete', friend.deletefriend);
+app.post('/suser/private/friend/addcheck', friend.addfriendcheck);
 //群组操作
 app.post('/suser/private/group/creategroup',group.creategroup);
 app.post('/suser/private/group/deletegroup', group.deletegroup);
@@ -99,6 +108,7 @@ app.post('/suser/private/group/setgroupremark', group.setgroupremark);
 app.post('/suser/private/group/setgrouphead', group.setgrouphead);
 app.post('/suser/private/group/getgroupmembers', group.getgroupmembers);
 app.post('/suser/private/group/applygroup', group.applygroup);
+app.post('/suser/private/group/applygroupcheck',group.applygroupcheck);
 app.post('/suser/private/group/exitgroup', group.exitgroup);
 
 //启动服务器，并监听port端口

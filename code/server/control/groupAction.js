@@ -4,7 +4,11 @@
 var group = require('../model/group');
 var Validate = require('../lib/myvalidate');
 var ObjectId = require('mongodb').ObjectID;
+var fuser = require('../model/fuser');
 var io = require('../control/socket');
+var Msg = require('../model/msg');
+var fs = require("fs");
+
 
 function creategroup(req, res) {
     var data = req.query;
@@ -204,13 +208,44 @@ function getgroupmembers(req, res) {
 }
 
 function setgrouphead(req, res) {
-    
+    var data = req.body;
+    var rule = {
+        gid:{
+            require:true,
+            len:24
+        }
+    };
+    var v = new Validate();
+    v.setData(data);
+    v.setRules(rule);
+    if (v.isok()) {
+        var blob = new Buffer(req.body.head, 'base64');
+        fs.writeFile('../../www/groupavator/'+req.body.gid,blob,function (err) {
+            if (err) {
+                log.error(err);
+                res.json({code:0});
+            } else {
+                res.json({code:1});
+            }
+        })
+    } else {
+        res.json({code:10});
+    }
 }
 
 function applygroup(req, res) {
     var data = req.query;
     var rule = {
         id:{
+            require:true,
+            len:24
+        },
+        msg:{
+            require:true,
+            minlen:1,
+            maxlen:128
+        },
+        gid:{
             require:true,
             len:24
         }
@@ -220,19 +255,25 @@ function applygroup(req, res) {
     v.setRules(rule);
     if (v.isok()) {
         io.socketIO(function (ios) {
-            io.useridTosocketid(req.session.user._id, function (socket) {
+            io.useridTosocketid(data.id, function (socket) {
                 var d = {
                     from:req.session.user._id,
                     to:data.id,
-                    type:'addfriend',
+                    type:'joingroup',
                     datetime:Date.now(),
                     msg:data.msg
                 };
                 if (socket) {
-                    ios.sockets.sockets[socket].emit('addfrend',d);
+                    ios.sockets.sockets[socket].emit('joingroup',d);
                     res.json({code:1});
                 } else {
-                    res.json({code:0});
+                    Msg.addAmsg(d,function (r) {
+                        if (r) {
+                            res.json({code:1});
+                        } else {
+                            res.json({code:0});
+                        }
+                    })
                 }
             })
         })
@@ -241,8 +282,88 @@ function applygroup(req, res) {
     }
 }
 
-function exitgroup(req, res) {
+function applyGroupcheck(req, res) {
+    var data = req.query;
+    var rule = {
+        uid:{
+            require:true,
+            len:24
+        },
+        gid:{
+            require:true,
+            len:24
+        }
+    };
+    var v = new Validate();
+    v.setData(data);
+    v.setRules(rule);
+    if (v.isok()) {
+        group.findAgroup({_id:ObjectId(data.gid)},function (g) {
+            if (g && ('' + g.owner) == data.gid) {
+                fuser.addAmember(data.gid,data.uid,function (r) {
+                    if (r) {
+                        res.json({code:1});
+                    } else {
+                        res.json({code:0});
+                    }
+                });
+            } else {
+                res.json({code:10});
+            }
+        })
+    } else {
+        res.json({code:10});
+    }
+}
 
+function exitgroup(req, res) {
+    var data = req.query;
+    var rule = {
+        id:{
+            require:true,
+            len:24
+        },
+        msg:{
+            require:true,
+            minlen:1,
+            maxlen:128
+        },
+        gid:{
+            require:true,
+            len:24
+        }
+    };
+    var v = new Validate();
+    v.setData(data);
+    v.setRules(rule);
+    if (v.isok()) {
+        io.socketIO(function (ios) {
+            io.useridTosocketid(data.id, function (socket) {
+                var d = {
+                    from:req.session.user._id,
+                    to:data.id,
+                    type:'exitgroup',
+                    datetime:Date.now(),
+                    msg:data.msg
+                };
+                if (socket) {
+                    ios.sockets.sockets[socket].emit('exitgroup',d);
+                    res.json({code:1});
+                } else {
+                    Msg.addAmsg(d,function (r) {
+                        if (r) {
+                            res.json({code:1});
+                        } else {
+                            res.json({code:0});
+                        }
+                    })
+                }
+                fuser.deleteAmember(data.gid,d.from,null);
+            })
+        })
+    } else {
+        res.json({code:10});
+    }
 }
 
 exports.creategroup = creategroup;
@@ -254,4 +375,5 @@ exports.setgroupremark = setgroupremark;
 exports.getgroupmembers = getgroupmembers;
 exports.setgrouphead = setgrouphead;
 exports.applygroup = applygroup;
+exports.applygroupcheck = applyGroupcheck;
 exports.exitgroup = exitgroup;

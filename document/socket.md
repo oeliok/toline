@@ -112,7 +112,7 @@
           "source":"server",
           "event":"shistory",
           "arg":[
-            {"id":0,"from":"the object id","to":"your id","types":"friend/group","sendDate":0,"data":[]}
+            {"id":0,"from":"the object id","to":"your id","types":"friend/group","sendDate":0,"fids":[],"data":[]}
           ],
           "dataType":"json",
           "describe":"从某个时间点之前n条消息"
@@ -148,6 +148,24 @@
           ],
           "dataType":"json",
           "describe":"好友上线的消息"
+        },
+        {
+          "source":"server",
+          "event":"addfriend",
+          "arg":[
+            {"_id":ObjectId(""),"from":"","to":"","type":"addfriend","datetime":"","msg":""}
+          ],
+          "datatype":"json",
+          "describe":"别人请求添加你为好友"
+        },
+        {
+          "source":"server",
+          "event":"deletefriend",
+          "arg":[
+            {"_id":ObjectId(""),"from":"","to":"","type":"deletefriend","datetime":"","msg":""}
+          ],
+          "datatype":"json",
+          "describe":"别人删除你们之间的好友关系"
         }
       ]
     },
@@ -171,6 +189,24 @@
           ],
           "dataType":"json",
           "describe":"服务器转发消息"
+        },
+        {
+          "source":"server",
+          "event":"exitgroup",
+          "arg":[
+            {"_id":ObjectId(""),"from":"","to":"","type":"exitgroup","datetime":"","msg":""}
+          ],
+          "datatype":"json",
+          "describe":"群成员退出群组"
+        },
+        {
+          "source":"server",
+          "event":"joingroup",
+          "arg":[
+            {"_id":ObjectId(""),"from":"","to":"","type":"joingroup","datetime":"","msg":""}
+          ],
+          "datatype":"json",
+          "describe":"用户申请加入群组"
         }
       ]
     }

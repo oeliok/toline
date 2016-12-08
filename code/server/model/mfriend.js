@@ -50,3 +50,6 @@ function findFriend(myid, next) {
 
     })
 }
+
+exports.deletefriend = deleteFriend;
+exports.addfriend = addFriend;
