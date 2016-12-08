@@ -483,8 +483,8 @@ function savegroupLogs(userid, groupid, msg, datetime) {
         db.collection('glog').insertOne({
             uid: ObjectId(userid),
             gid: ObjectId(groupid),
-            datetime: datetime,
-            remark: msg
+            msg: msg,
+            datetime: datetime
         });
     })
 }
