@@ -2,6 +2,7 @@
  * Created by oeli on 16-10-17.
  */
 var Canvas = require('canvas');
+var log = require('../log');
 
 function yzm(req, res, len) {
     var canvas = new Canvas(100, 50);
