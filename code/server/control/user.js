@@ -617,20 +617,24 @@ function getgroupinfobyid(req, res) {
 						code: -1
 					});
 				} else {
-					dbs.collection('user').findOne({
-						_id: group.owner
-					}, function(err, user) {
-						if (err) {
-							log.error(err);
-							res.json({
-								code: -1
-							});
-						} else {
-							user.pwd = null;
-							group.owner = user;
-							res.json(group);
-						}
-					})
+					if (group){
+                        dbs.collection('user').findOne({
+                            _id: group.owner
+                        }, function(err, user) {
+                            if (err) {
+                                log.error(err);
+                                res.json({
+                                    code: -1
+                                });
+                            } else {
+                                user.pwd = null;
+                                group.owner = user;
+                                res.json(group);
+                            }
+                        })
+					} else {
+					    res.json({code:0});
+                    }
 				}
 			})
 		})

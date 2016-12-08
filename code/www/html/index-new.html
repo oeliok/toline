@@ -18,7 +18,14 @@
     <div ng-include="'header.html'" class="navbar-fixed-top">
     </div>
 
-
+    <!--chatPanel-->
+    <script type="text/ng-template" id="chat_pan.html">
+        <div class="panel_container">
+            <div class="panel_head">header</div>
+            <div class="panel_content">content</div>
+            <div class="panel_bottom">bottom</div>
+        </div>
+    </script>
     <!--聊天面板modal-->
     <script type="text/ng-template" id="chat_pane.html">
         <div class="mdl-card  mdl-shadow--4dp my-middle" style="padding-top: 8px;width:100%;">
@@ -92,14 +99,14 @@
     <script type="text/ng-template" id="chat_panel.html">
         <div class="mdl-card  mdl-shadow--4dp my-middle" style="padding-top: 8px;width:100%;">
             <div>
-                <p>this is a test content</p>
+                {{ss.level}}
             </div>
             <div class="mdl-grid navbar-fixed-bottom" style="background-color: deepskyblue;">
                 <div class="" style=" width: 75%;" >
                     <textarea class="mdl-textfield__input" type="text" rows= "1" style="height: 38px;"></textarea>
                 </div>
                 <div style=" width: 25%;text-align: center">
-                    <button style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"  onclick="say() ">
+                    <button style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"  ">
                         Send
                     </button>
                 </div>
@@ -108,14 +115,16 @@
     </script>
     <!--好友列表-->
     <script type="text/ng-template" id="friends_list.html">
-        <div class=" mdl-grid my-left" >
-            <ul  class="mdl-list" id="friends_list">
-                <li ng-repeat="friend in friends" title="{{friend._id}}"  class=" mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;height:40px;">
-                    <img src="../avator/{{friend._id}}" alt="" class="img-circle head-img">&nbsp;
-                    <a href="#/friends_list/chatToFr_panel" ng-click="index()" id="friend" class="mdl-navigation__link text-overflow" style="border-bottom: black dashed 1px;">
-                        <span >{{friend.name}}</span>&nbsp;&nbsp;&nbsp;
-                        <span >{{friend.remark}}</span>
-                    </a>
+        <div style="background-color: white;">
+            <ul class="mdl-list" id="friends_list" style="margin: 0;padding:0;">
+                <li ng-repeat="item in list"  class="friends-list mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;height:40px;margin:1px 0 1px 0;background-color: #eee; ">
+                    <img src="../avator/{{item._id}}" alt="" class="img-circle head-img">&nbsp;
+                    <div class="text-overflow" style="width:100%;height:40px;margin: auto;">
+                        <a href="#/friends_list/chatToFr_panel" ng-init="p_index=$index" ng-click="index(p_index)" id="friend" class="mdl-navigation__link a-friend ">
+                            <span >{{item.name}}</span>&nbsp;&nbsp;&nbsp;
+                            <span >{{item.remark}}</span>
+                        </a>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -136,20 +145,47 @@
     </script>
     <!--group信息-->
     <script type="text/ng-template" id="group.html">
-        <div class="person_card mdl-grid" style="margin:0 auto;">
-            <p>this is group</p>
+        <div style="background-color: white;">
+            <ul class="mdl-list" style="margin: 0;padding:0;">
+                <li ng-repeat="item in list" title=""  class="friends-list mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;height:40px;margin:1px 0 1px 0;background-color: #eee; ">
+                    <img src="../image/bg/m1.png" alt="" class="img-thumbnail head-img">&nbsp;
+                    <div class="text-overflow" style="width:100%;height:40px;margin: auto;">
+                        <a href="#/friends_list/chatToFr_panel" ng-click="index()"  class="mdl-navigation__link a-friend ">
+                            <span >{{item.name}}</span>&nbsp;&nbsp;&nbsp;
+                        </a>
+                    </div>
+                </li>
+            </ul>
         </div>
     </script>
     <!--search-->
     <script type="text/ng-template" id="search.html">
-        <div class="person_card mdl-grid" style="margin:0 auto;">
-            <p>this is search</p>
+        <div style="background-color: white;">
+            <ul class="mdl-list" style="margin: 0;padding:0;">
+                <li ng-repeat="item in list" title=""  class="friends-list mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;height:40px;margin:1px 0 1px 0;background-color: #eee; ">
+                    <img src="../image/bg/m1.png" alt="" class="img-thumbnail head-img">&nbsp;
+                    <div class="text-overflow" style="width:100%;height:40px;margin: auto;">
+                        <a href="#/friends_list/chatToFr_panel" ng-click="index()"  class="mdl-navigation__link a-friend ">
+                            <span >{{item.name}}</span>&nbsp;&nbsp;&nbsp;
+                        </a>
+                    </div>
+                </li>
+            </ul>
         </div>
     </script>
     <!--setting-->
     <script type="text/ng-template" id="setting.html">
-        <div class="person_card mdl-grid" style="margin:0 auto;">
-            <p>this is setting</p>
+        <div style="background-color: white;">
+            <ul class="mdl-list" style="margin: 0;padding:0;">
+                <li ng-repeat="item in list" title=""  class="friends-list mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;height:40px;margin:1px 0 1px 0;background-color: #eee; ">
+                    <img src="../image/bg/m1.png" alt="" class="img-thumbnail head-img">&nbsp;
+                    <div class="text-overflow" style="width:100%;height:40px;margin: auto;">
+                        <a href="#/friends_list/chatToFr_panel" ng-click="index()"  class="mdl-navigation__link a-friend ">
+                            <span >{{item.name}}</span>&nbsp;&nbsp;&nbsp;
+                        </a>
+                    </div>
+                </li>
+            </ul>
         </div>
     </script>
 
