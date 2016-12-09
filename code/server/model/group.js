@@ -92,6 +92,7 @@ function updateAfield(q, s, next) {
         group.updateOne(q, s, function (err, r) {
             if (err) {
                 log.error(err);
+                next(false);
                 return false;
             }
             if (r.result.n == 1){

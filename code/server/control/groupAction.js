@@ -133,6 +133,11 @@ function searchgroupbyname(req, res) {
 function setgroupname(req, res) {
     var data = req.query;
     var rule = {
+        gid:{
+            require:true,
+            len:24,
+            msg:'ID'
+        },
         gname:{
             require:true,
             minlen:1,
@@ -143,8 +148,9 @@ function setgroupname(req, res) {
     v.setData(data);
     v.setRules(rule);
     if (v.isok()) {
-        data._id = req.session.user._id;
-        group.updategname(data, function (r) {
+        var q = {_id:ObjectId(data.gid)},
+            s = {$set:{name:data.gname}};
+        group.updateAfield(q, s, function (r) {
             if (r){
                 res.json({code:1});
             } else {
@@ -159,6 +165,11 @@ function setgroupname(req, res) {
 function setgroupremark() {
     var data = req.query;
     var rule = {
+        gid:{
+            require:true,
+            len:24,
+            msg:'ID'
+        },
         gremark:{
             require:true,
             minlen:1,
@@ -169,9 +180,9 @@ function setgroupremark() {
     v.setData(data);
     v.setRules(rule);
     if (v.isok()) {
-        var q = {_id:ObjectId(req.session.user._id)},
-            s = {$set:{remark:data.gremark}};
-        group.updategname(q, s, function (r) {
+        var q = {_id:ObjectId(data.gid)},
+            s = {$set:{remark:data.gname}};
+        group.updateAfield(q, s, function (r) {
             if (r){
                 res.json({code:1});
             } else {

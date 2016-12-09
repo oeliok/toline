@@ -465,6 +465,7 @@ C -> S(客户端到服务器)
     "url":"/suser/private/group/setgroupname",
     "method":"post",
     "arg":[
+        {"name":"gid","type":"string","describe":"群组id"},
         {"name":"gname","type":"string","describe":"群名称","limit":"1,36"}
     ],
     "return":[
@@ -480,6 +481,7 @@ C -> S(客户端到服务器)
     "url":"/suser/private/group/setgroupremark",
     "method":"post",
     "arg":[
+        {"name":"gid","type":"string","describe":"群组id"},
         {"name":"gremark","type":"string","limit":"1,128","describe":"群备注"}
     ],
     "return":[
