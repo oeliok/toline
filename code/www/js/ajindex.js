@@ -99,6 +99,14 @@ app.controller('chatCtrl',function ($scope) {
 	var chatOtherName=sessionStorage.getItem("chatOtherName");
 	var friendorgroup=sessionStorage.getItem("friendorgroup");
 	$("#prompt").text(chatOtherName);
+	var dataTemp={
+		from:"",
+		name:"",
+		date:"",
+		msg:""
+	};
+	var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
+	personIfo = JSON.parse(personIfo);
 	if("friend"===friendorgroup){
 		if(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId)){
 			var data=JSON.parse(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId));
@@ -106,14 +114,6 @@ app.controller('chatCtrl',function ($scope) {
 			$("#contentInput").text="";
 			for(var i=0;i<data.length;i++){
 				if (data[i].sendId === localStorage.currentId) {
-					var dataTemp={
-						from:"",
-						name:"",
-						date:"",
-						msg:""
-					};
-					var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
-					personIfo = JSON.parse(personIfo);
 					dataTemp.name=personIfo.name;
 					dataTemp.from=personIfo._id;
 					var date = new Date(data[i].datetime);
@@ -128,12 +128,6 @@ app.controller('chatCtrl',function ($scope) {
 					var html = template('mysay',dataTemp);
 					contentInput.innerHTML += html;
 				} else {
-					var dataTemp={
-						from:"",
-						name:"",
-						date:"",
-						msg:""
-					};
 					dataTemp.name=chatOtherName;
 					dataTemp.from=chatOtherId;
 					var date = new Date(data[i].datetime);
@@ -158,14 +152,6 @@ app.controller('chatCtrl',function ($scope) {
 			$("#contentInput").text="";
 			for(var i=0;i<data.length;i++){
 				if (data[i].uid === localStorage.currentId) {
-					var dataTemp={
-						from:"",
-						name:"",
-						date:"",
-						msg:""
-					};
-					var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
-					personIfo = JSON.parse(personIfo);
 					dataTemp.name=personIfo.name;
 					dataTemp.from=personIfo._id;
 					var date = new Date(data[i].datetime);
@@ -180,13 +166,7 @@ app.controller('chatCtrl',function ($scope) {
 					var html = template('mysay',dataTemp);
 					contentInput.innerHTML += html;
 				} else {
-					var dataTemp={
-						from:"",
-						name:"",
-						date:"",
-						msg:""
-					};
-					dataTemp.name=getNameById(data[i].uid);
+					dataTemp.name=data[i].name;
 					dataTemp.from=data[i].uid;
 					var date = new Date(data[i].datetime);
 					var Y = date.getFullYear() + '-';

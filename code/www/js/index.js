@@ -63,16 +63,16 @@ function getPersonalIfo(){
 function getIdByName(searchName) {
 	var temp;
 	$.get("/suser/private/friend/searchname",{name:searchName}).done(function (data) {
-		console.log(JSON.stringify(data));
-		temp=(JSON.stringify(data))[0]._id;
+		// console.log(JSON.stringify(data));
+		temp=data.data._id;
 	});
 	return temp;
 }
 function getNameById(searchId) {
 	var temp;
 	$.get("/suser/private/friend/searchid",{id:searchId}).done(function (data) {
-		console.log(JSON.stringify(data));
-		temp=(JSON.stringify(data))[0].name;
+		// console.log(JSON.stringify(data));
+		temp=data.data.name;
 	});
 	return temp;
 }
@@ -209,9 +209,12 @@ function socketMonitor() {
 		console.log("离线消息获取"+JSON.stringify(data));
 	});
 	socket.on('shistory',function (data) {
-		console.log("聊天消息获取"+JSON.stringify(data));
+		// console.log("聊天消息获取"+JSON.stringify(data));
 		if(data.data.length>0){
 			if(data.types==="group"){
+				for(var i=0;i<data.data.length;i++){
+					data.data[i].name=getNameById(data.data[i].uid);
+				};
 				localStorage.setItem("groupChatIfo_" + data.to+"_"+data.from,JSON.stringify(data.data));
 			};
 			if(data.types==="friend"){
@@ -222,7 +225,7 @@ function socketMonitor() {
 							data.data[i].sendId=data.fid[j].myid;
 						}
 					}
-				}
+				};
 				// console.log("聊天消息处理后获取"+JSON.stringify(data));
 				localStorage.setItem("friendChatIfo_" + data.to+"_"+data.from,JSON.stringify(data.data));
 			};
@@ -236,7 +239,7 @@ function socketMonitor() {
 		var chatOtherName=sessionStorage.getItem("chatOtherName");
 		console.log("双人聊天信息当前获取"+JSON.stringify(data));
 		if (data.from === localStorage.currentId) {
-			if(data.to===chatOtherId){
+			if((data.to===chatOtherId)&&contentInput){
 				var dataTemp=data;
 				var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
 				personIfo = JSON.parse(personIfo);
@@ -253,12 +256,9 @@ function socketMonitor() {
 				contentInput.innerHTML += html;
 				contentInput.scrollTop = contentInput.scrollHeight;
 			};
-			if(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+data.to)){
-				localStorage.removeItem("friendChatIfo_"+localStorage.currentId+"_"+data.to);
-				socketHistoryGet("friend",data.to,100);
-			};
+			socketHistoryGet("friend",data.to,100);
 		} else if(data.to===localStorage.currentId){
-			if(data.to===localStorage.currentId){
+			if((data.from===chatOtherId)&&contentInput){
 				var dataTemp=data;
 				dataTemp.name=chatOtherName;
 				var date = new Date(data.sendDate);
@@ -272,11 +272,11 @@ function socketMonitor() {
 				var html = template('othersay',dataTemp);
 				contentInput.innerHTML += html;
 				contentInput.scrollTop = contentInput.scrollHeight;
+			}else {
+				Materialize.toast(getNameById(data.from)+":"+data.msg, 2500, 'rounded');
 			};
-			if(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+data.from)){
-				localStorage.removeItem("friendChatIfo_"+localStorage.currentId+"_"+data.from);
-				socketHistoryGet("friend",data.from,100);
-			};
+			console.log(data.from);
+			socketHistoryGet("friend",data.from,100);
 		};
 	});
 	socket.on('sgmsg',function (data) {
@@ -285,7 +285,7 @@ function socketMonitor() {
 		var chatOtherId=sessionStorage.getItem("chatOtherId");
 		var chatOtherName=sessionStorage.getItem("chatOtherName");
 		if (data.from === localStorage.currentId) {
-			if(data.to===chatOtherId) {
+			if((data.to===chatOtherId)&&contentInput) {
 				var dataTemp=data;
 				var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
 				personIfo = JSON.parse(personIfo);
@@ -308,7 +308,7 @@ function socketMonitor() {
 				socketHistoryGet("group",data.to,100);
 			};
 		} else{
-			if(data.to===chatOtherId){
+			if((data.to===chatOtherId)&&contentInput){
 				var dataTemp=data;
 				dataTemp.name=chatOtherName;
 				var date = new Date(data.sendDate);
@@ -322,7 +322,9 @@ function socketMonitor() {
 				var html = template('othersay',dataTemp);
 				contentInput.innerHTML += html;
 				contentInput.scrollTop = contentInput.scrollHeight;
-			};
+			}else {
+				Materialize.toast(getNameById(data.from)+":"+data.msg, 2500, 'rounded');
+			}
 			if(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+data.to)){
 				localStorage.removeItem("groupChatIfo_"+localStorage.currentId+"_"+data.to);
 				socketHistoryGet("group",data.to,100);
