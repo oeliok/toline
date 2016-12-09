@@ -15,8 +15,7 @@
 </head>
 <body>
 <div ng-app="myApp"  class="container ng-scope" style="height:100%;">
-    <div ng-include="'header.html'" class="navbar-fixed-top">
-    </div>
+
 
     <!--chatPanel-->
     <script type="text/ng-template" id="chat_pan.html">
@@ -97,24 +96,42 @@
     </script>
     <!--聊天面板-->
     <script type="text/ng-template" id="chat_panel.html">
-        <div class="mdl-card  mdl-shadow--4dp my-middle" style="padding-top: 8px;width:100%;">
-            <div>
-                {{ss.level}}
+        <div class="mdl-grid mdl-shadow--2dp my-head navbar-fixed-top" >
+            <div class="mdl-cell--1-col-desktop">
+                <a class="mdl-navigation__link" href="#" ng-click="back()" ><i class="mdl-color-text--white material-icons" role="presentation">keyboard_arrow_left</i></a>
             </div>
-            <div class="mdl-grid navbar-fixed-bottom" style="background-color: deepskyblue;">
-                <div class="" style=" width: 75%;" >
-                    <textarea class="mdl-textfield__input" type="text" rows= "1" style="height: 38px;"></textarea>
-                </div>
-                <div style=" width: 25%;text-align: center">
-                    <button style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"  ">
-                        Send
-                    </button>
-                </div>
+            <div class="" style="margin:auto;">
+                <span ng-model="list_name" style="text-align: center;">{{list_name}}</span>
+            </div>
+        </div>
+        <div ng-model="chat_content" style="height:400px;"></div>
+        <div class="mdl-grid navbar-fixed-bottom" style="background-color: deepskyblue;">
+            <div class="" style=" width: 75%;" >
+                <textarea ng-model="dialog_content" class="mdl-textfield__input" type="text" rows= "1" style="height: 38px;"></textarea>
+            </div>
+            <div style=" width: 25%;text-align: center">
+                <button ng-click="say()" style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    Send
+                </button>
             </div>
         </div>
     </script>
+    <!--会话列表-->
+    <script type="text/ng-template" id="dialog_panel.html">
+        <div ng-include="'header.html'" class="navbar-fixed-top">
+        </div>
+        <p>this is dialog list</p>
+    </script>
     <!--好友列表-->
     <script type="text/ng-template" id="friends_list.html">
+        <div class="mdl-grid mdl-shadow--2dp my-head navbar-fixed-top" >
+            <div class="mdl-cell--1-col-desktop">
+                <a class="mdl-navigation__link" href="#" ng-click="back()" ><i class="mdl-color-text--white material-icons" role="presentation">keyboard_arrow_left</i></a>
+            </div>
+            <div class="" style="margin:auto;">
+                <span ng-model="list_name" style="text-align: center;">{{list_name}}</span>
+            </div>
+        </div>
         <div style="background-color: white;">
             <ul class="mdl-list" id="friends_list" style="margin: 0;padding:0;">
                 <li ng-repeat="item in list"  class="friends-list mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;height:40px;margin:1px 0 1px 0;background-color: #eee; ">
@@ -131,6 +148,8 @@
     </script>
     <!--个人信息-->
     <script type="text/ng-template" id="person_info.html">
+        <div ng-include="'header.html'" class="navbar-fixed-top">
+        </div>
         <div class="person_card mdl-grid" style="margin:0 auto;">
             <div class="mdl-cell--4-col-phone mdl-cell--4-col-desktop mdl-grid" >
                 <p style="margin:0 auto;">
@@ -145,6 +164,12 @@
     </script>
     <!--group信息-->
     <script type="text/ng-template" id="group.html">
+        <div class="mdl-grid mdl-shadow--2dp my-head navbar-fixed-top" >
+            <div class="mdl-cell--1-col-desktop     my-picture">
+                <a class="mdl-navigation__link" href="#" ng-click="back()" >back</a>
+            </div>
+            <span></span>
+        </div>
         <div style="background-color: white;">
             <ul class="mdl-list" style="margin: 0;padding:0;">
                 <li ng-repeat="item in list" title=""  class="friends-list mdl-navigation mdl-color-black-white-800 mdl-list__item" style="width:100%;height:40px;margin:1px 0 1px 0;background-color: #eee; ">
