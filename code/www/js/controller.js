@@ -7,20 +7,87 @@
 var myfriends ;
 var indexOfFriends = 0;
 var app = angular.module('myApp',['ngRoute']);
+//var app = angular.module('myApp',['ui.router']);
 
 app.controller('chatPubCtrl',function($scope){
     inputName();
 });
-app.controller('chatToFrCtrl',function($scope,$route){$scope.$route = $route;
 
-    socketConfirm();
-    getSesssionId();
-    socketMonitor();
-    console.log("friends-chat:"+myfriends[indexOfFriends].name);
-    socketSendChatmsg(myfriends[indexOfFriends]._id,"test");
-    socketHistoryGet('friend',myfriends[indexOfFriends]._id,1);
-    $scope.ss = JSON.parse(localStorage.getItem("chatIfo_" + localStorage.currentId + myfriends[indexOfFriends]._id));
-    console.log(JSON.stringify($scope.ss));
+app.controller('chatToFrCtrl',function($scope,$route){
+    $scope.$route = $route;
+    $scope.list_name = myfriends[indexOfFriends].name;
+    $scoope.back = function(){
+      history.back();
+    };
+    var chatOtherId = myfriends[indexOfFriends]._id;
+    var chatOtherName = myfriends[indexOfFriends].name;
+    if(localStorage.getItem("chatIfo_"+localStorage.currentId+"_"+chatOtherId)){
+        var data=JSON.parse(localStorage.getItem("chatIfo_"+localStorage.currentId+"_"+chatOtherId));
+        console.log(localStorage.getItem("chatIfo_"+localStorage.currentId+"_"+chatOtherId));
+        $scope.dialog_content = "";
+        for(var i=0;i<data.length;i++){
+            if (data[i].sendId === localStorage.currentId) {
+                var dataTemp={
+                    from:"",
+                    name:"",
+                    date:"",
+                    msg:""
+                };
+                var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
+                personIfo = JSON.parse(personIfo);
+                dataTemp.name=personIfo.name;
+                dataTemp.from=personIfo._id;
+                var date = new Date(data[i].datetime);
+                var Y = date.getFullYear() + '-';
+                var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                var D = date.getDate() + ' ';
+                var h = date.getHours() + ':';
+                var m = date.getMinutes()+" ";
+                // var s = date.getSeconds();
+                dataTemp.date=Y+M+D+h+m;
+                dataTemp.msg=data[i].msg;
+                //var html = template('mysay',dataTemp);
+                //contentInput.innerHTML += html;
+
+            } else {
+                var dataTemp={
+                    from:"",
+                    name:"",
+                    date:"",
+                    msg:""
+                };
+                dataTemp.name=chatOtherName;
+                dataTemp.from=chatOtherId;
+                var date = new Date(data[i].datetime);
+                var Y = date.getFullYear() + '-';
+                var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                var D = date.getDate() + ' ';
+                var h = date.getHours() + ':';
+                var m = date.getMinutes();
+                // var s = date.getSeconds();
+                dataTemp.date=Y+M+D+h+m;
+                dataTemp.msg=data[i].msg;
+                //var html = template('othersay',dataTemp);
+                //contentInput.innerHTML += html;
+                $scope.chat_content = dataTemp ;
+            }
+        }
+        //contentInput.scrollTop = contentInput.scrollHeight;
+        $scope.chat_content.scrollTop = $scope.chat_content.scrollHeight;
+
+    }
+
+    $scope.say=function () {
+        if ($scope.dialog_content != ''){
+            console.log("sendmsg:" + $scope.dialog_content);
+            socketSendChatmsg(chatOtherId,$scope.dialog_content);
+        } else
+            Materialize.toast('Nothing input,QAQ', 2500, 'rounded');
+    }
+
+});
+app.controller('dialogCtrl',function($scope,$route){
+    $scope.$route = $route;
 });
 app.controller('person_info',function($scope){
     getCurrentId();
@@ -30,6 +97,10 @@ app.controller('person_info',function($scope){
 });
 app.controller('group',function($scope,$route){
     $scope.$route = $route;
+    $scope.back = function (){
+        //location.href = "frlistCtrl";
+        history.back();
+    };
     $scope.list = [
         {name:"康德软件"},
         {name:"青马"}
@@ -52,6 +123,55 @@ app.controller('settings',function($scope,$route){
 app.controller('frListCtrl',function ($scope,$route) {
     // 获取好友列表
     $scope.$route = $route;
+    $scope.list_name = "好友列表";
+    //初始化
+    getCurrentId();
+    getSesssionId();
+    socket= io.connect();
+    socketMonitor();
+    socketConfirm();
+    //if(localStorage.getItem("personIfo_"+localStorage. currentId)){
+    //    var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
+    //    personIfo = JSON.parse(personIfo);
+    //    //***对应名字，图片，提示信息
+    //    $scope.ownerName=personIfo.name;
+    //    $scope.owenerPic=personIfo._id;
+    //    $scope.promptText="主界面";
+    //    //遍历好友列表，获取好友聊天信息
+    //    var chatIfo = localStorage.getItem("chatIfo_"+localStorage. currentId);
+    //    chatIfo = JSON.parse(chatIfo);
+    //    for (var i=0;i<chatIfo.length;i++)
+    //    {
+    //        socketHistoryGet("friend",chatIfo[i]._id,100);
+    //    }
+    //}
+
+
+    //var content=document.getElementById('content');
+    //
+    //var chatIfo = localStorage.getItem("chatIfo_"+localStorage. currentId);
+    //chatIfo = JSON.parse(chatIfo);
+    //for (var i=0;i<chatIfo.length;i++)
+    //{
+    //    var html = template('chatList', chatIfo[i]);
+    //    content.innerHTML += html;
+    //};
+    //$("#content a").click(function(){
+    //    pos = $("#content a").index($(this));
+    //    var chatOtherId=(JSON.parse( localStorage.getItem("chatIfo_"+localStorage. currentId))[pos])._id;
+    //    var chatOtherName=(JSON.parse( localStorage.getItem("chatIfo_"+localStorage. currentId))[pos]).name;
+    //    sessionStorage.setItem("chatOtherId",chatOtherId);
+    //    sessionStorage.setItem("chatOtherName",chatOtherName);
+    //    console.log("FriendList pos:"+pos+" otherid:"+chatOtherId+" othername:"+chatOtherName);
+    //    //var pos = $(this).index();
+    //    //双人聊天
+    //
+    //    $location.path('/chat');
+    //    $scope.$apply();
+    //
+    //});
+
+
     getCurrentId();
     loadFriendList();
     var friends = JSON.parse( localStorage.getItem("chatIfo_"+localStorage. currentId) );
@@ -60,19 +180,34 @@ app.controller('frListCtrl',function ($scope,$route) {
     console.log("friends_list：" + friends[0].name);
     console.log("friends_list：" + friends[0].remark);
     console.log(JSON.stringify(friends));
+    //记录当前聊天好友的li值
     $scope.index = function (x) {
         indexOfFriends = x;
     };
-});
 
+
+
+});
+app.controller('previousCtrl',function ($scope,$route){
+   $scope.$route = $route;
+    window.history.back();
+});
 app.config(function ($routeProvider) {
     $routeProvider.
         //一级菜单 好友列表
+    //when('/friends_list',{
+    //    templateUrl:'friends_list.html',
+    //    controller:'frListCtrl'
+    //}).
+        //好友列表子菜单 好友聊天界面
+    when('/dialog',{
+        templateUrl:'dialog_panel.html',
+        controller:'dialogCtrl'
+    }).
     when('/friends_list',{
         templateUrl:'friends_list.html',
         controller:'frListCtrl'
     }).
-        //好友列表子菜单 好友聊天界面
     when('/friends_list/chatToFr_panel',{
         templateUrl:'chat_panel.html',
         controller:'chatToFrCtrl'
@@ -93,11 +228,20 @@ app.config(function ($routeProvider) {
         templateUrl:'setting.html',
         controller:'settings'
     }).
+    when('/back',{
+        controller:'previousCtrl'
+    }).
     otherwise({
         // redirectTo: '/frListCtrl'
-        templateUrl:'friends_list.html',
-        controller:'frListCtrl'
+        templateUrl:'dialog_panel.html',
+        controller:'dialogCtrl'
     });
+
+    //$stateProvider
+    //    .state("friends_list",{
+    //        url:'/friends_list',
+    //        templateUrl:"friends_list.html"
+    //    });
 });
 
 //socket.io
@@ -150,6 +294,10 @@ function scroll() {
     msgs.scrollTop = msgs.scrollHeight;
 }
 
+//获取上一级页面
+function previous_page(){
+    history.back();
+}
 //获取浏览器信息
 var clientWidth;
 
