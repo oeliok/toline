@@ -4,30 +4,41 @@
 var Canvas = require('canvas');
 var log = require('../log');
 
+var colors = ["#00FFFF","#000000","#0000FF","#7FFF00","#FFF8DC","#006400","#9932CC","#00BFFF","#FFD700","#7CFC00","#B0C4DE","#FF4500","#2E8B57","#EE82EE","#FFFF00","#9ACD32"];
+var rstr = "qazwsxedcrfvtgbyhnujmikolp1QAZ2WSX3EDC4RFV5TGB6YHN7UJM8IK9OL0P";
+
 function yzm(req, res, len) {
-    var strs = randomtxt(len);
-    log.debug(strs);
-    req.session.yzm = strs;
-    var canvas = new Canvas(100, 40);
+    var w = 28 *len;
+    var canvas = new Canvas(w, 40);
     var ctx = canvas.getContext('2d');
-    ctx.rect(0,0,100,40);
-    ctx.fillStyle="#FFFFFF";
-    ctx.fill();
-    ctx.fillStyle="#000000";
-    ctx.font = '30px Impact';
-    ctx.fillText(strs, 0,30);
+    var grd=ctx.createLinearGradient(0,0,w,40);
+    for (var i = 0; i < 5; i++) {
+        grd.addColorStop(i*0.2,colors[Math.floor(Math.random()*colors.length)]);
+    }
+    // Fill with gradient
+    ctx.fillStyle=grd;
+    ctx.fillRect(0,0,w,40);
+    var rtxt = "";
+    var tc = "";
+    for (var i = 0; i < len; i++) {
+        ctx.fillStyle=colors[Math.floor(Math.random()*colors.length)];
+        ctx.font = '30px Impact';
+        ctx.shadowBlur=4;
+        ctx.shadowColor=colors[Math.floor(Math.random()*colors.length)];
+        tc = randomchar();
+        ctx.fillText(tc, 28*i, 30);
+        rtxt += tc;
+    }
+    log.debug(rtxt);
+    req.session.yzm = rtxt;
     var str = canvas.toDataURL().split(',');
     var buf = new Buffer(str[1], 'base64');
     res.send(buf);
+    res.end();
 }
 
-function randomtxt(len){//Custom the function to generate captcha text
-    var str = '1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik9ol0p';
-    var text = "";
-    for (var i = 0; i < len; i++) {
-        text += str[parseInt(Math.random()*100%36)];
-    }
-    return text;//return the captcha text
+function randomchar() {
+    return rstr[Math.floor(Math.random()*rstr.length)];
 }
 
 exports.captcha = yzm;

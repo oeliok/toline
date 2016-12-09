@@ -3,9 +3,9 @@
  */
 var log = require('../log');
 exports.cyzm6 = function (req, res, next) {
-    var yzm = req.session.yzm;
+    var yzm = req.session.yzm.toUpperCase();
     req.session.yzm = null;
-    var myyzm = req.query.code;
+    var myyzm = req.query.code.toUpperCase();
     if (yzm == null) {
         res.json({code:-1});
     } else if (myyzm != yzm) {
