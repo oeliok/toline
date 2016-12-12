@@ -5,8 +5,8 @@ var mongo = require('../lib/mongo');
 var log = require('../log');
 var ObjectId = require('mongodb').ObjectID;
 
-var fuser = {
-    name:'fuser'
+var guser = {
+    name:'guser'
 };
 
 function addAmember(gid, uid, next) {
@@ -17,7 +17,7 @@ function addAmember(gid, uid, next) {
         remark:''
     };
     mongo.getConnection(function (db) {
-        db.insertOne(gu, function (err, r) {
+        db.collection(guser.name).insertOne(gu, function (err, r) {
             if (err) {
                 log.error(err);
                 next(0);
@@ -30,7 +30,7 @@ function addAmember(gid, uid, next) {
 
 function deleteAmember(gid, uid, next) {
     mongo.getConnection(function (db) {
-        var fu = db.collection(fuser.name);
+        var fu = db.collection(guser.name);
         fu.deleteOne({uid:ObjectId(uid),gid:ObjectId(gid)},function (err, r) {
             if(err) {
                 log.error(err);
