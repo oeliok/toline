@@ -284,7 +284,7 @@ function userGroupOfflineLogd(userid, datetime, next) {
 function friendOnline(io, socket, userid) {
     userGetFriends(userid, function(friends) {
         for (var i in friends) {
-            useridToSocketid(friends[i]._d, function(userID) {
+            useridToSocketid(friends[i]._id, function(userID) {
                 try {
                     io.sockets.sockets[reply].emit('sfonline', {
                         "Date": Date.now(),
@@ -374,7 +374,7 @@ function friendOffline(io, socket, userid) {
         log.debug(socket.id + " left room !");
         userGetFriends(userid, function(friends) {
             for (var i in friends) {
-                useridToSocketid(friends[i]._d, function(userID) {
+                useridToSocketid(friends[i]._id, function(userID) {
                     try {
                         io.sockets.sockets[reply].emit('sfoffline', {
                             "Date": Date.now(),
