@@ -4,6 +4,7 @@
 var soketIO = require('../control/socket');
 var friend = require('../model/mfriend');
 var msg = require('../model/msg');
+var Validate = require('../lib/myvalidate');
 
 function addfriend(req, res) {
     var data = req.query;
