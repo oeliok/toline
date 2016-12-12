@@ -8,6 +8,7 @@ var fuser = require('../model/fuser');
 var io = require('../control/socket');
 var Msg = require('../model/msg');
 var fs = require("fs");
+var log = require('../log');
 
 
 function creategroup(req, res) {
