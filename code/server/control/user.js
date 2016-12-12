@@ -93,7 +93,7 @@ function regist(req, res) {
 							log.debug(user.result);
 							if (user.result.n) {
 							    res.json({code:1});
-                                FS.cp(__dirname+'/../../www/gavator/moren.jpg',__dirname+'/../../wwww/avator/'+user.ops[0]._id.toString());
+                                FS.cp(__dirname+'/../../www/gavator/moren.jpg',__dirname+'/../../wwww/avator/'+user.ops[0]._id);
                             } else {
 							    res.json({code:0});
                             }
