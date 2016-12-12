@@ -23,8 +23,10 @@ function getDB(next) {
             next(mydb);
         });
     } else {
-        next(db);
+        next(mydb);
     }
 }
 
-getDB(null);
+getDB(function (r) {
+    
+});
