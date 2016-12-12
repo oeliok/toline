@@ -9,6 +9,7 @@ var io = require('../control/socket');
 var Msg = require('../model/msg');
 var fs = require("fs");
 var log = require('../log');
+var FS = require('../lib/file');
 
 
 function creategroup(req, res) {
@@ -42,6 +43,7 @@ function creategroup(req, res) {
                     fuser.addAmember(r._id,req.session.user._id,function (rr) {
                         log.debug(rr);
                     });
+                    FS.cp(__dirname+'/../../www/gavator/moren.jpg',__dirname+'/../../www/gavator/'+j._id);
                 })
             } else {
                 res.json({code:0});

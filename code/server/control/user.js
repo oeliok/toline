@@ -9,6 +9,7 @@ var assert = require('assert');
 var upload = require('./../lib/multerupload');
 var ObjectId = require('mongodb').ObjectID;
 var fs = require("fs");
+var FS = require('../lib/file');
 
 function login(req, res) {
 	var data = req.query;
@@ -69,18 +70,19 @@ function regist(req, res) {
 							code: -1
 						});
 					} else if (results == null) {
-						dbs.collection('user').insertOne({
-							"name": data.name,
-							"pwd": data.pwd,
-							"type": 1,
-							"email": data.email,
-							"sex": parseInt(data.sex),
-							"age": parseInt(data.age),
-							"regist": Date.now(),
-							"remark": null,
-							"login": 0,
-							"socket": null
-						}, function(err, user) {
+					    var us = {
+                            "name": data.name,
+                            "pwd": data.pwd,
+                            "type": 1,
+                            "email": data.email,
+                            "sex": parseInt(data.sex),
+                            "age": parseInt(data.age),
+                            "regist": Date.now(),
+                            "remark": null,
+                            "login": 0,
+                            "socket": null
+                        };
+						dbs.collection('user').insertOne(us, function(err, user) {
 							if (err) {
 								log.error(err);
 								res.json({
@@ -88,10 +90,13 @@ function regist(req, res) {
 								});
 								return;
 							}
-							log.debug(user);
-							res.json({
-								code: 1
-							});
+							log.debug(user.result);
+							if (user.result.n) {
+							    res.json({code:1});
+                                FS.cp(__dirname+'/../../www/gavator/moren.jpg',__dirname+'/../../wwww/avator/'+user.ops[0]._id.toString());
+                            } else {
+							    res.json({code:0});
+                            }
 						})
 					} else {
 						res.json({
