@@ -62,6 +62,11 @@ function systemErrorMsg(socket, msg) {
     });
 }
 
+function getSortFun(order, sortBy) {
+    var ordAlpah = (order == 'asc') ? '>' : '<';
+    return (new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1'));
+}
+
 //用户请求与某个人或者群的消息在某个时间点的前面n条数据
 function historymsg(socket, userid) {
     socket.on('chistory', function(data) {
@@ -99,6 +104,7 @@ function groupHistoryMsg(socket, userid, grid, datetime, limit, id) {
                     log.error(err);
                     return false;
                 }
+                glogs.sort(getSortFun('asc','datetime'));
                 socket.emit('shistory', {
                     id: id,
                     from: grid,
@@ -140,6 +146,7 @@ function friendHsitoryMsg(socket, userid, frid, datetime, limit, id) {
                     log.error(err);
                     return false;
                 }
+                flogs.sort(getSortFun('asc','datetime'));
                 socket.emit('shistory', {
                     id: id,
                     from: frid,
