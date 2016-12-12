@@ -1,6 +1,8 @@
 /**
  * Created by oeli on 16-12-12.
  */
+var fs = require('fs');
+
 function cp(source, dest) {
     fs.stat(source,function (err, stats) {
         if (err){
