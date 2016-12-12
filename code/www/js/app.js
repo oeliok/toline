@@ -301,4 +301,52 @@ function scroll(){
 }
 
 
+//主要用于广场聊天
+//socket.io
+var pubChat = io.connect('toline.oeli.pub:9876');
+var names = document.getElementById('pub_names');
+var news = document.getElementById('pub_news');
+var msgs = document.getElementById('pub_message');
+var it = document.getElementById('pub_input_mess');
+
+function inputName () {
+    var person=prompt("请输入你的名字","Harry Potter");
+    pubChat.emit('name',person);
+    addevent();
+}
+function addevent() {
+    pubChat.on('users',function (data) {
+        console.log(JSON.stringify(data));
+        var html = "";
+        for (var i in data) {
+            html += '['+data[i]+']';
+        }
+        names.innerHTML = html;
+        scroll();
+    });
+    pubChat.on('namejoin',function (data) {
+        msgs.innerHTML += '<code>'+data+'</code>';
+        scroll();
+    });
+    pubChat.on('newmsg',function (data) {
+        msgs.innerHTML += '<p>'+data+'</p>';
+        scroll();
+    });
+}
+function changeName() {
+    var nn = document.getElementById('pub_names');
+    if (nn.value != "")
+        pubChat.emit('name',nn.value);
+    else
+        alert("输入名字不能为空");
+}
+function sendmsg() {
+    if (it.value != ""){
+        pubChat.emit('msg', it.value);
+        $('#pub_input_mess').val('');
+    }
+    else
+        alert("输入内容不能为空");
+}
+
 
