@@ -94,7 +94,7 @@ function groupHistoryMsg(socket, userid, grid, datetime, limit, id) {
                 datetime: {
                     $lt: datetime
                 }
-            }).limit(limit).toArray(function(err, glogs) {
+            }).sort({datetime:-1}).limit(limit).toArray(function(err, glogs) {
                 if (err) {
                     log.error(err);
                     return false;
@@ -135,7 +135,7 @@ function friendHsitoryMsg(socket, userid, frid, datetime, limit, id) {
                 datetime: {
                     $lt: datetime
                 }
-            }).limit(limit).toArray(function(err, flogs) {
+            }).sort({datetime:-1}).limit(limit).toArray(function(err, flogs) {
                 if (err) {
                     log.error(err);
                     return false;
