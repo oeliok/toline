@@ -59,7 +59,7 @@ function deleteAgroup(gp, next) {
 function findgroupbyregex(gp, next) {
     mongo.getConnection(function (db) {
         var group = db.collection(dbt.name);
-        group.find({name:{$regex:gp.keyword}}).skip(gp.page*gp.size).limit(gp.size).toArray(function (err, gps) {
+        group.find({name:{$regex:gp.keyword}}).skip(parseInt(gp.page)*parseInt(gp.size)).limit(parseInt(gp.size)).toArray(function (err, gps) {
             if (err) {
                 console.log(err);
                 return false;
