@@ -7,12 +7,15 @@ var ObjectId = require('mongodb').ObjectID;
 
 function addFriend(myid, frid, next) {
     var record = [
-        {myid:ObjectId(myid),frid:ObjectId(frid)},
-        {myid:ObjectId(frid),frid:ObjectId(myid)}
+        {myid:ObjectId(myid),frid:ObjectId(frid),datetime:Date.now(),remark:""},
+        {myid:ObjectId(frid),frid:ObjectId(myid),datetime:Date.now(),remark:""}
     ];
     mongo.getConnection(function (db) {
-        db.collection('friend').insertMany(record).then(function (r) {
-            if (2 == r.insertedCount) {
+        db.collection('friend').insertMany(record, function (err, r) {
+            if (err) {
+                log.error(err);
+                next(false);
+            } else if (2 == r.insertedCount) {
                 next(true);
             } else {
                 next(false);

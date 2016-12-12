@@ -3,12 +3,19 @@
  */
 var log = require('../log');
 exports.cyzm6 = function (req, res, next) {
-    var yzm = req.session.yzm.toUpperCase();
+    var yzm = req.session.yzm;
+    if ((typeof yzm) != 'string' || yzm == null) {
+        res.json({code:0});
+        return false;
+    }
     req.session.yzm = null;
-    var myyzm = req.query.code.toUpperCase();
-    if (yzm == null) {
-        res.json({code:-1});
-    } else if (myyzm != yzm) {
+    var myyzm = req.query.code;
+    if ((typeof myyzm) != 'string' || myyzm == null) {
+        res.json({code:0});
+        return false;
+    }
+    myyzm = myyzm.toUpperCase();
+    if (myyzm != yzm) {
         res.json({code:5});
     } else {
         next();

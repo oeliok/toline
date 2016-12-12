@@ -151,6 +151,15 @@
         },
         {
           "source":"server",
+          "event":"sfoffline",
+          "arg":[
+            {"Date":0,"id":""}
+          ],
+          "dataType":"json",
+          "describe":"好友下线的消息"
+        },
+        {
+          "source":"server",
           "event":"addfriend",
           "arg":[
             {"_id":ObjectId(""),"from":"","to":"","type":"addfriend","datetime":"","msg":""}

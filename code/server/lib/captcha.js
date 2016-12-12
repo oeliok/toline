@@ -30,7 +30,7 @@ function yzm(req, res, len) {
         rtxt += tc;
     }
     log.debug(rtxt);
-    req.session.yzm = rtxt;
+    req.session.yzm = rtxt.toUpperCase();
     var str = canvas.toDataURL().split(',');
     var buf = new Buffer(str[1], 'base64');
     res.send(buf);
