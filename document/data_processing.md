@@ -20,15 +20,36 @@
     * getIdByName(searchName)
     * 参数string：searchName
     * 返回string：用户id
-
+    
+* 通过用户姓名查找id
+    * getNameById(searchId)
+    * 参数string：searchId
+    * 返回string：用户name
+   
 * 获取当前时间戳
     * getDateTime()
     * 返回int:当前时间戳
     
-* 修改个性签名
+* 修改签名
     * changePeronalRemark（inputtemp）
     * 参数string:inputtemp
     * 返回值：data.code
+    
+* 通过姓名搜索用户(用于添加好友)
+    * searchname（name）
+    * 参数string:name
+    * 返回值:json对象
+    * 格式：["id","name","remark"]
+
+* 添加好友(好友id，要说的话),添加需要对方验证
+    * addFriend（friendId,msg）
+    * 参数：string,string
+    * 返回值：data.code
+    
+* 添加好友确认（好友id）
+    * addCheck（friendId）
+    * 参数：string
+    * 返回值：data.code   
 ###好友/群管理
 
 * 获取好友列表
@@ -42,6 +63,25 @@
         *  types="friend":localStorage.("chatIfo_" + localStorage.curentId+getHistoryId);
         *  types="group":localStorage.("groupChatIfo_" + localStorage.curentId+getHistoryId);
     * 格式：{"id","from","to","types","data":[{"_id","fid","msg","datatime"}..]}
+    
+* 创建群(群名，群签名)
+    * creategroup(name,remark)
+    * 参数：string，string
+    * 返回值：data.code
+    
+* 搜索群（通过群id）
+    * searchgroupbyid(gid)
+    * 参数：string
+    * 返回值json对象
+    * 格式：{"_id","name","remark","datetime","owner","code"}
+    
+* 搜索群（通过群名）
+     * searchgroupbyname(keyword,page,size)
+     * 参数：string,number,number
+     * 返回值json对象
+     * 格式：{"_id","name","remark","datetime","owner"}   
+
+    
 ### 聊天
 
 * 获取sessionId(在进行聊天之前调用)

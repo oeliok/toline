@@ -7,9 +7,9 @@ var msg = {
     name:'msg'
 };
 
-function addAmsg(m,next) {
-    mongo.getDB(function (db) {
-        db.collection(msg.name).insertOne(m,function (err, r) {
+function addAmsg(msg,next) {
+    mongo.getConnection(function (db) {
+        db.collection(msg.name).insertOne(msg,function (err, r) {
             if (err) {
                 log.error(err);
                 next(0);
