@@ -31,6 +31,7 @@ app.controller('personalIfoCtrl',function($scope){
 			};
 		};
 	};
+
 });
 app.controller('friendListCtrl',function ($scope,$location) {
 	//好友模板[_id,name,remark]
@@ -91,6 +92,9 @@ app.controller('groupListCtrl',function ($scope,$location) {
 
 	});
 });
+app.controller('makefriendCtrl',function ($scope) {
+
+})
 app.controller('chatCtrl',function ($scope) {
 	//聊天模板[from,name,date,msg]
 	//***聊天界面模板加载的div
@@ -113,16 +117,16 @@ app.controller('chatCtrl',function ($scope) {
 			console.log(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId));
 			$("#contentInput").text="";
 			for(var i=0;i<data.length;i++){
+				var date = new Date(data[i].datetime);
+				var Y = date.getFullYear() + '-';
+				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+				var D = date.getDate() + ' ';
+				var h = date.getHours() + ':';
+				var m = date.getMinutes();
+				// var s = date.getSeconds();
 				if (data[i].sendId === localStorage.currentId) {
 					dataTemp.name=personIfo.name;
 					dataTemp.from=personIfo._id;
-					var date = new Date(data[i].datetime);
-					var Y = date.getFullYear() + '-';
-					var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-					var D = date.getDate() + ' ';
-					var h = date.getHours() + ':';
-					var m = date.getMinutes()+" ";
-					// var s = date.getSeconds();
 					dataTemp.date=Y+M+D+h+m;
 					dataTemp.msg=data[i].msg;
 					var html = template('mysay',dataTemp);
@@ -130,13 +134,6 @@ app.controller('chatCtrl',function ($scope) {
 				} else {
 					dataTemp.name=chatOtherName;
 					dataTemp.from=chatOtherId;
-					var date = new Date(data[i].datetime);
-					var Y = date.getFullYear() + '-';
-					var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-					var D = date.getDate() + ' ';
-					var h = date.getHours() + ':';
-					var m = date.getMinutes();
-					// var s = date.getSeconds();
 					dataTemp.date=Y+M+D+h+m;
 					dataTemp.msg=data[i].msg;
 					var html = template('othersay',dataTemp);
@@ -151,16 +148,16 @@ app.controller('chatCtrl',function ($scope) {
 			console.log(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId));
 			$("#contentInput").text="";
 			for(var i=0;i<data.length;i++){
+				var date = new Date(data[i].datetime);
+				var Y = date.getFullYear() + '-';
+				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+				var D = date.getDate() + ' ';
+				var h = date.getHours() + ':';
+				var m = date.getMinutes()+" ";
+				// var s = date.getSeconds();
 				if (data[i].uid === localStorage.currentId) {
 					dataTemp.name=personIfo.name;
 					dataTemp.from=personIfo._id;
-					var date = new Date(data[i].datetime);
-					var Y = date.getFullYear() + '-';
-					var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-					var D = date.getDate() + ' ';
-					var h = date.getHours() + ':';
-					var m = date.getMinutes()+" ";
-					// var s = date.getSeconds();
 					dataTemp.date=Y+M+D+h+m;
 					dataTemp.msg=data[i].msg;
 					var html = template('mysay',dataTemp);
@@ -168,13 +165,6 @@ app.controller('chatCtrl',function ($scope) {
 				} else {
 					dataTemp.name=data[i].name;
 					dataTemp.from=data[i].uid;
-					var date = new Date(data[i].datetime);
-					var Y = date.getFullYear() + '-';
-					var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-					var D = date.getDate() + ' ';
-					var h = date.getHours() + ':';
-					var m = date.getMinutes();
-					// var s = date.getSeconds();
 					dataTemp.date=Y+M+D+h+m;
 					dataTemp.msg=data[i].msg;
 					var html = template('othersay',dataTemp);
@@ -203,7 +193,7 @@ app.config(['$routeProvider', function($routeProvider){
 		.when('/',{template:'这是首页页面'})
 		.when('/friendList',{templateUrl: 'friendList.html', controller: 'friendListCtrl'})
 		.when('/chatRoom',{templateUrl: 'groupList.html', controller: 'groupListCtrl'})
-		.when('/makeFriend',{template:'这是添加好友页面'})
+		.when('/makeFriend',{templateUrl: 'makefriend.html', controller: 'makefriendCtrl'})
 		.when('/setting',{template:'这是设置页面'})
 		.when('/help',{template:'这是帮助页面'})
 		.when('/chat',{templateUrl: 'chat.html', controller: 'chatCtrl'})
