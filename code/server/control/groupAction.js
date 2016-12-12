@@ -37,11 +37,15 @@ function creategroup(req, res) {
                 group.findAgroup(data,function (r) {
                     r.code = 1;
                     res.json(r);
+                    var j = JSON.parse(JSON.stringify(r));
+                    fuser.addAmember(r._id,req.session.user._id,function (rr) {
+                        log.debug(rr);
+                    });
                 })
             } else {
                 res.json({code:0});
             }
-        })
+        });
     } else {
         res.json({code:10});
     }
