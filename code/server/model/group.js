@@ -15,6 +15,7 @@ function insertAgroup(gp, next) {
         group.insertOne(gp,function (err, r) {
             if (err){
                 log.error(err);
+                next(false);
                 return false;
             }
             if (1 == r.insertedCount){
@@ -32,6 +33,7 @@ function findAgroup(gp, next) {
         group.findOne(gp, function (err, r) {
             if (err){
                 log.error(err);
+                next(false);
                 return false;
             }
             next(r);
@@ -45,6 +47,7 @@ function deleteAgroup(gp, next) {
         group.deleteOne(gp, function (err, r) {
             if (err){
                 log.error(err);
+                next(false);
                 return false;
             }
             if (r.result.n){
@@ -62,6 +65,7 @@ function findgroupbyregex(gp, next) {
         group.find({name:{$regex:gp.keyword}}).skip(parseInt(gp.page)*parseInt(gp.size)).limit(parseInt(gp.size)).toArray(function (err, gps) {
             if (err) {
                 console.log(err);
+                next(false);
                 return false;
             }
             next(gps);
@@ -75,6 +79,7 @@ function updategname(gp, next) {
         group.updateOne({_id:ObjectId(gp._id)},{$set:{name:gp.gname}},function (err, r) {
             if (err) {
                 log.error(err);
+                next(false);
                 return false;
             }
             if (r.result.n == 1){
@@ -110,6 +115,7 @@ function findgmembers(q, next) {
         group.find(q).toArray(function (err, r) {
             if (err) {
                 log.error(err);
+                next(false);
                 return false;
             } else {
                 next(r);
@@ -138,7 +144,7 @@ function findgroupin(q,next) {
         group.find(q).toArray(function (err, gs) {
             if(err) {
                 log.error(err);
-                next(null);
+                next(false);
             } else {
                 next(gs);
             }

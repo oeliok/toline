@@ -8,6 +8,7 @@ var fuser = require('../model/fuser');
 var io = require('../control/socket');
 var Msg = require('../model/msg');
 var fs = require("fs");
+var log = require('../log');
 
 
 function creategroup(req, res) {
@@ -37,11 +38,15 @@ function creategroup(req, res) {
                 group.findAgroup(data,function (r) {
                     r.code = 1;
                     res.json(r);
+                    var j = JSON.parse(JSON.stringify(r));
+                    fuser.addAmember(r._id,req.session.user._id,function (rr) {
+                        log.debug(rr);
+                    });
                 })
             } else {
                 res.json({code:0});
             }
-        })
+        });
     } else {
         res.json({code:10});
     }
