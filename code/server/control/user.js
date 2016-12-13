@@ -98,7 +98,7 @@ function regist(req, res) {
                                         log.error(err);
                                     } else {
                                         if (r) {
-                                            FS.cp(__dirname+'/../../www/gavator/moren.jpg',__dirname+'/../../wwww/avator/'+r._id);
+                                            FS.cp(__dirname+'/../../www/gavator/moren.jpg',__dirname+'/../../www/avator/'+r._id);
                                         }
                                     }
                                 });
