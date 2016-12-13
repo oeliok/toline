@@ -2,6 +2,7 @@
  * Created by oeli on 16-12-12.
  */
 var fs = require('fs');
+var log = require('../log');
 
 function cp(source, dest) {
     fs.stat(source,function (err, stats) {
