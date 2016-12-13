@@ -25,6 +25,7 @@ var
 //active_e_btn (a_id,btn_id) 表示 <input id="a_id" …… > <button id="btn_id"> 若 a_id的值符合email表达式则激活btn_id 元素
 //active_e_btn 中的 e 表示email 方便记忆
 var active_e_btn = function (email_id,btn_id) {
+    //开始监听email是否符合规则
     this.active = function() {
         document.getElementById(btn_id).disabled = true ;
         if(check_email_reg(email_id)){
