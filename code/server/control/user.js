@@ -93,7 +93,15 @@ function regist(req, res) {
 							log.debug(user.result);
 							if (user.result.n) {
 							    res.json({code:1});
-                                FS.cp(__dirname+'/../../www/gavator/moren.jpg',__dirname+'/../../wwww/avator/'+user.ops[0]._id);
+							    dbs.collection('user').findOne(us, function (err, r) {
+                                    if (err) {
+                                        log.error(err);
+                                    } else {
+                                        if (r) {
+                                            FS.cp(__dirname+'/../../www/gavator/moren.jpg',__dirname+'/../../wwww/avator/'+r._id);
+                                        }
+                                    }
+                                });
                             } else {
 							    res.json({code:0});
                             }
