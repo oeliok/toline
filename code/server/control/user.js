@@ -8,6 +8,7 @@ var email = require('./../lib/mail');
 var assert = require('assert');
 var upload = require('./../lib/multerupload');
 var ObjectId = require('mongodb').ObjectID;
+var Validate = require('../lib/myvalidate');
 var fs = require("fs");
 var FS = require('../lib/file');
 
@@ -446,35 +447,52 @@ function add(req, res) {
 }
 
 function searchname(req, res) {
-	db.getConnection(function(dbs) {
-		dbs.collection('user').find({
-			name: req.query.name,
-			_id: {
-				$ne: ObjectId(req.session.user._id)
-			}
-		}).toArray(function(err, result) {
-			if (err) {
-				log.error(err);
-				res.json({
-					code: -1
-				});
-			} else {
-				log.debug(JSON.stringify(result));
-				var data = new Array(result.length);
-				for (var i = 0; i < result.length; i++) {
-					data[i] = {
-						id: result[i]._id,
-						name: result[i].name,
-						remark: result[i].remark
-					};
-				}
-				res.json({
-					code: 1,
-					data: data
-				});
-			}
-		})
-	})
+    log.debug("searchname");
+    var gp = req.query;
+    var rule = {
+        keyword:{
+            require:true,
+            minlen:1,
+            maxlen:10
+        },
+        page:{
+            require:true,
+            min:0
+        },
+        size:{
+            require:true,
+            min:5
+        }
+    };
+    var v = new Validate();
+    v.setData(gp);
+    v.setRules(rule);
+    if (v.isok()){
+        db.getConnection(function (dbs) {
+            var group = dbs.collection('user');
+            group.find({name:{$regex:gp.keyword,$options:"$i"}})
+                .skip(parseInt(gp.page)*parseInt(gp.size))
+                .limit(parseInt(gp.size))
+                .toArray(function (err, gps) {
+                if (err) {
+                    log.error(err);
+                    res.json({code:-1});
+                } else {
+                    var data = [];
+                    for (var i = 0; i < gps.length; i++) {
+                        data[i] = {
+                            id:gps[i]._id,
+                            name:gps[i].name,
+                            remark:gps[i].remark
+                        }
+                    }
+                    res.json({code:1,data:data});
+                }
+            })
+        })
+    } else {
+        res.json({code:10});
+    }
 }
 
 function searchid(req, res) {
@@ -571,14 +589,14 @@ function getlist(req, res) {
 					code: -1
 				});
 			} else {
-				log.debug(result);
+				log.debug(JSON.stringify(result));
 				if (result.length > 0) {
 					var data = new Array(result.length);
 					for (var i = 0; i < result.length; i++) {
 						data[i] = {
 							_id: result[i].frid
 						};
-						log.debug(result[i].frid);
+						//log.debug(result[i].frid);
 					}
 					log.debug(data);
 					dbs.collection('user').find({
@@ -590,11 +608,10 @@ function getlist(req, res) {
 								code: -1
 							});
 						} else {
-							log.debug(results);
 							for (var i = 0; i < results.length; i++) {
 								results[i].pwd = null;
 							}
-							log.debug(results);
+							log.debug(JSON.stringify(results));
 							res.json({
 								code: 1,
 								data: results

@@ -1,0 +1,39 @@
+<!--<dialog class="mdl-dialog" id="makeFriendDialog">-->
+    <!--<div class="mdl-dialog__content">-->
+        <!--<p>-->
+            <!--请输入要查找的用户名-->
+        <!--</p>-->
+        <!--<div>-->
+            <!--<input class="mdl-textfield__input" type="text" id="makeFriendInput">-->
+            <!--<button type="button" class="mdl-button close1">确定</button>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</dialog>-->
+<!--<dialog class="mdl-dialog" id="confirmDialog">-->
+    <!--<div class="mdl-dialog__content">-->
+            <!--<span id="confirmDialogText"><p>-->
+                <!--请输入申请好友的留言-->
+            <!--</p></span>-->
+    <!--</div>-->
+    <!--<input class="mdl-textfield__input" type="text" id="addFriendInput">-->
+    <!--<div class="mdl-dialog__actions mdl-dialog__actions&#45;&#45;full-width">-->
+        <!--<button type="button" class="mdl-button close2-1">确定</button>-->
+        <!--<button type="button" class="mdl-button close2-2">取消</button>-->
+    <!--</div>-->
+<!--</dialog>-->
+<ul class="collection" id="content">
+</ul>
+<script id="makeFriendList" type="text/html">
+    <a href="javascript:void(0)" class="collection-item avatar show-modal2"><li>
+        <img id="imgId" src="../avator/{{id}}" alt="" class="circle" vspace="10">
+
+        <h5 style="margin-top: 0;width: 100%">
+            <span style="float: left"><small style="word-wrap: break-word;word-break: break-all;font-size: large;">{{name}}</small></span>
+
+        </h5>
+        <div style="clear:left;"></div>
+        <br>
+        <p style="text-align: left;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;font-size: medium;color: rgba(0,0,0,.87);">{{remark}}</p>
+    </li></a>
+
+</script>

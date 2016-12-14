@@ -3,13 +3,13 @@
  */
 var mongo = require('../lib/mongo');
 var log = require('../log');
-var msg = {
+var MSG = {
     name:'msg'
 };
 
 function addAmsg(msg,next) {
     mongo.getConnection(function (db) {
-        db.collection(msg.name).insertOne(msg,function (err, r) {
+        db.collection(MSG.name).insertOne(msg,function (err, r) {
             if (err) {
                 log.error(err);
                 next(0);
@@ -22,7 +22,7 @@ function addAmsg(msg,next) {
 
 function deleteAmsg(q, next) {
     mongo.getConnection(function (db) {
-        db.collection(msg.name).deleteOne(q,function (err, r) {
+        db.collection(MSG.name).deleteOne(q,function (err, r) {
             if (err) {
                 log.error(err);
                 next(0);
@@ -35,7 +35,7 @@ function deleteAmsg(q, next) {
 
 function updateAmsg(q, u, next) {
     mongo.getConnection(function (db) {
-        db.collection(msg.name).updateOne(q, u, function (err, r) {
+        db.collection(MSG.name).updateOne(q, u, function (err, r) {
             if (err) {
                 log.error(err);
                 next(0);
@@ -48,7 +48,7 @@ function updateAmsg(q, u, next) {
 
 function selectAmsg(q, next) {
     mongo.getConnection(function (db) {
-        db.collection(msg.name).findOne(q, function (err, r) {
+        db.collection(MSG.name).findOne(q, function (err, r) {
             if (err) {
                 log.error(err);
                 next(null);

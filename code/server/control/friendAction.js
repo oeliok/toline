@@ -3,11 +3,12 @@
  */
 var soketIO = require('../control/socket');
 var friend = require('../model/mfriend');
-var msg = require('../model/msg');
+var Msg = require('../model/msg');
 var Validate = require('../lib/myvalidate');
 var log = require('../log');
 
 function addfriend(req, res) {
+
     log.debug("addfriend API");
     var data = req.query;
     var rule = {
@@ -36,8 +37,18 @@ function addfriend(req, res) {
                     msg:data.msg
                 };
                 if (socket) {
-                    io.sockets.sockets[socket].emit('addfriend',d);
-                    res.json({code:1});
+                    if (io.sockets.sockets[socket]){
+                        io.sockets.sockets[socket].emit('addfriend',d);
+                        res.json({code:1});
+                    } else {
+                        Msg.addAmsg(d, function (r) {
+                            if (r) {
+                                res.json({code: 1});
+                            } else {
+                                res.json({code: 0});
+                            }
+                        })
+                    }
                 } else {
                     Msg.addAmsg(d,function (r) {
                         if (r) {
@@ -55,30 +66,31 @@ function addfriend(req, res) {
 }
 
 function addfriendCheck(req, res) {
-    var data = req.query;
-    var rule = {
-        fid:{
-            require:true,
-            len:24
-        }
-    };
-    var v = new Validate();
-    v.setData(data);
-    v.setRules(rule);
-    if (v.isok()) {
-        friend.addfriend(req.session.user._id,data.fid,function (r) {
-            if (r) {
-                res.json({code:1});
-            } else {
-                res.json({code:0});
-            }
-        })
-    } else {
-        res.json({code:10});
-    }
+	var data = req.query;
+	var rule = {
+		fid:{
+			require:true,
+			len:24
+		}
+	};
+	var v = new Validate();
+	v.setData(data);
+	v.setRules(rule);
+	if (v.isok()) {
+		friend.addfriend(req.session.user._id,data.fid,function (r) {
+			if (r) {
+				res.json({code:1});
+			} else {
+				res.json({code:0});
+			}
+		})
+	} else {
+		res.json({code:10});
+	}
 }
 
 function deletefriend(req, res) {
+
     var data = req.query;
     var rule = {
         id:{
@@ -105,8 +117,17 @@ function deletefriend(req, res) {
                     msg:data.msg
                 };
                 if (socket) {
-                    io.sockets.sockets[socket].emit('deletefriend',d);
-                    res.json({code:1});
+                    if (io.sockets.sockets[socket]) {
+                        io.sockets.sockets[socket].emit('deletefriend',d);
+                    } else {
+                        Msg.addAmsg(d,function (r) {
+                            if (r) {
+                                res.json({code:1});
+                            } else {
+                                res.json({code:0});
+                            }
+                        })
+                    }
                 } else {
                     Msg.addAmsg(d,function (r) {
                         if (r) {
