@@ -90,7 +90,7 @@ function regist(req, res) {
 								});
 								return;
 							}
-							log.debug(user.result);
+							log.debug(JSON.stringify(user.result));
 							if (user.result.n) {
 							    res.json({code:1});
 							    dbs.collection('user').findOne(us, function (err, r) {
@@ -136,7 +136,7 @@ function myinfo(req, res) {
 					code: -1
 				});
 			} else {
-				log.debug(result);
+				log.debug(JSON.stringify(result.result));
 				if (result) {
 					result.pwd = '';
 				}
@@ -163,7 +163,7 @@ function modifypwd(req, res) {
 				code: -1
 			});
 		} else {
-			log.debug(user);
+			log.debug(JSON.stringify(user));
 			res.json({
 				code: 1
 			});
@@ -201,7 +201,7 @@ function modifyemail2(req, res) {
 						code: -1
 					});
 				} else {
-					log.debug(result);
+					log.debug(JSON.stringify(result));
 					res.json({
 						code: 1
 					});
@@ -459,7 +459,7 @@ function searchname(req, res) {
 					code: -1
 				});
 			} else {
-				log.debug(result);
+				log.debug(JSON.stringify(result));
 				var data = new Array(result.length);
 				for (var i = 0; i < result.length; i++) {
 					data[i] = {
