@@ -6,7 +6,11 @@
  */
 var homePath = '^.home',gofriends = '^.frends';
 var myApp = angular.module("myApp", ["ui.router"]);
-
+getCurrentId();
+getSesssionId();
+socket= io.connect();
+socketMonitor();
+socketConfirm();
 //配置路由
 myApp.config(function ($stateProvider, $urlRouterProvider) {
     //登陆后直接跳转到主界面
@@ -58,11 +62,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
 
 //主界面
 myApp.controller('homeCtrl',function($scope,$state){
-    getCurrentId();
-    getSesssionId();
-    socket= io.connect();
-    socketMonitor();
-    socketConfirm();
+
     if(localStorage.getItem("personIfo_"+localStorage. currentId)){
         var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
         personIfo = JSON.parse(personIfo);
@@ -105,21 +105,78 @@ myApp.controller('homeCtrl',function($scope,$state){
 //个人信息
 myApp.controller('personalCtrl',function($scope,$state){
     //路由引擎
+    //返回键
     $scope.back = function(){
         $state.go('^.home');
     };
+    //标题
     $scope.list_name = "个人信息";
-    $scope.myInfomation = function (){
+    $scope.getPersonInfo = function (){
         $.post('/suser/private/user/user/myinfo',{},function (data) {
             console.log(JSON.stringify(data));
-            console.log("personal infomation");
+            localStorage.setItem("my_allInfo_"+localStorage. currentId ,JSON.stringify(data));
         });
     };
-    $scope.myInfomation();
 
-
-    $scope.personal = JSON.parse(localStorage.getItem("personIfo_"+localStorage. currentId));
+    $scope.getPersonInfo();
+    $scope.personal = JSON.parse(localStorage.getItem("my_allInfo_"+localStorage. currentId));
     console.log(JSON.stringify($scope.personal));
+    $scope.changeName = function (){
+        var newInfo = prompt("请输入新的名称",$scope.personal.name);
+        if(1){
+            $.get("/suser/private/user/modifyname",{
+                name: newInfo
+            },function (data) {
+                console.log(JSON.stringify(data));
+                alert(code[data.code + 1]);
+                $scope.getPersonInfo();
+                $state.reload();
+            });
+        }
+    };
+    $scope.changeSign = function (){
+        var newInfo = prompt("请输入新的签名",$scope.personal.remark);
+        if(check_input(newInfo,100)){
+            $.get("/suser/private/user/modifysign",{
+                words:newInfo
+            },function (data) {
+                console.log(JSON.stringify(data));
+                alert(code[data.code + 1]);
+                $scope.getPersonInfo();
+                $state.reload();
+            });
+        }
+    };
+    $scope.changeAge = function (){
+        var newInfo = prompt("请输入年龄",$scope.personal.age);
+        if(check_input(newInfo,3)){
+            $.get("/suser/private/user/modifyage",{
+                age:newInfo
+            },function (data) {
+                console.log(JSON.stringify(data));
+                alert(code[data.code + 1]);
+                $scope.getPersonInfo();
+                $state.reload();
+            });
+        }
+    };
+    $scope.changeSex = function (){
+        //var newInfo = prompt("请选择性别",$scope.personal.sex);
+        var sex = document.getElementById('sex');
+
+        $("#sex").blur(function(){
+            var newInfo = sex.value;
+            $.get("/suser/private/user/modifysex",{
+                sex:newInfo
+            },function (data) {
+                console.log(JSON.stringify(data));
+                alert(code[data.code + 1]);
+                $scope.getPersonInfo();
+                $state.reload();
+            });
+        });
+
+    };
 });
 myApp.controller('friendsCtrl',function($scope,$state){
     //路由引擎
@@ -162,11 +219,6 @@ myApp.controller('groupsCtrl',function($scope,$state){
 
 //聊天
 myApp.controller('chatCtrl',function($scope,$state){
-    getCurrentId();
-    getSesssionId();
-    socket= io.connect();
-    socketMonitor();
-    socketConfirm();
     //路由引擎
     $scope.back = function(){
         $state.go(homePath);
@@ -283,6 +335,7 @@ myApp.controller('chatCtrl',function($scope,$state){
 });
 //查找好友／群
 myApp.controller('searchCtrl',function($scope,$state){
+    $scope.show_search = 1;
     $scope.back = function(){
         $state.go('^.home');
     };
@@ -307,6 +360,22 @@ function scroll(){
     var scrol = document.getElementById("b");
     scrol.scrollTop = scrol.scrollHeight;
     console.log( scrol.scrollTop+":"+ scrol.scrollHeight);
+}
+function check_input(input,max){
+    var maxLength = max;
+    if (input != ""){
+        if(input.length <=maxLength ){
+            return true;
+        }
+        else{
+            alert("输入不能超过"+maxLength+"个字符");
+            return false;
+        }
+    }
+    else{
+        alert("输入不能为空");
+        return false;
+    }
 }
 
 
