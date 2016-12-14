@@ -2,7 +2,6 @@
  * Created by kevin on 16-10-27.
  */
 "use strict";
-document.write("<script language='JavaScript' src='../base/other/template.js'></script>");
 //get message
 function get_myinfo(){
     $.post('/suser/private/user/user/myinfo',function (data) {

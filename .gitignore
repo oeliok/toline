@@ -5,6 +5,11 @@
 /code/lib/
 /code/www/avator/
 /code/www/gavator/
+package.json
 .DS_Store
-.idea
+code/.DS_Store
+code/server/.DS_Store
 code/www/test/
+earnit_asset/
+node_modules/
+user/earnit/log

@@ -557,7 +557,7 @@ function checkGroupMenber(userid, groupid, next) {
 function sendmsg(socket, userid) {
     mongo.getConnection(function (db) {
         var msg = db.collection('msg');
-        msg.find({to:ObjectId(userid)}).toArray(function (err, r) {
+        msg.find({to:userid}).toArray(function (err, r) {
             if (err) {
                 log.error(err);
                 return false;
@@ -565,7 +565,7 @@ function sendmsg(socket, userid) {
             for (var i in  r) {
                 socket.emit(r[i].type,r[i]);
             }
-            msg.deleteMany({to:ObjectId(userid)});
+            msg.deleteMany({to:userid});
         })
     })
 }

@@ -571,14 +571,14 @@ function getlist(req, res) {
 					code: -1
 				});
 			} else {
-				log.debug(result);
+				log.debug(JSON.stringify(result));
 				if (result.length > 0) {
 					var data = new Array(result.length);
 					for (var i = 0; i < result.length; i++) {
 						data[i] = {
 							_id: result[i].frid
 						};
-						log.debug(result[i].frid);
+						//log.debug(result[i].frid);
 					}
 					log.debug(data);
 					dbs.collection('user').find({
@@ -590,11 +590,10 @@ function getlist(req, res) {
 								code: -1
 							});
 						} else {
-							log.debug(results);
 							for (var i = 0; i < results.length; i++) {
 								results[i].pwd = null;
 							}
-							log.debug(results);
+							log.debug(JSON.stringify(results));
 							res.json({
 								code: 1,
 								data: results
