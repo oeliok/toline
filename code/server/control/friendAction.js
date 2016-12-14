@@ -8,50 +8,51 @@ var Validate = require('../lib/myvalidate');
 var log = require('../log');
 
 function addfriend(req, res) {
-	log.debug("addfriend API");
-	var data = req.query;
-	var rule = {
-		id:{
-			require:true,
-			len:24
-		},
-		msg:{
-			require:true,
-			minlen:1,
-			maxlen:128
-		}
-	};
-	var v = new Validate();
-	v.setData(data);
-	v.setRules(rule);
-	if (v.isok()) {
-		log.debug(data);
-		soketIO.socketIO(function (io) {
-			io.useridTosocketid(data.id, function (socket) {
-				var d = {
-					from:req.session.user._id,
-					to:data.id,
-					type:'addfriend',
-					datetime:Date.now(),
-					msg:data.msg
-				};
-				if (socket) {
-					io.sockets.sockets[socket].emit('addfriend',d);
-					res.json({code:1});
-				} else {
-					Msg.addAmsg(d,function (r) {
-						if (r) {
-							res.json({code:1});
-						} else {
-							res.json({code:0});
-						}
-					})
-				}
-			})
-		})
-	} else {
-		res.json({code:10});
-	}
+
+    log.debug("addfriend API");
+    var data = req.query;
+    var rule = {
+        id:{
+            require:true,
+            len:24
+        },
+        msg:{
+            require:true,
+            minlen:1,
+            maxlen:128
+        }
+    };
+    var v = new Validate();
+    v.setData(data);
+    v.setRules(rule);
+    if (v.isok()) {
+        log.debug(data);
+        soketIO.socketIO(function (io) {
+            soketIO.useridTosocketid(data.id, function (socket) {
+                var d = {
+                    from:req.session.user._id,
+                    to:data.id,
+                    type:'addfriend',
+                    datetime:Date.now(),
+                    msg:data.msg
+                };
+                if (socket) {
+                    io.sockets.sockets[socket].emit('addfriend',d);
+                    res.json({code:1});
+                } else {
+                    Msg.addAmsg(d,function (r) {
+                        if (r) {
+                            res.json({code:1});
+                        } else {
+                            res.json({code:0});
+                        }
+                    })
+                }
+            })
+        })
+    } else {
+        res.json({code:10});
+    }
 }
 
 function addfriendCheck(req, res) {
@@ -79,49 +80,50 @@ function addfriendCheck(req, res) {
 }
 
 function deletefriend(req, res) {
-	var data = req.query;
-	var rule = {
-		id:{
-			require:true,
-			len:24
-		},
-		msg:{
-			require:true,
-			minlen:1,
-			maxlen:128
-		}
-	};
-	var v = new Validate();
-	v.setData(data);
-	v.setRules(rule);
-	if (v.isok()) {
-		soketIO.socketIO(function (io) {
-			io.useridTosocketid(data.id, function (socket) {
-				var d = {
-					from:req.session.user._id,
-					to:data.id,
-					type:'deletefriend',
-					datetime:Date.now(),
-					msg:data.msg
-				};
-				if (socket) {
-					io.sockets.sockets[socket].emit('deletefriend',d);
-					res.json({code:1});
-				} else {
-					Msg.addAmsg(d,function (r) {
-						if (r) {
-							res.json({code:1});
-						} else {
-							res.json({code:0});
-						}
-					})
-				}
-				friend.deletefriend(d.from,d.to,null);
-			})
-		})
-	} else {
-		res.json({code:10});
-	}
+
+    var data = req.query;
+    var rule = {
+        id:{
+            require:true,
+            len:24
+        },
+        msg:{
+            require:true,
+            minlen:1,
+            maxlen:128
+        }
+    };
+    var v = new Validate();
+    v.setData(data);
+    v.setRules(rule);
+    if (v.isok()) {
+        soketIO.socketIO(function (io) {
+            soketIO.useridTosocketid(data.id, function (socket) {
+                var d = {
+                    from:req.session.user._id,
+                    to:data.id,
+                    type:'deletefriend',
+                    datetime:Date.now(),
+                    msg:data.msg
+                };
+                if (socket) {
+                    io.sockets.sockets[socket].emit('deletefriend',d);
+                    res.json({code:1});
+                } else {
+                    Msg.addAmsg(d,function (r) {
+                        if (r) {
+                            res.json({code:1});
+                        } else {
+                            res.json({code:0});
+                        }
+                    })
+                }
+                friend.deletefriend(d.from,d.to,null);
+            })
+        })
+    } else {
+        res.json({code:10});
+    }
 }
 
 exports.addfriend = addfriend;
