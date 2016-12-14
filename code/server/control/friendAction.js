@@ -38,6 +38,7 @@ function addfriend(req, res) {
                 if (socket) {
                     if (io.sockets.sockets[socket]){
                         io.sockets.sockets[socket].emit('addfriend',d);
+                        res.json({code:1});
                     } else {
                         Msg.addAmsg(d, function (r) {
                             if (r) {
