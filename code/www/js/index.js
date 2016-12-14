@@ -87,8 +87,8 @@ function getIfoByName(searchName) {
 	var temp;
 	$.get("/suser/private/friend/searchname",{name:searchName}).done(function (data) {
 		// console.log(JSON.stringify(data));
-		if(data.data.length>0){
-			temp=data.data[0];
+		if(data.data){
+			temp=data.data;
 		}
 	});
 	return temp;
@@ -471,7 +471,7 @@ function socketMonitor() {
 		} else{
 			if((data.to===chatOtherId)&&contentInput){
 				var dataTemp=data;
-				dataTemp.name=chatOtherName;
+				dataTemp.name=searchgroupbyid(data.from).name;
 				var date = new Date(data.sendDate);
 				var Y = date.getFullYear() + '-';
 				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
