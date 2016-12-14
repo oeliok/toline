@@ -5,3 +5,6 @@
 /code/lib/
 /code/www/avator/
 /code/www/gavator/
+.DS_Store
+.idea
+code/www/test/

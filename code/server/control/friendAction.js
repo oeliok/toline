@@ -5,7 +5,6 @@ var soketIO = require('../control/socket');
 var friend = require('../model/mfriend');
 var msg = require('../model/msg');
 var Validate = require('../lib/myvalidate');
-var log = require('../log');
 
 function addfriend(req, res) {
     var data = req.query;
@@ -24,7 +23,6 @@ function addfriend(req, res) {
     v.setData(data);
     v.setRules(rule);
     if (v.isok()) {
-        log.debug(data);
         soketIO.socketIO(function (io) {
             io.useridTosocketid(data.id, function (socket) {
                 var d = {
