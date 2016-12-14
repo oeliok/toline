@@ -1,5 +1,5 @@
 var app = angular.module("toline", ['ngRoute']);
-app.controller('personalIfoCtrl',function($scope){
+app.controller('personalIfoCtrl',function($scope,$location){
 	getCurrentId();
 	getSesssionId();
 	socket= io.connect();
@@ -31,6 +31,10 @@ app.controller('personalIfoCtrl',function($scope){
 			};
 		};
 	};
+	$scope.toPersonalIfo=function () {
+		$location.path('/personal');
+		$scope.$apply();
+	}
 	angular.element(document).ready(function () {
 		// var test=searchname("sw");
 		// console.log("test"+JSON.stringify(test));
@@ -175,12 +179,16 @@ app.controller('makefriendCtrl',function ($scope) {
 		dateTemp=getIfoByName(name);
 		console.log("查找结果"+JSON.stringify(dateTemp));
 		if(dateTemp){
-			var html = template('makeFriendList', dateTemp);
-			content.innerHTML += html;
+			for(var i=0;i<dateTemp.length;i++){
+				var html = template('makeFriendList', dateTemp[i]);
+				content.innerHTML += html;
+			}
 			$("#content a").click(function(){
+				pos = $("#content a").index($(this));
 				var msg=prompt("请输入申请好友的留言","");
 				if(msg!=null && msg!=""){
-					var temp=addFriend(dateTemp.id,msg);
+					console.log("添加"+JSON.stringify(dateTemp[pos]));
+					var temp=addFriend(dateTemp[pos].id,msg);
 					console.log("添加好友返回值"+temp);
 					if(temp===1){
 						Materialize.toast('好友申请已发送_(:зゝ∠)_', 1500, 'rounded');
@@ -333,15 +341,89 @@ app.controller('chatCtrl',function ($scope) {
 		} else
 			Materialize.toast('Nothing input,QAQ', 1500, 'rounded');
 	}
-})
+});
+app.controller('personalCtrl',function ($scope,$route) {
+	// $scope.back = function(){
+	// 	$state.go('^.home');
+	// };
+	//标题
+	$("#prompt").text("个人信息");
+	$scope.getPersonInfo = function (){
+		$.post('/suser/private/user/user/myinfo',{},function (data) {
+			console.log(JSON.stringify(data));
+			localStorage.setItem("my_allInfo_"+localStorage. currentId ,JSON.stringify(data));
+		});
+	};
+
+	$scope.getPersonInfo();
+	$scope.personal = JSON.parse(localStorage.getItem("my_allInfo_"+localStorage. currentId));
+	console.log(JSON.stringify($scope.personal));
+	$scope.changeName = function (){
+		var newInfo = prompt("请输入新的名称",$scope.personal.name);
+		if(check_input(newInfo,20)){
+			$.get("/suser/private/user/modifyname",{
+				name: newInfo
+			},function (data) {
+				console.log(JSON.stringify(data));
+				alert(code[data.code + 1]);
+				$scope.getPersonInfo();
+				$route.reload();
+			});
+		}
+	};
+	$scope.changeSign = function (){
+		var newInfo = prompt("请输入新的签名",$scope.personal.remark);
+		if(check_input(newInfo,100)){
+			$.get("/suser/private/user/modifysign",{
+				words:newInfo
+			},function (data) {
+				console.log(JSON.stringify(data));
+				alert(code[data.code + 1]);
+				$scope.getPersonInfo();
+				$route.reload();
+			});
+		}
+	};
+	$scope.changeAge = function (){
+		var newInfo = prompt("请输入年龄",$scope.personal.age);
+		if(check_input(newInfo,3)){
+			$.get("/suser/private/user/modifyage",{
+				age:newInfo
+			},function (data) {
+				console.log(JSON.stringify(data));
+				alert(code[data.code + 1]);
+				$scope.getPersonInfo();
+				$route.reload();
+			});
+		}
+	};
+	$scope.changeSex = function (){
+		//var newInfo = prompt("请选择性别",$scope.personal.sex);
+		var sex = document.getElementById('sex');
+
+		$("#sex").blur(function(){
+			var newInfo = sex.value;
+			$.get("/suser/private/user/modifysex",{
+				sex:newInfo
+			},function (data) {
+				console.log(JSON.stringify(data));
+				alert(code[data.code + 1]);
+				$scope.getPersonInfo();
+				$route.reload();
+			});
+		});
+
+	};
+});
 app.config(['$routeProvider', function($routeProvider){
 	$routeProvider
 		.when('/',{templateUrl: 'home.html', controller: 'homeCtrl'})
 		.when('/friendList',{templateUrl: 'friendList.html', controller: 'friendListCtrl'})
 		.when('/chatRoom',{templateUrl: 'groupList.html', controller: 'groupListCtrl'})
 		.when('/makeFriend',{templateUrl: 'makefriend.html', controller: 'makefriendCtrl'})
-		.when('/setting',{template:'这是设置页面'})
-		.when('/help',{template:'这是帮助页面'})
+		// .when('/setting',{template:'这是设置页面'})
+		// .when('/help',{template:'这是帮助页面'})
 		.when('/chat',{templateUrl: 'chat.html', controller: 'chatCtrl'})
+		.when('/personal',{templateUrl: 'personalIfo.html', controller: 'personalCtrl'})
 		.otherwise({redirectTo:'/'});
 }]);

@@ -65,16 +65,7 @@ function getPersonalIfo(){
 			}, "json");
 	};
 }
-function getIdByName(searchName) {
-	var temp;
-	$.get("/suser/private/friend/searchname",{name:searchName}).done(function (data) {
-		// console.log(JSON.stringify(data));
-		if(data.data.length>0){
-			temp=data.data[0].id;
-		}
-	});
-	return temp;
-}
+
 function getNameById(searchId) {
 	var temp;
 	$.get("/suser/private/friend/searchid",{id:searchId}).done(function (data) {
@@ -85,8 +76,8 @@ function getNameById(searchId) {
 }
 function getIfoByName(searchName) {
 	var temp;
-	$.get("/suser/private/friend/searchname",{name:searchName}).done(function (data) {
-		// console.log(JSON.stringify(data));
+	$.get("/suser/private/friend/searchname",{keyword:searchName,page:0,size:10}).done(function (data) {
+		console.log("getIfoByName"+JSON.stringify(data));
 		if(data.data){
 			temp=data.data;
 		}
@@ -536,3 +527,20 @@ function socketMonitor() {
 	});
 
 }
+function check_input(input,max){
+	var maxLength = max;
+	if (input != "" && input != null){
+		if(input.length <=maxLength ){
+			return true;
+		}
+		else{
+			alert("输入不能超过"+maxLength+"个字符");
+			return false;
+		}
+	}
+	else{
+		alert("输入不能为空");
+		return false;
+	}
+}
+

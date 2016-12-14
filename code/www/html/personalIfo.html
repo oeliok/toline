@@ -1,0 +1,92 @@
+<div class="no-head-row">
+    <ul class="collection" style="overflow:scroll;overflow-x: hidden;">
+        <li class="collection-item avatar">
+                <p  data-ng-click="changeName()">
+                    <i class=" material-icons" role="presentation">person_pin</i>
+                    昵称：{{personal.name}}
+
+                </p>
+        </li>
+        <li class="collection-item avatar">
+            <div class="text-overflow">
+                <p  data-ng-click="changeSign()">
+                    <i class="mdl-color-text--black material-icons" role="presentation">message</i>
+                    签名：{{personal.remark}}
+
+                </p>
+            </div>
+        </li>
+        <li class="collection-item avatar">
+            <div class="text-overflow">
+                <p  data-ng-click="changeAge()">
+                    <i class="mdl-color-text--black material-icons" role="presentation">watch_later</i>
+                    年龄：{{personal.age}}
+                </p>
+            </div>
+        </li>
+        <li class="collection-item avatar">
+            <div class="text-overflow">
+                <p  data-ng-click="changeSex()">
+                    <i class=" material-icons" role="presentation">face</i>
+                    性别：
+                    <select ng-model="personal.sex" class="btn-success" id="sex" title="" >
+                        <option value="0">男</option>
+                        <option value="1">女</option>
+                        <option value="2">保密</option>
+                    </select>
+                </p>
+            </div>
+        </li>
+        <li>
+            <select>
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
+            </select>
+        </li>
+    </ul>
+    <!--<ul class="mdl-list">-->
+        <!--<li class=" mdl-navigation  mdl-list__item" >-->
+            <!--<div class="text-overflow">-->
+                <!--<p  data-ng-click="changeName()">-->
+                    <!--<i class="mdl-color-text&#45;&#45;black material-icons" role="presentation">person_pin</i>-->
+                    <!--昵称：{{personal.name}}-->
+
+                <!--</p>-->
+            <!--</div>-->
+        <!--</li>-->
+        <!--<li class=" mdl-navigation  mdl-list__item" >-->
+            <!--<div class="text-overflow">-->
+                <!--<p  data-ng-click="changeSign()">-->
+                    <!--<i class="mdl-color-text&#45;&#45;black material-icons" role="presentation">message</i>-->
+                    <!--签名：{{personal.remark}}-->
+
+                <!--</p>-->
+            <!--</div>-->
+        <!--</li>-->
+        <!--<li class=" mdl-navigation  mdl-list__item" >-->
+            <!--<div class="text-overflow">-->
+                <!--<p  data-ng-click="changeAge()">-->
+                    <!--<i class="mdl-color-text&#45;&#45;black material-icons" role="presentation">watch_later</i>-->
+                    <!--年龄：{{personal.age}}-->
+                <!--</p>-->
+            <!--</div>-->
+        <!--</li>-->
+        <!--<li class=" mdl-navigation  mdl-list__item" >-->
+            <!--<div class="text-overflow">-->
+                <!--<p  data-ng-click="changeSex()">-->
+                    <!--<i class="mdl-color-text&#45;&#45;black material-icons" role="presentation">face</i>-->
+                    <!--性别：-->
+                    <!--<select ng-model="personal.sex" class="btn-success" id="sex" title="" >-->
+                        <!--<option value="0">男</option>-->
+                        <!--<option value="1">女</option>-->
+                        <!--<option value="2">保密</option>-->
+                    <!--</select>-->
+                <!--</p>-->
+            <!--</div>-->
+        <!--</li>-->
+
+    <!--</ul>-->
+
+</div>
