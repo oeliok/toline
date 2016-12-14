@@ -6,11 +6,6 @@
  */
 var homePath = '^.home',gofriends = '^.frends';
 var myApp = angular.module("myApp", ["ui.router"]);
-getCurrentId();
-getSesssionId();
-socket= io.connect();
-socketMonitor();
-socketConfirm();
 //配置路由
 myApp.config(function ($stateProvider, $urlRouterProvider) {
     //登陆后直接跳转到主界面
@@ -62,7 +57,11 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
 
 //主界面
 myApp.controller('homeCtrl',function($scope,$state){
-
+    getCurrentId();
+    getSesssionId();
+    socket= io.connect();
+    socketMonitor();
+    socketConfirm();
     if(localStorage.getItem("personIfo_"+localStorage. currentId)){
         var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
         personIfo = JSON.parse(personIfo);
@@ -123,7 +122,7 @@ myApp.controller('personalCtrl',function($scope,$state){
     console.log(JSON.stringify($scope.personal));
     $scope.changeName = function (){
         var newInfo = prompt("请输入新的名称",$scope.personal.name);
-        if(1){
+        if(check_input(newInfo,20)){
             $.get("/suser/private/user/modifyname",{
                 name: newInfo
             },function (data) {
@@ -363,7 +362,7 @@ function scroll(){
 }
 function check_input(input,max){
     var maxLength = max;
-    if (input != ""){
+    if (input != "" && input != null){
         if(input.length <=maxLength ){
             return true;
         }

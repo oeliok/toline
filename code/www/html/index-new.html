@@ -59,11 +59,28 @@
                     <p>
                         <img src="../avator/{{personal._id}}" title="我的头像" alt="" class="img-circle"  style="width:80px;height:80px;">
                     </p>
-                    <p  data-ng-click="changeName()">{{personal.name}}</p>
-                    <p data-ng-click="changeSign()">{{personal.remark}}</p>
+                    <p >{{personal.name}}</p>
                 </div>
             </div>
             <ul class="mdl-list">
+                <li class=" mdl-navigation  mdl-list__item" >
+                    <div class="text-overflow">
+                        <p  data-ng-click="changeName()">
+                            <i class="mdl-color-text--black material-icons" role="presentation">person_pin</i>
+                            昵称：{{personal.name}}
+
+                        </p>
+                    </div>
+                </li>
+                <li class=" mdl-navigation  mdl-list__item" >
+                    <div class="text-overflow">
+                        <p  data-ng-click="changeSign()">
+                            <i class="mdl-color-text--black material-icons" role="presentation">message</i>
+                            签名：{{personal.remark}}
+
+                        </p>
+                    </div>
+                </li>
                 <li class=" mdl-navigation  mdl-list__item" >
                     <div class="text-overflow">
                         <p  data-ng-click="changeAge()">
@@ -85,6 +102,7 @@
                         </p>
                     </div>
                 </li>
+
             </ul>
 
         </div>
