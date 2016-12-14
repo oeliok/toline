@@ -1,5 +1,4 @@
 "use strict";
-document.write("<script type='text/javascript' src='../base/other/reg_exp.js'></script>");
 //说明：
 // 用户名为空，或者格式不对 -》 提示错误，清空密码框，聚焦到用户名框，并全选用户名
 // 用户名不存在 -》同上
