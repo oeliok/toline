@@ -308,7 +308,9 @@ C -> S(客户端到服务器)
     name:/suser/private/friend/searchname,
     method:get,
     arg:[
-        {name:name,type:string}
+        {"name":"keyword","type":"string","limit":"1,10","describe":"关键词"},
+        {"name":"page","type":"unsigned int","describe":"页码","min":0},
+        {"name":"size","type":"unsigned int","describe":"页面大小","min":5}
     ],
     return:[
         {code:-1}|
