@@ -1,0 +1,48 @@
+<!--聊天信息-->
+<div id="contentInput" style="overflow:scroll;overflow-x: hidden;height: 80%; text-align: center;">
+</div>
+<div id="bottomInput">
+    <hr width="100%">
+    <div class="mdl-grid">
+        <div style=" width: 75%;">
+            <textarea class="mdl-textfield__input" type="text" rows= "1" id="msg" style="height: 38px;"></textarea>
+        </div>
+        <div style=" width: 25%;text-align: center">
+            <button style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="say() ">
+                Send
+            </button>
+        </div>
+
+    </div></div>
+
+<!--contentInput带输入信息的content-->
+<script id="othersay" type="text/html">
+    <div class="mdl-grid" style="padding-bottom: 0;padding-top: 0">
+        <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
+            <img class="circle" style="width: 48px;height: 48px;" border="0" src="../avator/{{from}}" alt="friend picture" vspace="36">
+        </div>
+        <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone" style="margin-left: auto;
+margin-right: auto;">
+            <h4 style="text-align: left;">
+                <small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">{{name}}</small> <small style="color: black">{{date}}</small></h4>
+
+            <p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 2px;text-align: left;word-wrap: break-word;word-break: break-all;">{{msg}}</p>
+        </div>
+        <div class="mdl-cell--2-col-desktop mdl-cell--1-col-phone"></div>
+    </div>
+</script>
+<script id="mysay" type="text/html">
+    <div class="mdl-grid">
+        <div class="mdl-cell--2-col-desktop mdl-cell--1-col-phone"></div>
+        <div class="mdl-cell--9-col-desktop  mdl-cell--2-col-phone "  style="margin-left: auto;
+margin-right: auto;">
+            <h4 style="text-align: right;">
+                <small style="color: black;">{{date}}</small><small style="color:#8aba56;word-wrap: break-word;word-break: break-all;">{{name}}</small> </h4>
+
+            <p style="color: black;background-color: #f1f5f8;padding: 10px;border-radius: 2px;text-align: left;word-wrap: break-word;word-break: break-all;">{{msg}}</p>
+        </div>
+        <div class="mdl-cell--2-col-desktop  mdl-cell--1-col-phone" style="text-align: center">
+            <img class="circle" style="width: 48px;height: 48px;" border="0" src="../avator/{{from}}" alt="friend picture" vspace="36">
+        </div>
+    </div>
+</script>

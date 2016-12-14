@@ -26,6 +26,7 @@ $(document).ready(function(){
 	//
 	// // console.log("searchid"+getIdByName("sw"));
 });
+var sendState;
 function getSortFun(order, sortBy) {
 	var ordAlpah = (order == 'asc') ? '>' : '<';
 	var sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1');
@@ -82,6 +83,16 @@ function getNameById(searchId) {
 	});
 	return temp;
 }
+function getIfoByName(searchName) {
+	var temp;
+	$.get("/suser/private/friend/searchname",{name:searchName}).done(function (data) {
+		// console.log(JSON.stringify(data));
+		if(data.data.length>0){
+			temp=data.data[0];
+		}
+	});
+	return temp;
+}
 function changePeronalRemark(inputtemp) {
 	var temp;
 	if(inputtemp.length<=0){
@@ -103,36 +114,36 @@ function loadFriendList() {
 	chatIfo = JSON.parse(chatIfo);
 	if(chatIfo){
 		console.log("好友列表存在，长度:"+chatIfo.length);
-	}else {
-		$.post("/suser/private/friend/getlist", {},
-			function (cdata) {
+	};
+	$.post("/suser/private/friend/getlist", {},
+		function (cdata) {
+			if(cdata.data){
 				if(JSON.stringify(cdata.data).length>0){
 					var temp=JSON.stringify(cdata.data,["_id","name","remark"]);
 					// console.log("好友列表："+temp);
 					localStorage.setItem("chatIfo_" + localStorage.currentId, temp);
 				}
-
-			}, "json");
-
-	};
+			}
+		}, "json");
 }
 function loadGroupList() {
 	var groupIfo = localStorage.getItem("groupIfo_"+localStorage. currentId);
 	groupIfo = JSON.parse(groupIfo);
 	if(groupIfo){
 		console.log("群列表存在，长度:"+groupIfo.length);
-	}else {
-		console.log("currentId:"+localStorage.currentId);
-		$.post("/suser/private/group/getgroups",
-			function (data) {
-				console.log("群列表："+JSON.stringify(data));
+	};
+	console.log("currentId:"+localStorage.currentId);
+	$.post("/suser/private/group/getgroups",
+		function (data) {
+			console.log("群列表："+JSON.stringify(data));
+			if(data.groups){
 				if(JSON.stringify(data.groups).length>0){
 					var temp=JSON.stringify(data.groups,["_id","name","remark"]);
 					console.log("群列表："+temp);
 					localStorage.setItem("groupIfo_" + localStorage.currentId, temp);
 				}
-			}, "json");
-	}
+			}
+		}, "json");
 }
 //searchname,{code:1,data:[{id:"",name:"","remark":""}]}
 function searchname(name) {
@@ -186,9 +197,9 @@ function searchgroupbyid(gid) {
 	var temp;
 	$.post("/suser/private/group/searchgroupbyid", {gid:gid},
 		function (data) {
-			console.log("searchgroupbyid"+JSON.stringify(data));
 			if(data.code===1){
-				temp=data.group;
+				console.log("searchgroupbyid"+JSON.stringify(data));
+				temp=data;
 			};
 		}, "json");
 	return temp;
@@ -298,10 +309,11 @@ function socketMonitor() {
 	});
 	socket.on('auth-s',function (data) {
 		console.log("登录"+code[data.code+1]);
-		Materialize.toast("登录"+code[data.code+1], 2500, 'rounded');
-		if(data.code!=1){
+		if(data.code===1){
+			Materialize.toast("登录"+code[data.code+1], 1500, 'rounded');
+		}else {
 			location.reload(true);
-		}
+		};
 	});
 	socket.on('saoff',function (data) {
 		console.log("离线消息获取"+JSON.stringify(data));
@@ -337,7 +349,14 @@ function socketMonitor() {
 		var contentInput=document.getElementById('contentInput');
 		var chatOtherId=sessionStorage.getItem("chatOtherId");
 		var chatOtherName=sessionStorage.getItem("chatOtherName");
+		if(sessionStorage.getItem("currentChat_"+localStorage.currentId)){
+			var currentChats=JSON.parse(sessionStorage.getItem("currentChat_"+localStorage.currentId));
+		}else {
+			var currentChats=[];
+		};
+		var currentChat = {};
 		console.log("双人聊天信息当前获取"+JSON.stringify(data));
+		clearTimeout(sendState);
 		if (data.from === localStorage.currentId) {
 			if((data.to===chatOtherId)&&contentInput){
 				var dataTemp=data;
@@ -356,6 +375,19 @@ function socketMonitor() {
 				contentInput.innerHTML += html;
 				contentInput.scrollTop = contentInput.scrollHeight;
 			};
+			//插入最近联系人
+			for (var i=0;i<currentChats.length;i++){
+				if(currentChats[i].from===data.to){
+					currentChats.splice(i,1);
+				};
+			};
+			currentChat.from=data.to;
+			currentChat.name=getNameById(data.to);
+			currentChat.msg=data.msg;
+			currentChat.sendDate=data.sendDate;
+			currentChat.type="friend";
+			currentChats.unshift(currentChat);
+			sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
 			socketHistoryGet("friend",data.to,100);
 		} else if(data.to===localStorage.currentId){
 			if((data.from===chatOtherId)&&contentInput){
@@ -373,9 +405,21 @@ function socketMonitor() {
 				contentInput.innerHTML += html;
 				contentInput.scrollTop = contentInput.scrollHeight;
 			}else {
-				Materialize.toast(getNameById(data.from)+":"+data.msg, 2500, 'rounded');
+				Materialize.toast(getNameById(data.from)+":"+data.msg, 1500, 'rounded');
 			};
-			console.log(data.from);
+			//插入最近联系人
+			for (var i=0;i<currentChats.length;i++){
+				if(currentChats[i].from===data.from){
+					currentChats.splice(i,1);
+				};
+			};
+			currentChat.from=data.from;
+			currentChat.name=getNameById(data.from);
+			currentChat.msg=data.msg;
+			currentChat.sendDate=data.sendDate;
+			currentChat.type="friend";
+			currentChats.unshift(currentChat);
+			sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
 			socketHistoryGet("friend",data.from,100);
 		};
 	});
@@ -384,6 +428,13 @@ function socketMonitor() {
 		var contentInput=document.getElementById('contentInput');
 		var chatOtherId=sessionStorage.getItem("chatOtherId");
 		var chatOtherName=sessionStorage.getItem("chatOtherName");
+		clearTimeout(sendState);
+		if(sessionStorage.getItem("currentChat_"+localStorage.currentId)){
+			var currentChats=JSON.parse(sessionStorage.getItem("currentChat_"+localStorage.currentId));
+		}else {
+			var currentChats=[];
+		};
+		var currentChat = {};
 		if (data.from === localStorage.currentId) {
 			if((data.to===chatOtherId)&&contentInput) {
 				var dataTemp=data;
@@ -403,6 +454,19 @@ function socketMonitor() {
 				contentInput.innerHTML += html;
 				contentInput.scrollTop = contentInput.scrollHeight;
 			};
+			//插入最近联系人
+			for (var i=0;i<currentChats.length;i++){
+				if(currentChats[i].from===data.to){
+					currentChats.splice(i,1);
+				};
+			};
+			currentChat.from=data.to;
+			currentChat.name=searchgroupbyid(data.to).name;
+			currentChat.msg=getNameById(data.from)+":"+data.msg;
+			currentChat.sendDate=data.sendDate;
+			currentChat.type="group";
+			currentChats.unshift(currentChat);
+			sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
 			socketHistoryGet("group",data.to,100);
 		} else{
 			if((data.to===chatOtherId)&&contentInput){
@@ -420,8 +484,20 @@ function socketMonitor() {
 				contentInput.innerHTML += html;
 				contentInput.scrollTop = contentInput.scrollHeight;
 			}else {
-				Materialize.toast(getNameById(data.from)+":"+data.msg, 2500, 'rounded');
-			}
+				Materialize.toast(getNameById(data.from)+":"+data.msg, 1500, 'rounded');
+			};
+			for (var i=0;i<currentChats.length;i++){
+				if(currentChats[i].from===data.to){
+					currentChats.splice(i,1);
+				};
+			};
+			currentChat.from=data.to;
+			currentChat.name=searchgroupbyid(data.to).name;
+			currentChat.msg=getNameById(data.from)+":"+data.msg;
+			currentChat.sendDate=data.sendDate;
+			currentChat.type="group";
+			currentChats.unshift(currentChat);
+			sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
 			socketHistoryGet("group",data.to,100);
 
 		};
@@ -434,6 +510,20 @@ function socketMonitor() {
 	});
 	socket.on('addfriend',function (data) {
 		console.log("别人请求添加好友"+JSON.stringify(data));
+		if(sessionStorage.getItem("currentChat_"+localStorage.currentId)){
+			var currentChats=JSON.parse(sessionStorage.getItem("currentChat_"+localStorage.currentId));
+		}else {
+			var currentChats=[];
+		};
+		var currentChat = {};
+		currentChat.from=data.from;
+		currentChat.name=getNameById(data.from);
+		currentChat.msg="请求添加你为好友:"+data.msg;
+		currentChat.sendDate=data.datetime;
+		currentChat.type="addfriend";
+		currentChats.unshift(currentChat);
+		Materialize.toast(currentChat.name+"请求添加你为好友", 1500, 'rounded');
+		sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
 	});
 	socket.on('deletefriend',function (data) {
 		console.log("删除好友"+JSON.stringify(data));
