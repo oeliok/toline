@@ -5,8 +5,10 @@ var soketIO = require('../control/socket');
 var friend = require('../model/mfriend');
 var msg = require('../model/msg');
 var Validate = require('../lib/myvalidate');
+var log = require('../log');
 
 function addfriend(req, res) {
+    log.debug("addfriend API");
     var data = req.query;
     var rule = {
         id:{
@@ -23,8 +25,9 @@ function addfriend(req, res) {
     v.setData(data);
     v.setRules(rule);
     if (v.isok()) {
-        io.socketIO(function (ios) {
-            io.useridTosocketid(data.id, function (socket) {
+        log.debug(data);
+        soketIO.socketIO(function (io) {
+            soketIO.useridTosocketid(data.id, function (socket) {
                 var d = {
                     from:req.session.user._id,
                     to:data.id,
@@ -33,7 +36,7 @@ function addfriend(req, res) {
                     msg:data.msg
                 };
                 if (socket) {
-                    ios.sockets.sockets[socket].emit('addfriend',d);
+                    io.sockets.sockets[socket].emit('addfriend',d);
                     res.json({code:1});
                 } else {
                     Msg.addAmsg(d,function (r) {
@@ -92,8 +95,8 @@ function deletefriend(req, res) {
     v.setData(data);
     v.setRules(rule);
     if (v.isok()) {
-        io.socketIO(function (ios) {
-            io.useridTosocketid(data.id, function (socket) {
+        soketIO.socketIO(function (io) {
+            soketIO.useridTosocketid(data.id, function (socket) {
                 var d = {
                     from:req.session.user._id,
                     to:data.id,
@@ -102,7 +105,7 @@ function deletefriend(req, res) {
                     msg:data.msg
                 };
                 if (socket) {
-                    ios.sockets.sockets[socket].emit('deletefriend',d);
+                    io.sockets.sockets[socket].emit('deletefriend',d);
                     res.json({code:1});
                 } else {
                     Msg.addAmsg(d,function (r) {

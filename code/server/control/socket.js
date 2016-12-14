@@ -321,7 +321,7 @@ function friendOnline(io, socket, userid) {
             if (err) {
                 log.error(err);
             } else {
-                log.debug(info);
+                log.debug(JSON.stringify(info.result));
             }
         });
     })
@@ -355,7 +355,7 @@ function userGetFriends(userid, next) {
                     return false;
                 }
                 if (!users || users.length < 1) {
-                    log.info(users);
+                    log.debug(users);
                     return false;
                 }
                 next(users);
@@ -411,7 +411,7 @@ function friendOffline(io, socket, userid) {
                 if (err) {
                     log.error(err);
                 } else {
-                    log.debug(info);
+                    log.debug(JSON.stringify(info.result));
                 }
             });
         })

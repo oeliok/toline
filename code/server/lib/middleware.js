@@ -40,13 +40,13 @@ exports.token = function (req, res, next) {
 };
 
 exports.logConsoleget = function (req, res, next) {
-    log.info(req.query);
+    /*log.info(req.query);*/
     next();
 };
 exports.logConsolepost = function (req, res, next) {
     req.query = req.body;
-    log.debug(req.query);
-    log.debug(req.session.id);
+    /*log.debug(req.query)
+    log.debug(req.session.id);*/
     next();
 };
 
