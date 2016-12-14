@@ -355,7 +355,7 @@ function userGetFriends(userid, next) {
                     return false;
                 }
                 if (!users || users.length < 1) {
-                    log.info(users);
+                    log.debug(users);
                     return false;
                 }
                 next(users);

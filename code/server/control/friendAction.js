@@ -7,6 +7,7 @@ var msg = require('../model/msg');
 var Validate = require('../lib/myvalidate');
 
 function addfriend(req, res) {
+    log.debug("addfriend API");
     var data = req.query;
     var rule = {
         id:{
