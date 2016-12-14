@@ -9,7 +9,7 @@ app.controller('personalIfoCtrl',function($scope,$location){
 		var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
 		personIfo = JSON.parse(personIfo);
 		//***对应名字，图片，提示信息
-		$scope.ownerName=personIfo.name;
+		$('#ownerName').text(personIfo.name);
 		$scope.owenerPic=personIfo._id;
 		$scope.promptText="主界面";
 		if(localStorage.getItem("chatIfo_"+localStorage. currentId)){
@@ -344,7 +344,7 @@ app.controller('chatCtrl',function ($scope) {
 			Materialize.toast('Nothing input,QAQ', 1500, 'rounded');
 	}
 });
-app.controller('personalCtrl',function ($scope,$route) {
+app.controller('personalCtrl',function ($scope,$route,$location) {
 	// $scope.back = function(){
 	// 	$state.go('^.home');
 	// };
@@ -366,8 +366,10 @@ app.controller('personalCtrl',function ($scope,$route) {
 			$.get("/suser/private/user/modifyname",{
 				name: newInfo
 			},function (data) {
+				$('#ownerName').text(newInfo);
 				console.log(JSON.stringify(data));
 				alert(code[data.code + 1]);
+				getPersonalIfo();
 				$scope.getPersonInfo();
 				$route.reload();
 			});

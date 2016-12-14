@@ -53,17 +53,15 @@ function getPersonalIfo(){
 	personIfo = JSON.parse(personIfo);
 	if(personIfo){
 		//加载个人信息（personIfo._id,personIfo.name,personIfo.remark）
-
-	}else{
-		$.post("/suser/private/user/user/myinfo", { },
-			function(pdata){
-				//加载个人信息（pdata._id,pdata.name,pdata.remark）
-
-				var temp=JSON.stringify(pdata,["_id","name","remark"]);
-				console.log("个人信息:"+temp);
-				localStorage.setItem("personIfo_"+pdata._id,temp);
-			}, "json");
 	};
+	$.post("/suser/private/user/user/myinfo", { },
+		function(pdata){
+			//加载个人信息（pdata._id,pdata.name,pdata.remark）
+
+			var temp=JSON.stringify(pdata,["_id","name","remark"]);
+			console.log("个人信息:"+temp);
+			localStorage.setItem("personIfo_"+pdata._id,temp);
+		}, "json");
 }
 
 function getNameById(searchId) {
@@ -297,6 +295,7 @@ function socketSendGroupmsg(getGroupId,groupMessage) {
 	});
 }
 function socketMonitor() {
+	var count;
 	socket.on('news',function (data) {
 		console.log("系统消息："+data.info+" "+data.msg);
 	});
@@ -305,7 +304,14 @@ function socketMonitor() {
 		if(data.code===1){
 			Materialize.toast("登录"+code[data.code+1], 1500, 'rounded');
 		}else {
-			location.reload(true);
+			if(count<=3){
+				location.reload(true);
+				count++;
+			}else {
+				Materialize.toast("登录失败次数过多，请重新登录_(:зゝ∠)_", 1500, 'rounded');
+				count=0;
+			}
+
 		};
 	});
 	socket.on('saoff',function (data) {
