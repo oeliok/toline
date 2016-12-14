@@ -1,24 +1,24 @@
 "use strict";
 document.write("<script type='text/javascript' src='../base/other/reg_exp.js'></script>");
 //说明：
-// login_btn():	登录验证
-// register():	注册验证
-//
 // 用户名为空，或者格式不对 -》 提示错误，清空密码框，聚焦到用户名框，并全选用户名
 // 用户名不存在 -》同上
 // 密码错误 -》 提示错误，清空密码框，聚焦密码框
 // 聚焦到密码框，全选密码
 // {"_id" : ObjectId(""),"name":"","pwd":"","type":"","email":"","sex":,"age":,"regist":,"remark":""}
 
+//依赖：base／jquery-3.1.1.min.js && reg_exp.js
+
 var active_login = new active_epc_btn("email_login","password_login","code_login","check_login_btn");
 var active_register = new active_eppc_btn("email_register","password_register","confirm_register","code_register","check_register_btn");
+//监听注册／登录的输入是否符合规则(设置开始 按钮为未激活状态)
 active_login.active();
 active_register.active();
-//激活登录按钮事件
+//监听登录输入 激活登录按钮
 $('#email_login,#password_login,#code_login').keyup(function () {
 	active_login.active();
 });
-//激活注册按钮事件
+//监听注册输入 激活注册按钮事件
 $('#email_register,#password_register,#confirm_register,#code_register').keyup(function () {
 	active_register.active();
 });
@@ -30,11 +30,11 @@ $("#code_img_login").click(function(){
 $("#code_img_register").click(function(){
 	this.src="/public/api/cyzm6?random?" + Math.random();
 });
-//点击 执行 验证登录行为
+//点击按钮 执行登录行为
 $("#check_login_btn").click(function () {
 	check_login();
 });
-//点击 执行 验证注册行为
+//点击按钮 执行注册行为
 $("#check_register_btn").click (function () {
 	check_register();
 });
@@ -62,6 +62,7 @@ function check_login(){
 		codeImg_login.src="/public/api/cyzm6?random?" + Math.random();
 	});
 }
+
 //验证注册
 function check_register(){
 	var
