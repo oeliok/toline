@@ -99,8 +99,12 @@ function searchgroupbyid(req, res) {
     v.setRules(rule);
     if (v.isok()) {
         group.findAgroup({_id:ObjectId(data.gid)}, function (r) {
-            r.code = 1;
-            res.json(r);
+            if (r) {
+                r.code = 1;
+                res.json(r);
+            } else {
+                res.json({code:0});
+            }
         })
     } else {
         res.json({code:10});
