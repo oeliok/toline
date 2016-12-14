@@ -9,23 +9,26 @@ body{
     height:100%;
     padding: 0;
     /*background-color:#00C4F5;*/
-    color:white;
-    background:url("../image/bg/m1.png");
+    background:url("../image/bg/city.png");
 
 }
-body .content{
-    padding:0 0;
+.content{
+    padding:20px 0;
+    background-color: white;
 
 }
+
 .login-header{
-    text-align: center;
-
+    width:100%;
+    padding:40px 0;
+    margin: auto;
 }
-.login-header .log{
-    color:#5e35b1;
-    margin: 0 auto;
-    width: 160px;
-    height: 74px;
+ .log{
+     width:100px;
+     height:100px;
+    text-align: center;
+    color:white;
+    margin: auto;
     background-size: contain;
 }
 .login-header .log-text{
@@ -41,6 +44,7 @@ body .content{
 }
 .my-login-button{
     color:white;
+    background-color: #00acc1;
     width:100%;
 }
 .allDiv{
@@ -68,5 +72,8 @@ body .content{
 .login-btn{
     margin:0 auto;
     background-color: #999da2;
+}
+.footer{
+    height: 100px;
 }
 

@@ -109,6 +109,15 @@ myApp.controller('personalCtrl',function($scope,$state){
         $state.go('^.home');
     };
     $scope.list_name = "个人信息";
+    $scope.myInfomation = function (){
+        $.post('/suser/private/user/user/myinfo',{},function (data) {
+            console.log(JSON.stringify(data));
+            console.log("personal infomation");
+        });
+    };
+    $scope.myInfomation();
+
+
     $scope.personal = JSON.parse(localStorage.getItem("personIfo_"+localStorage. currentId));
     console.log(JSON.stringify($scope.personal));
 });
@@ -299,6 +308,7 @@ function scroll(){
     scrol.scrollTop = scrol.scrollHeight;
     console.log( scrol.scrollTop+":"+ scrol.scrollHeight);
 }
+
 
 
 
