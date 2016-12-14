@@ -116,10 +116,12 @@ app.controller('friendListCtrl',function ($scope,$location) {
 
 	var chatIfo = localStorage.getItem("chatIfo_"+localStorage. currentId);
 	chatIfo = JSON.parse(chatIfo);
-	for (var i=0;i<chatIfo.length;i++)
-	{
-		var html = template('chatList', chatIfo[i]);
-		content.innerHTML += html;
+	if(chatIfo){
+		for (var i=0;i<chatIfo.length;i++)
+		{
+			var html = template('chatList', chatIfo[i]);
+			content.innerHTML += html;
+		};
 	};
 	$("#content a").click(function(){
 		pos = $("#content a").index($(this));

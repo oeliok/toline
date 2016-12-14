@@ -69,8 +69,10 @@ function getPersonalIfo(){
 function getNameById(searchId) {
 	var temp;
 	$.get("/suser/private/friend/searchid",{id:searchId}).done(function (data) {
-		// console.log(JSON.stringify(data));
-		temp=data.data.name;
+		console.log("getNameById"+JSON.stringify(data));
+		if(data.data){
+			temp=data.data.name;
+		};
 	});
 	return temp;
 }
