@@ -27,7 +27,7 @@ function addfriend(req, res) {
     if (v.isok()) {
         log.debug(data);
         soketIO.socketIO(function (io) {
-            io.useridTosocketid(data.id, function (socket) {
+            soketIO.useridTosocketid(data.id, function (socket) {
                 var d = {
                     from:req.session.user._id,
                     to:data.id,
@@ -96,7 +96,7 @@ function deletefriend(req, res) {
     v.setRules(rule);
     if (v.isok()) {
         soketIO.socketIO(function (io) {
-            io.useridTosocketid(data.id, function (socket) {
+            soketIO.useridTosocketid(data.id, function (socket) {
                 var d = {
                     from:req.session.user._id,
                     to:data.id,
