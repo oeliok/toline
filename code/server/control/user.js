@@ -448,11 +448,11 @@ function add(req, res) {
 function searchname(req, res) {
 	db.getConnection(function(dbs) {
 		dbs.collection('user').find({
-			name: req.query.name,
+			name: {$regex:req.query.name,$options:"$i"},
 			_id: {
 				$ne: ObjectId(req.session.user._id)
 			}
-		}).toArray(function(err, result) {
+		}).limit(30).toArray(function(err, result) {
 			if (err) {
 				log.error(err);
 				res.json({
