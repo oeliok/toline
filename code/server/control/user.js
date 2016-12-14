@@ -136,7 +136,7 @@ function myinfo(req, res) {
 					code: -1
 				});
 			} else {
-				log.debug(JSON.stringify(result.result));
+				log.debug(JSON.stringify(result));
 				if (result) {
 					result.pwd = '';
 				}
