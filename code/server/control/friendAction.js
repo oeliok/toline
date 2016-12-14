@@ -23,7 +23,7 @@ function addfriend(req, res) {
     v.setData(data);
     v.setRules(rule);
     if (v.isok()) {
-        io.socketIO(function (ios) {
+        soketIO.socketIO(function (io) {
             io.useridTosocketid(data.id, function (socket) {
                 var d = {
                     from:req.session.user._id,
@@ -33,7 +33,7 @@ function addfriend(req, res) {
                     msg:data.msg
                 };
                 if (socket) {
-                    ios.sockets.sockets[socket].emit('addfriend',d);
+                    io.sockets.sockets[socket].emit('addfriend',d);
                     res.json({code:1});
                 } else {
                     Msg.addAmsg(d,function (r) {
@@ -92,7 +92,7 @@ function deletefriend(req, res) {
     v.setData(data);
     v.setRules(rule);
     if (v.isok()) {
-        io.socketIO(function (ios) {
+        soketIO.socketIO(function (io) {
             io.useridTosocketid(data.id, function (socket) {
                 var d = {
                     from:req.session.user._id,
@@ -102,7 +102,7 @@ function deletefriend(req, res) {
                     msg:data.msg
                 };
                 if (socket) {
-                    ios.sockets.sockets[socket].emit('deletefriend',d);
+                    io.sockets.sockets[socket].emit('deletefriend',d);
                     res.json({code:1});
                 } else {
                     Msg.addAmsg(d,function (r) {
