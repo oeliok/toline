@@ -4,7 +4,7 @@
 /**
  * Created by apple on 2016/12/11.
  */
-var homePath = '^.home',gofriends = '^.frends';
+var homePath_app = '^.home', gofriends = '^.frends';
 var loginApp = angular.module("loginApp", ["ui.router"]);
 var myApp = angular.module("myApp", ["ui.router"]);
 //配置路由
@@ -217,7 +217,7 @@ myApp.controller('personalCtrl',function($scope,$state){
 myApp.controller('friendsCtrl',function($scope,$state){
     //路由引擎
     $scope.back = function(){
-        $state.go(homePath);
+        $state.go(homePath_app);
     };
     $scope.list_name = "好友列表";
 
@@ -238,7 +238,7 @@ myApp.controller('friendsCtrl',function($scope,$state){
 myApp.controller('groupsCtrl',function($scope,$state){
     //路由引擎
     $scope.back = function(){
-        $state.go(homePath);
+        $state.go(homePath_app);
     };
     $scope.list_name = "群列表";
 
@@ -257,7 +257,7 @@ myApp.controller('groupsCtrl',function($scope,$state){
 myApp.controller('chatCtrl',function($scope,$state){
     //路由引擎
     $scope.back = function(){
-        $state.go(homePath);
+        $state.go(homePath_app);
     };
     $scope.scroll = scroll();
     var contentInput=document.getElementById('contentInput');

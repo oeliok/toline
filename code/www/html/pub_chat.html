@@ -32,14 +32,16 @@
             </div>
         </div>
         <div class="foot">
-            <form id="send-form" class="navbar-fixed-bottom" style="height:20%;">
-                <div class="mdl-grid " style="background-color: #eee;">
-                <span>您的昵称: <input id="pub_names" style="border:none;background-color: #eee;" contenteditable="true" onblur="changeName()" >
-                </span>
+            <form id="send-form" class="navbar-fixed-bottom" style="height:10%;background-color: #eee;">
+                <span style="">您的昵称:
+                        <input id="pub_names" style="border:none;background-color: #eee;" contenteditable="true" onblur="changeName()" >
+                    </span>
+                <div class="mdl-grid " >
+
                     <div class="mdl-cell--6-col-phone" style=" width: 75%;" >
                         <input title="" id="pub_input_mess"  class="mdl-textfield__input" type="text" rows= "1"  style="height: 38px;margin-bottom:30px; ">
                     </div>
-                    <div class="mdl-cell--12-col-phone" style=" width: 25%;text-align: center">
+                    <div class="mdl-cell--6-col-phone" style=" width: 25%;text-align: center">
                         <button onclick="sendmsg()" type="submit"  value="Send"  style="margin-left: auto;margin-right: auto" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                             Send
                         </button>
