@@ -542,12 +542,12 @@ function check_input(input,max){
 			return true;
 		}
 		else{
-			alert("输入不能超过"+maxLength+"个字符");
+			Materialize.toast("输入不能超过"+maxLength+"个字符", 1500, 'rounded');
 			return false;
 		}
 	}
 	else{
-		alert("输入不能为空");
+		Materialize.toast("输入不能为空", 1500, 'rounded');
 		return false;
 	}
 }

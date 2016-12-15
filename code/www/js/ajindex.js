@@ -287,10 +287,6 @@ app.controller('chatCtrl',function ($scope) {
 	}
 });
 app.controller('personalCtrl',function ($scope,$route,$location) {
-	// $scope.back = function(){
-	// 	$state.go('^.home');
-	// };
-	//标题
 	$("#prompt").text("个人信息");
 	$scope.getPersonInfo = function (){
 		$.post('/suser/private/user/user/myinfo',{},function (data) {
@@ -310,7 +306,7 @@ app.controller('personalCtrl',function ($scope,$route,$location) {
 			},function (data) {
 				$('#ownerName').text(newInfo);
 				console.log(JSON.stringify(data));
-				alert(code[data.code + 1]);
+				Materialize.toast(code[data.code + 1], 1500, 'rounded');
 				getPersonalIfo();
 				$scope.getPersonInfo();
 				$route.reload();
@@ -324,7 +320,7 @@ app.controller('personalCtrl',function ($scope,$route,$location) {
 				words:newInfo
 			},function (data) {
 				console.log(JSON.stringify(data));
-				alert(code[data.code + 1]);
+				Materialize.toast(code[data.code + 1], 1500, 'rounded');
 				$scope.getPersonInfo();
 				$route.reload();
 			});
@@ -337,28 +333,11 @@ app.controller('personalCtrl',function ($scope,$route,$location) {
 				age:newInfo
 			},function (data) {
 				console.log(JSON.stringify(data));
-				alert(code[data.code + 1]);
+				Materialize.toast(code[data.code + 1], 1500, 'rounded');
 				$scope.getPersonInfo();
 				$route.reload();
 			});
 		}
-	};
-	$scope.changeSex = function (){
-		//var newInfo = prompt("请选择性别",$scope.personal.sex);
-		var sex = document.getElementById('sex');
-
-		$("#sex").blur(function(){
-			var newInfo = sex.value;
-			$.get("/suser/private/user/modifysex",{
-				sex:newInfo
-			},function (data) {
-				console.log(JSON.stringify(data));
-				alert(code[data.code + 1]);
-				$scope.getPersonInfo();
-				$route.reload();
-			});
-		});
-
 	};
 });
 app.config(['$routeProvider', function($routeProvider){
