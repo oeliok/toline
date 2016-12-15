@@ -13,13 +13,9 @@
 
 
 function about_login(){
+	var active_login = new active_epc_btn("email_login","password_login","code_login","check_login_btn");
 	//监听登录输入 激活登录按钮
 	$('#email_login,#password_login,#code_login').keyup(function () {
-		console.log("re");
-
-		var active_login = new active_epc_btn("email_login","password_login","code_login","check_login_btn");
-		console.log("re");
-
 		active_login.active();
 	});
 	//点击刷新验证码图片--登录
@@ -32,9 +28,9 @@ function about_login(){
 	});
 }
 function about_register(){
+	var active_register = new active_eppc_btn("email_register","password_register","confirm_register","code_register","check_register_btn");
 	//监听注册输入 激活注册按钮事件
 	$('#email_register,#password_register,#confirm_register,#code_register').keyup(function () {
-		var active_register = new active_eppc_btn("email_register","password_register","confirm_register","code_register","check_register_btn");
 		console.log("re");
 		active_register.active();
 	});
@@ -67,8 +63,8 @@ function check_login(){
             document.getElementById('login_form').submit();
 		}else{
 			alert(code[data.code+1]);
-			var codeImg_login = document.getElementById("code_img_login");
 		}
+		var codeImg_login = document.getElementById("code_img_login");
 		codeImg_login.src="/public/api/cyzm6?random?" + Math.random();
 	});
 }
