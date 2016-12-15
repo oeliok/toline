@@ -35,24 +35,45 @@ app.controller('personalIfoCtrl',function($scope,$location){
 		$location.path('/personal');
 		$scope.$apply();
 	}
-	angular.element(document).ready(function () {
-		// var test=searchname("sw");
-		// console.log("test"+JSON.stringify(test));
-
-		// if(localStorage.currentId==="5812f0f77f67530755eb3837"){
-		// 	var test=addFriend("58034e1c29bce15b80a8aade","asd");
-		// 	console.log("添加测试"+test);
-		// };
-		// if(localStorage.currentId==="58034e1c29bce15b80a8aade"){
-		// 	var test=addCheck("5812f0f77f67530755eb3837");
-		// 	console.log("添加确认测试"+test);
-		// };
-		// var test=searchgroupbyname("奥特曼",0,5);
-		// console.log("test"+test);
-		// var test=creategroup("神东","神东是一种信仰");
-		// console.log("test"+test);
-
-	});
+	$scope.makefriend=function () {
+		$("#prompt").text("添加好友");
+		// var dialog1 = document.querySelector('#makeFriendDialog');
+		// var dialog2 = document.querySelector('#confirmDialog');
+		var content=document.getElementById('content');
+		var dateTemp;
+		var name=prompt("请输入要查找的用户名","");
+		if (name!=null && name!="")
+		{
+			dateTemp=getIfoByName(name);
+			console.log("查找结果"+JSON.stringify(dateTemp));
+			if(dateTemp){
+				for(var i=0;i<dateTemp.length;i++){
+					var html = template('makeFriendList', dateTemp[i]);
+					content.innerHTML += html;
+				}
+				$("#content a").click(function(){
+					pos = $("#content a").index($(this));
+					var msg=prompt("请输入申请好友的留言","");
+					if(msg!=null && msg!=""){
+						console.log("添加"+JSON.stringify(dateTemp[pos]));
+						var temp=addFriend(dateTemp[pos].id,msg);
+						console.log("添加好友返回值"+temp);
+						if(temp===1){
+							Materialize.toast('好友申请已发送_(:зゝ∠)_', 1500, 'rounded');
+						}else {
+							Materialize.toast('好友申请发送失败_(:зゝ∠)_:'+code[temp+1]+'', 1500, 'rounded');
+						}
+					}else{
+						Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
+					};
+				});
+			}else {
+				Materialize.toast('Nothing we find_(:зゝ∠)_', 1500, 'rounded');
+			}
+		}else {
+			Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
+		};
+	}
 
 });
 app.controller('homeCtrl',function ($scope,$location,$route) {
@@ -169,86 +190,7 @@ app.controller('groupListCtrl',function ($scope,$location) {
 
 	});
 });
-app.controller('makefriendCtrl',function ($scope) {
-	$("#prompt").text("添加好友");
-	// var dialog1 = document.querySelector('#makeFriendDialog');
-	// var dialog2 = document.querySelector('#confirmDialog');
-	var content=document.getElementById('content');
-	var dateTemp;
-	var name=prompt("请输入要查找的用户名","");
-	if (name!=null && name!="")
-	{
-		dateTemp=getIfoByName(name);
-		console.log("查找结果"+JSON.stringify(dateTemp));
-		if(dateTemp){
-			for(var i=0;i<dateTemp.length;i++){
-				var html = template('makeFriendList', dateTemp[i]);
-				content.innerHTML += html;
-			}
-			$("#content a").click(function(){
-				pos = $("#content a").index($(this));
-				var msg=prompt("请输入申请好友的留言","");
-				if(msg!=null && msg!=""){
-					console.log("添加"+JSON.stringify(dateTemp[pos]));
-					var temp=addFriend(dateTemp[pos].id,msg);
-					console.log("添加好友返回值"+temp);
-					if(temp===1){
-						Materialize.toast('好友申请已发送_(:зゝ∠)_', 1500, 'rounded');
-					}else {
-						Materialize.toast('好友申请发送失败_(:зゝ∠)_:'+code[temp+1]+'', 1500, 'rounded');
-					}
-				}else{
-					Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
-				};
-			});
-		}else {
-			Materialize.toast('Nothing we find_(:зゝ∠)_', 1500, 'rounded');
-		}
-	}else {
-		Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
-	};
 
-	// dialog1.showModal();
-	// dialog1.querySelector('.close1').addEventListener('click', function() {
-	// 	var makeFriendInput=document.getElementById('makeFriendInput').value;
-	// 	if(makeFriendInput.length<=0){
-	// 		Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
-	// 	}else {
-	// 		console.log("st"+makeFriendInput);
-	// 		dateTemp=getIfoByName(makeFriendInput);
-	// 		if(dateTemp){
-	// 			console.log(dateTemp);
-	// 			console.log("js"+JSON.stringify(dateTemp));
-	// 			var html = template('makeFriendList', dateTemp);
-	// 			content.innerHTML += html;
-	// 			dialog1.close();
-	// 			$("#content a").click(function(){
-	// 				dialog2.showModal();
-	// 			});
-	// 		}else {
-	// 			Materialize.toast('Nothing we find_(:зゝ∠)_', 1500, 'rounded');
-	// 		}
-	// 	}
-	// });
-	// dialog2.querySelector('.close2-1').addEventListener('click', function() {
-	// 	var addFriendInput=document.getElementById('addFriendInput').value;
-	// 	if(addFriendInput.length<=0){
-	// 		Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
-	// 	}else {
-	// 		var temp=addFriend(dateTemp.id,addFriendInput);
-	// 		if(temp===1){
-	// 			Materialize.toast('好友申请已发送_(:зゝ∠)_', 1500, 'rounded');
-	// 		}else {
-	// 			Materialize.toast('好友申请发送失败_(:зゝ∠)_:'+code[temp+1]+'', 1500, 'rounded');
-	// 		}
-	// 		dialog2.close();
-	// 	};
-	// });
-	// dialog2.querySelector('.close2-2').addEventListener('click', function() {
-	// 	dialog2.close();
-	// });
-
-})
 app.controller('chatCtrl',function ($scope) {
 	//聊天模板[from,name,date,msg]
 	//***聊天界面模板加载的div
@@ -424,7 +366,7 @@ app.config(['$routeProvider', function($routeProvider){
 		.when('/',{templateUrl: 'home.html', controller: 'homeCtrl'})
 		.when('/friendList',{templateUrl: 'friendList.html', controller: 'friendListCtrl'})
 		.when('/chatRoom',{templateUrl: 'groupList.html', controller: 'groupListCtrl'})
-		.when('/makeFriend',{templateUrl: 'makefriend.html', controller: 'makefriendCtrl'})
+		// .when('/makeFriend',{templateUrl: 'makefriend.html', controller: 'makefriendCtrl'})
 		// .when('/setting',{template:'这是设置页面'})
 		// .when('/help',{template:'这是帮助页面'})
 		.when('/chat',{templateUrl: 'chat.html', controller: 'chatCtrl'})
