@@ -8,36 +8,47 @@
 
 //依赖：base／jquery-3.1.1.min.js && reg_exp.js
 
-var active_login = new active_epc_btn("email_login","password_login","code_login","check_login_btn");
-var active_register = new active_eppc_btn("email_register","password_register","confirm_register","code_register","check_register_btn");
 //监听注册／登录的输入是否符合规则(设置开始 按钮为未激活状态)
-active_login.active();
-active_register.active();
-//监听登录输入 激活登录按钮
-$('#email_login,#password_login,#code_login').keyup(function () {
-	active_login.active();
-});
-//监听注册输入 激活注册按钮事件
-$('#email_register,#password_register,#confirm_register,#code_register').keyup(function () {
-	active_register.active();
-});
-//点击刷新验证码图片--登录
-$("#code_img_login").click(function(){
-	this.src="/public/api/cyzm6?random?" + Math.random();
-});
-//点击刷新验证码图片--注册
-$("#code_img_register").click(function(){
-	this.src="/public/api/cyzm6?random?" + Math.random();
-});
-//点击按钮 执行登录行为
-$("#check_login_btn").click(function () {
-	check_login();
-});
-//点击按钮 执行注册行为
-$("#check_register_btn").click (function () {
-	check_register();
-});
 
+
+
+function about_login(){
+	//监听登录输入 激活登录按钮
+	$('#email_login,#password_login,#code_login').keyup(function () {
+		console.log("re");
+
+		var active_login = new active_epc_btn("email_login","password_login","code_login","check_login_btn");
+		console.log("re");
+
+		active_login.active();
+	});
+	//点击刷新验证码图片--登录
+	$("#code_img_login").click(function(){
+		this.src="/public/api/cyzm6?random?" + Math.random();
+	});
+	//点击按钮 执行登录行为
+	$("#check_login_btn").click(function () {
+		check_login();
+	});
+}
+function about_register(){
+	//监听注册输入 激活注册按钮事件
+	$('#email_register,#password_register,#confirm_register,#code_register').keyup(function () {
+		var active_register = new active_eppc_btn("email_register","password_register","confirm_register","code_register","check_register_btn");
+		console.log("re");
+		active_register.active();
+	});
+
+//点击刷新验证码图片--注册
+	$("#code_img_register").click(function(){
+		this.src="/public/api/cyzm6?random?" + Math.random();
+	});
+
+//点击按钮 执行注册行为
+	$("#check_register_btn").click (function () {
+		check_register();
+	});
+}
 // 验证登录
 function check_login(){
 	var

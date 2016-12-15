@@ -5,8 +5,26 @@
  * Created by apple on 2016/12/11.
  */
 var homePath = '^.home',gofriends = '^.frends';
+var loginApp = angular.module("loginApp", ["ui.router"]);
 var myApp = angular.module("myApp", ["ui.router"]);
 //配置路由
+loginApp.config(function ($stateProvider, $urlRouterProvider) {
+    //登陆后直接跳转到主界面
+    $urlRouterProvider.when("", "/login");
+    $urlRouterProvider.when("login", "/login");
+    $urlRouterProvider.when("register", "/register");
+    $stateProvider
+        .state("login", {
+            url: "/login",
+            templateUrl: "login.html",
+            controller: 'loginCtrl'
+        })
+        .state("register", {
+            url: "/register",
+            templateUrl: "register.html",
+            controller: 'registerCtrl'
+        })
+});
 myApp.config(function ($stateProvider, $urlRouterProvider) {
     //登陆后直接跳转到主界面
     $urlRouterProvider.when("", "/home");
@@ -54,9 +72,28 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
         })
 
 });
-
+//
+loginApp.controller('loginCtrl',function($scope,$state){
+    $scope.toLogin = function(){
+        $state.go('^.login');
+    };
+    $scope.toRegister = function(){
+        $state.go('^.register');
+    };
+    about_login();
+});
+//
+loginApp.controller('registerCtrl',function($scope,$state){
+    $scope.toLogin = function(){
+        $state.go('^.login');
+    };
+    $scope.toRegister = function(){
+        $state.go('^.register');
+    };
+    about_register();
+});
 //主界面
-myApp.controller('homeCtrl',function($scope,$state){
+myApp.controller('homeCtrl',function($scope){
     getCurrentId();
     getSesssionId();
     socket= io.connect();

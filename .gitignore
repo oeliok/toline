@@ -13,3 +13,4 @@ code/www/test/
 earnit_asset/
 node_modules/
 user/earnit/log
+npm-debug.log
