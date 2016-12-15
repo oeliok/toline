@@ -34,8 +34,8 @@ a:hover{
 }
 //index.html
 @head-height:50px;
-.my-row(@top:0;@left:0px){
-  margin:@head-height 0 @head-height @left;
+.my-row(@head-margin:50px){
+  margin:@head-margin 0 ;
   padding:0;
 }
 .head-row{
@@ -49,6 +49,22 @@ a:hover{
   }
   .my-row;
 }
+.no-head-row{
+  ul{padding: 0;
+    li{
+      width:100%;
+      height:80px;
+      padding:5px;
+      margin: 1px 0;
+      background-color: #eee;
+      p{
+        font-size:24px;
+      }
+    }
+  }
+  .my-row(0);
+}
+
 
 //.part(@bg-color: @bg-color;){
 //  background-color: @bg-color;
@@ -64,9 +80,15 @@ a:hover{
 .my-head{
   .header(50px);
 }
+.person-head{
+  width:100%;
+  .header(150px);
+}
 .span_center{
   margin: auto;
-  span{
+  p {
+    width:100%;
+    margin: auto;
     color:white;
     text-align: center;
   }

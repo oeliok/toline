@@ -13,7 +13,7 @@
 
 </head>
 <body id="b">
-<div data-ng-app="myApp"  class="container ng-scope" style="height:100%;">
+<div data-ng-app="myApp"  class=" ng-scope" style="height:100%;">
     <div data-ui-view=""></div>
 
 
@@ -21,7 +21,7 @@
     <script type="text/ng-template" id="home.html">
         <div class="mdl-grid mdl-shadow--2dp my-head navbar-fixed-top" >
             <div class="mdl-cell--1-col-desktop   my-picture">
-                <a class="mdl-navigation__link" href="#/personal"><img src="../image/bg/m1.png" class="img-circle head-img" title="" alt=""></a>
+                <a class="mdl-navigation__link" href="#/personal"><img src="../avator/{{owenerPic}}" class="img-circle head-img" title="" alt=""></a>
             </div>
             <div class="mdl-cell--1-col-desktop   my-menu">
                 <a class="mdl-navigation__link" href="#/friends"><i class="mdl-color-text--white material-icons" role="presentation">favorite</i> </a>
@@ -50,25 +50,64 @@
 
     <!--个人信息personal-->
     <script type="text/ng-template" id="personal.html">
-        <div class="mdl-grid mdl-shadow--2dp my-head navbar-fixed-top" >
-            <div class="mdl-cell--1-col-desktop">
-                <a class="mdl-navigation__link" data-ng-click="back()" ><i class="mdl-color-text--white material-icons" role="presentation">keyboard_arrow_left</i></a>
+        <div class="no-head-row">
+            <div class="mdl-grid mdl-shadow--2dp person-head " >
+                <div class="mdl-cell--1-col-desktop">
+                    <a class="mdl-navigation__link" data-ng-click="back()" ><i class="mdl-color-text--white material-icons" role="presentation">keyboard_arrow_left</i></a>
+                </div>
+                <div class=" span_center" >
+                    <p>
+                        <img src="../avator/{{personal._id}}" title="我的头像" alt="" class="img-circle"  style="width:80px;height:80px;">
+                    </p>
+                    <p >{{personal.name}}</p>
+                </div>
             </div>
-            <div class="span_center" >
-                <span ng-model="list_name">{{list_name}}</span>
-            </div>
+            <ul class="mdl-list">
+                <li class=" mdl-navigation  mdl-list__item" >
+                    <div class="text-overflow">
+                        <p  data-ng-click="changeName()">
+                            <i class="mdl-color-text--black material-icons" role="presentation">person_pin</i>
+                            昵称：{{personal.name}}
+
+                        </p>
+                    </div>
+                </li>
+                <li class=" mdl-navigation  mdl-list__item" >
+                    <div class="text-overflow">
+                        <p  data-ng-click="changeSign()">
+                            <i class="mdl-color-text--black material-icons" role="presentation">message</i>
+                            签名：{{personal.remark}}
+
+                        </p>
+                    </div>
+                </li>
+                <li class=" mdl-navigation  mdl-list__item" >
+                    <div class="text-overflow">
+                        <p  data-ng-click="changeAge()">
+                            <i class="mdl-color-text--black material-icons" role="presentation">watch_later</i>
+                            年龄：{{personal.age}}
+                        </p>
+                    </div>
+                </li>
+                <li class=" mdl-navigation  mdl-list__item" >
+                    <div class="text-overflow">
+                        <p  data-ng-click="changeSex()">
+                            <i class="mdl-color-text--black material-icons" role="presentation">face</i>
+                            性别：
+                            <select ng-model="personal.sex" class="btn-success" id="sex" title="" >
+                                <option value="0">男</option>
+                                <option value="1">女</option>
+                                <option value="2">保密</option>
+                            </select>
+                        </p>
+                    </div>
+                </li>
+
+            </ul>
+
         </div>
-        <div class="person_card mdl-grid head-row">
-            <div class="mdl-cell--4-col-phone mdl-cell--4-col-desktop mdl-grid" >
-                <p class="span_center">
-                    <img src="../avator/{{personal._id}}" title="我的头像" alt="" class="img-circle"  style="width:80px;height:80px;">
-                </p>
-            </div>
-            <div  class="mdl-cell--8-col-phone mdl-cell--8-col-desktop "  >
-                <p style="text-align: center;" contenteditable="true"><span>{{personal.name}}</span></p>
-                <p style="text-align: center;" contenteditable="true">{{personal.remark}}</p>
-            </div>
-        </div>
+
+
     </script>
 
     <!--[好友列表friends | 群列表group ]-->
@@ -82,6 +121,7 @@
             </div>
         </div>
         <div class="head-row">
+            <input ng-show="{{show_search}}" type="text" placeholder="请输入好友名称或群名称" class="mdl-textfield__input" style="padding-left: 20px;">
             <ul class="mdl-list">
                 <li ng-repeat="item in list"  class=" mdl-navigation  mdl-list__item" >
                     <img src="../avator/{{item._id}}" alt="" class="img-circle head-img">&nbsp;

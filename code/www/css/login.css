@@ -8,14 +8,12 @@ body{
     width:100%;
     height:100%;
     padding: 0;
-    /*background-color:#00C4F5;*/
     background:url("../image/bg/city.png");
 
 }
 .content{
     padding:20px 0;
-    background-color: white;
-
+    background-color: #e1e1e1;
 }
 
 .login-header{

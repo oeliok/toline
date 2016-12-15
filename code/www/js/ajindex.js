@@ -1,5 +1,5 @@
 var app = angular.module("toline", ['ngRoute']);
-app.controller('personalIfoCtrl',function($scope){
+app.controller('personalIfoCtrl',function($scope,$location){
 	getCurrentId();
 	getSesssionId();
 	socket= io.connect();
@@ -9,7 +9,7 @@ app.controller('personalIfoCtrl',function($scope){
 		var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
 		personIfo = JSON.parse(personIfo);
 		//***对应名字，图片，提示信息
-		$scope.ownerName=personIfo.name;
+		$('#ownerName').text(personIfo.name);
 		$scope.owenerPic=personIfo._id;
 		$scope.promptText="主界面";
 		if(localStorage.getItem("chatIfo_"+localStorage. currentId)){
@@ -31,24 +31,49 @@ app.controller('personalIfoCtrl',function($scope){
 			};
 		};
 	};
-	angular.element(document).ready(function () {
-		// var test=searchname("sw");
-		// console.log("test"+JSON.stringify(test));
-
-		// if(localStorage.currentId==="5812f0f77f67530755eb3837"){
-		// 	var test=addFriend("58034e1c29bce15b80a8aade","asd");
-		// 	console.log("添加测试"+test);
-		// };
-		// if(localStorage.currentId==="58034e1c29bce15b80a8aade"){
-		// 	var test=addCheck("5812f0f77f67530755eb3837");
-		// 	console.log("添加确认测试"+test);
-		// };
-		// var test=searchgroupbyname("奥特曼",0,5);
-		// console.log("test"+test);
-		// var test=creategroup("神东","神东是一种信仰");
-		// console.log("test"+test);
-
-	});
+	$scope.toPersonalIfo=function () {
+		$location.path('/personal');
+		$scope.$apply();
+	}
+	$scope.makefriend=function () {
+		$("#prompt").text("添加好友");
+		// var dialog1 = document.querySelector('#makeFriendDialog');
+		// var dialog2 = document.querySelector('#confirmDialog');
+		var content=document.getElementById('content');
+		var dateTemp;
+		var name=prompt("请输入要查找的用户名","");
+		if (name!=null && name!="")
+		{
+			dateTemp=getIfoByName(name);
+			console.log("查找结果"+JSON.stringify(dateTemp));
+			if(dateTemp){
+				for(var i=0;i<dateTemp.length;i++){
+					var html = template('makeFriendList', dateTemp[i]);
+					content.innerHTML += html;
+				}
+				$("#content a").click(function(){
+					pos = $("#content a").index($(this));
+					var msg=prompt("请输入申请好友的留言","");
+					if(msg!=null && msg!=""){
+						console.log("添加"+JSON.stringify(dateTemp[pos]));
+						var temp=addFriend(dateTemp[pos].id,msg);
+						console.log("添加好友返回值"+temp);
+						if(temp===1){
+							Materialize.toast('好友申请已发送_(:зゝ∠)_', 1500, 'rounded');
+						}else {
+							Materialize.toast('好友申请发送失败_(:зゝ∠)_:'+code[temp+1]+'', 1500, 'rounded');
+						}
+					}else{
+						Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
+					};
+				});
+			}else {
+				Materialize.toast('Nothing we find_(:зゝ∠)_', 1500, 'rounded');
+			}
+		}else {
+			Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
+		};
+	}
 
 });
 app.controller('homeCtrl',function ($scope,$location,$route) {
@@ -112,10 +137,12 @@ app.controller('friendListCtrl',function ($scope,$location) {
 
 	var chatIfo = localStorage.getItem("chatIfo_"+localStorage. currentId);
 	chatIfo = JSON.parse(chatIfo);
-	for (var i=0;i<chatIfo.length;i++)
-	{
-		var html = template('chatList', chatIfo[i]);
-		content.innerHTML += html;
+	if(chatIfo){
+		for (var i=0;i<chatIfo.length;i++)
+		{
+			var html = template('chatList', chatIfo[i]);
+			content.innerHTML += html;
+		};
 	};
 	$("#content a").click(function(){
 		pos = $("#content a").index($(this));
@@ -163,82 +190,7 @@ app.controller('groupListCtrl',function ($scope,$location) {
 
 	});
 });
-app.controller('makefriendCtrl',function ($scope) {
-	$("#prompt").text("添加好友");
-	// var dialog1 = document.querySelector('#makeFriendDialog');
-	// var dialog2 = document.querySelector('#confirmDialog');
-	var content=document.getElementById('content');
-	var dateTemp;
-	var name=prompt("请输入要查找的用户名","");
-	if (name!=null && name!="")
-	{
-		dateTemp=getIfoByName(name);
-		console.log("查找结果"+JSON.stringify(dateTemp));
-		if(dateTemp){
-			var html = template('makeFriendList', dateTemp);
-			content.innerHTML += html;
-			$("#content a").click(function(){
-				var msg=prompt("请输入申请好友的留言","");
-				if(msg!=null && msg!=""){
-					var temp=addFriend(dateTemp.id,msg);
-					console.log("添加好友返回值"+temp);
-					if(temp===1){
-						Materialize.toast('好友申请已发送_(:зゝ∠)_', 1500, 'rounded');
-					}else {
-						Materialize.toast('好友申请发送失败_(:зゝ∠)_:'+code[temp+1]+'', 1500, 'rounded');
-					}
-				}else{
-					Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
-				};
-			});
-		}else {
-			Materialize.toast('Nothing we find_(:зゝ∠)_', 1500, 'rounded');
-		}
-	}else {
-		Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
-	};
 
-	// dialog1.showModal();
-	// dialog1.querySelector('.close1').addEventListener('click', function() {
-	// 	var makeFriendInput=document.getElementById('makeFriendInput').value;
-	// 	if(makeFriendInput.length<=0){
-	// 		Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
-	// 	}else {
-	// 		console.log("st"+makeFriendInput);
-	// 		dateTemp=getIfoByName(makeFriendInput);
-	// 		if(dateTemp){
-	// 			console.log(dateTemp);
-	// 			console.log("js"+JSON.stringify(dateTemp));
-	// 			var html = template('makeFriendList', dateTemp);
-	// 			content.innerHTML += html;
-	// 			dialog1.close();
-	// 			$("#content a").click(function(){
-	// 				dialog2.showModal();
-	// 			});
-	// 		}else {
-	// 			Materialize.toast('Nothing we find_(:зゝ∠)_', 1500, 'rounded');
-	// 		}
-	// 	}
-	// });
-	// dialog2.querySelector('.close2-1').addEventListener('click', function() {
-	// 	var addFriendInput=document.getElementById('addFriendInput').value;
-	// 	if(addFriendInput.length<=0){
-	// 		Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
-	// 	}else {
-	// 		var temp=addFriend(dateTemp.id,addFriendInput);
-	// 		if(temp===1){
-	// 			Materialize.toast('好友申请已发送_(:зゝ∠)_', 1500, 'rounded');
-	// 		}else {
-	// 			Materialize.toast('好友申请发送失败_(:зゝ∠)_:'+code[temp+1]+'', 1500, 'rounded');
-	// 		}
-	// 		dialog2.close();
-	// 	};
-	// });
-	// dialog2.querySelector('.close2-2').addEventListener('click', function() {
-	// 	dialog2.close();
-	// });
-
-})
 app.controller('chatCtrl',function ($scope) {
 	//聊天模板[from,name,date,msg]
 	//***聊天界面模板加载的div
@@ -333,15 +285,70 @@ app.controller('chatCtrl',function ($scope) {
 		} else
 			Materialize.toast('Nothing input,QAQ', 1500, 'rounded');
 	}
-})
+});
+app.controller('personalCtrl',function ($scope,$route,$location) {
+	$("#prompt").text("个人信息");
+	$scope.getPersonInfo = function (){
+		$.post('/suser/private/user/user/myinfo',{},function (data) {
+			console.log(JSON.stringify(data));
+			localStorage.setItem("my_allInfo_"+localStorage. currentId ,JSON.stringify(data));
+		});
+	};
+
+	$scope.getPersonInfo();
+	$scope.personal = JSON.parse(localStorage.getItem("my_allInfo_"+localStorage. currentId));
+	console.log(JSON.stringify($scope.personal));
+	$scope.changeName = function (){
+		var newInfo = prompt("请输入新的名称",$scope.personal.name);
+		if(check_input(newInfo,20)){
+			$.get("/suser/private/user/modifyname",{
+				name: newInfo
+			},function (data) {
+				$('#ownerName').text(newInfo);
+				console.log(JSON.stringify(data));
+				Materialize.toast(code[data.code + 1], 1500, 'rounded');
+				getPersonalIfo();
+				$scope.getPersonInfo();
+				$route.reload();
+			});
+		}
+	};
+	$scope.changeSign = function (){
+		var newInfo = prompt("请输入新的签名",$scope.personal.remark);
+		if(check_input(newInfo,100)){
+			$.get("/suser/private/user/modifysign",{
+				words:newInfo
+			},function (data) {
+				console.log(JSON.stringify(data));
+				Materialize.toast(code[data.code + 1], 1500, 'rounded');
+				$scope.getPersonInfo();
+				$route.reload();
+			});
+		}
+	};
+	$scope.changeAge = function (){
+		var newInfo = prompt("请输入年龄",$scope.personal.age);
+		if(check_input(newInfo,3)){
+			$.get("/suser/private/user/modifyage",{
+				age:newInfo
+			},function (data) {
+				console.log(JSON.stringify(data));
+				Materialize.toast(code[data.code + 1], 1500, 'rounded');
+				$scope.getPersonInfo();
+				$route.reload();
+			});
+		}
+	};
+});
 app.config(['$routeProvider', function($routeProvider){
 	$routeProvider
 		.when('/',{templateUrl: 'home.html', controller: 'homeCtrl'})
 		.when('/friendList',{templateUrl: 'friendList.html', controller: 'friendListCtrl'})
 		.when('/chatRoom',{templateUrl: 'groupList.html', controller: 'groupListCtrl'})
-		.when('/makeFriend',{templateUrl: 'makefriend.html', controller: 'makefriendCtrl'})
-		.when('/setting',{template:'这是设置页面'})
-		.when('/help',{template:'这是帮助页面'})
+		// .when('/makeFriend',{templateUrl: 'makefriend.html', controller: 'makefriendCtrl'})
+		// .when('/setting',{template:'这是设置页面'})
+		// .when('/help',{template:'这是帮助页面'})
 		.when('/chat',{templateUrl: 'chat.html', controller: 'chatCtrl'})
+		.when('/personal',{templateUrl: 'personalIfo.html', controller: 'personalCtrl'})
 		.otherwise({redirectTo:'/'});
 }]);
