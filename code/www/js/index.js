@@ -53,42 +53,33 @@ function getPersonalIfo(){
 	personIfo = JSON.parse(personIfo);
 	if(personIfo){
 		//加载个人信息（personIfo._id,personIfo.name,personIfo.remark）
-
-	}else{
-		$.post("/suser/private/user/user/myinfo", { },
-			function(pdata){
-				//加载个人信息（pdata._id,pdata.name,pdata.remark）
-
-				var temp=JSON.stringify(pdata,["_id","name","remark"]);
-				console.log("个人信息:"+temp);
-				localStorage.setItem("personIfo_"+pdata._id,temp);
-			}, "json");
 	};
+	$.post("/suser/private/user/user/myinfo", { },
+		function(pdata){
+			//加载个人信息（pdata._id,pdata.name,pdata.remark）
+
+			var temp=JSON.stringify(pdata,["_id","name","remark"]);
+			console.log("个人信息:"+temp);
+			localStorage.setItem("personIfo_"+pdata._id,temp);
+		}, "json");
 }
-function getIdByName(searchName) {
-	var temp;
-	$.get("/suser/private/friend/searchname",{name:searchName}).done(function (data) {
-		// console.log(JSON.stringify(data));
-		if(data.data.length>0){
-			temp=data.data[0].id;
-		}
-	});
-	return temp;
-}
+
 function getNameById(searchId) {
 	var temp;
 	$.get("/suser/private/friend/searchid",{id:searchId}).done(function (data) {
-		// console.log(JSON.stringify(data));
-		temp=data.data.name;
+		console.log("getNameById"+JSON.stringify(data));
+		if(data.data){
+			temp=data.data.name;
+		};
 	});
 	return temp;
 }
 function getIfoByName(searchName) {
 	var temp;
-	$.get("/suser/private/friend/searchname",{name:searchName}).done(function (data) {
-		// console.log(JSON.stringify(data));
-		if(data.data.length>0){
-			temp=data.data[0];
+	$.get("/suser/private/friend/searchname",{keyword:searchName,page:0,size:10}).done(function (data) {
+		console.log("getIfoByName"+JSON.stringify(data));
+		if(data.data){
+			temp=data.data;
 		}
 	});
 	return temp;
@@ -304,6 +295,7 @@ function socketSendGroupmsg(getGroupId,groupMessage) {
 	});
 }
 function socketMonitor() {
+	var count;
 	socket.on('news',function (data) {
 		console.log("系统消息："+data.info+" "+data.msg);
 	});
@@ -312,7 +304,14 @@ function socketMonitor() {
 		if(data.code===1){
 			Materialize.toast("登录"+code[data.code+1], 1500, 'rounded');
 		}else {
-			location.reload(true);
+			if(count<=3){
+				location.reload(true);
+				count++;
+			}else {
+				Materialize.toast("登录失败次数过多，请重新登录_(:зゝ∠)_", 1500, 'rounded');
+				count=0;
+			}
+
 		};
 	});
 	socket.on('saoff',function (data) {
@@ -471,7 +470,7 @@ function socketMonitor() {
 		} else{
 			if((data.to===chatOtherId)&&contentInput){
 				var dataTemp=data;
-				dataTemp.name=chatOtherName;
+				dataTemp.name=searchgroupbyid(data.from).name;
 				var date = new Date(data.sendDate);
 				var Y = date.getFullYear() + '-';
 				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
@@ -536,3 +535,20 @@ function socketMonitor() {
 	});
 
 }
+function check_input(input,max){
+	var maxLength = max;
+	if (input != "" && input != null){
+		if(input.length <=maxLength ){
+			return true;
+		}
+		else{
+			Materialize.toast("输入不能超过"+maxLength+"个字符", 1500, 'rounded');
+			return false;
+		}
+	}
+	else{
+		Materialize.toast("输入不能为空", 1500, 'rounded');
+		return false;
+	}
+}
+
