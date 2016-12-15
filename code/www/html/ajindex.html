@@ -45,7 +45,7 @@
     <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
             <span class="mdl-layout-title"></span>
-            <div class="mdl-layout-spacer"  style="text-align: center;text-color">
+            <div class="mdl-layout-spacer"  style="text-align: center;">
                 <h5><span id="prompt" class="promptFont">{{promptText}}</span></h5>
             </div>
 
@@ -65,7 +65,7 @@
             <a class="mdl-navigation__link" href="#/"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>最近联系</a>
             <a class="mdl-navigation__link" href="#/friendList"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>好友</a>
             <a class="mdl-navigation__link" href="#/chatRoom"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>聊天室</a>
-            <a class="mdl-navigation__link show-modal1" ng-click="makefriend()"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">shopping_cart</i>添加好友</a>
+            <a class="mdl-navigation__link show-modal1" href="#/makeFriend"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">shopping_cart</i>添加好友</a>
             <!--<a class="mdl-navigation__link" href="#/setting"><i class="mdl-color-text&#45;&#45;blue-grey-400 material-icons" role="presentation">local_offer</i>Setting</a>-->
             <!--<div class="mdl-layout-spacer"></div>-->
             <!--<a class="mdl-navigation__link" href="#/help"><i class="mdl-color-text&#45;&#45;blue-grey-400 material-icons" role="presentation">help_outline</i><span class="">Help</span></a>-->
@@ -76,8 +76,6 @@
             <div class="mdl-cell--3-col"></div>
             <div class="mdl-card  mdl-cell--6-col mdl-shadow--4dp" style="height: 100%;margin-left: auto;
 margin-right: auto;" ng-view>
-
-
 
             </div>
             <div class="mdl-cell--3-col"></div>

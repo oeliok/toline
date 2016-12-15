@@ -34,46 +34,7 @@ app.controller('personalIfoCtrl',function($scope,$location){
 	$scope.toPersonalIfo=function () {
 		$location.path('/personal');
 		$scope.$apply();
-	}
-	$scope.makefriend=function () {
-		$("#prompt").text("添加好友");
-		// var dialog1 = document.querySelector('#makeFriendDialog');
-		// var dialog2 = document.querySelector('#confirmDialog');
-		var content=document.getElementById('content');
-		var dateTemp;
-		var name=prompt("请输入要查找的用户名","");
-		if (name!=null && name!="")
-		{
-			dateTemp=getIfoByName(name);
-			console.log("查找结果"+JSON.stringify(dateTemp));
-			if(dateTemp){
-				for(var i=0;i<dateTemp.length;i++){
-					var html = template('makeFriendList', dateTemp[i]);
-					content.innerHTML += html;
-				}
-				$("#content a").click(function(){
-					pos = $("#content a").index($(this));
-					var msg=prompt("请输入申请好友的留言","");
-					if(msg!=null && msg!=""){
-						console.log("添加"+JSON.stringify(dateTemp[pos]));
-						var temp=addFriend(dateTemp[pos].id,msg);
-						console.log("添加好友返回值"+temp);
-						if(temp===1){
-							Materialize.toast('好友申请已发送_(:зゝ∠)_', 1500, 'rounded');
-						}else {
-							Materialize.toast('好友申请发送失败_(:зゝ∠)_:'+code[temp+1]+'', 1500, 'rounded');
-						}
-					}else{
-						Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
-					};
-				});
-			}else {
-				Materialize.toast('Nothing we find_(:зゝ∠)_', 1500, 'rounded');
-			}
-		}else {
-			Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
-		};
-	}
+	};
 
 });
 app.controller('homeCtrl',function ($scope,$location,$route) {
@@ -169,10 +130,12 @@ app.controller('groupListCtrl',function ($scope,$location) {
 	var chatIfo = localStorage.getItem("groupIfo_"+localStorage. currentId);
 	console.log(chatIfo);
 	chatIfo = JSON.parse(chatIfo);
-	for (var i=0;i<chatIfo.length;i++)
-	{
-		var html = template('groupList', chatIfo[i]);
-		content.innerHTML += html;
+	if(chatIfo){
+		for (var i=0;i<chatIfo.length;i++)
+		{
+			var html = template('groupList', chatIfo[i]);
+			content.innerHTML += html;
+		};
 	};
 	$("#content a").click(function(){
 		pos = $("#content a").index($(this));
@@ -286,6 +249,43 @@ app.controller('chatCtrl',function ($scope) {
 			Materialize.toast('Nothing input,QAQ', 1500, 'rounded');
 	}
 });
+app.controller('makefriendCtrl',function ($scope) {
+	$("#prompt").text("添加好友");
+	var content=document.getElementById('content');
+	var dateTemp;
+	var name=prompt("请输入要查找的用户名","");
+	if (name!=null && name!="")
+	{
+		dateTemp=getIfoByName(name);
+		console.log("查找结果"+JSON.stringify(dateTemp));
+		if(dateTemp){
+			for(var i=0;i<dateTemp.length;i++){
+				var html = template('makeFriendList', dateTemp[i]);
+				content.innerHTML += html;
+			};
+			$("#content a").click(function(){
+				pos = $("#content a").index($(this));
+				var msg=prompt("请输入申请好友的留言","");
+				if(msg!=null && msg!=""){
+					console.log("添加"+JSON.stringify(dateTemp[pos]));
+					var temp=addFriend(dateTemp[pos].id,msg);
+					console.log("添加好友返回值"+temp);
+					if(temp===1){
+						Materialize.toast('好友申请已发送_(:зゝ∠)_', 1500, 'rounded');
+					}else {
+						Materialize.toast('好友申请发送失败_(:зゝ∠)_:'+code[temp+1]+'', 1500, 'rounded');
+					}
+				}else{
+					Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
+				};
+			});
+		}else {
+			Materialize.toast('Nothing we find_(:зゝ∠)_', 1500, 'rounded');
+		}
+	}else {
+		Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
+	};
+});
 app.controller('personalCtrl',function ($scope,$route,$location) {
 	$("#prompt").text("个人信息");
 	$scope.getPersonInfo = function (){
@@ -345,7 +345,7 @@ app.config(['$routeProvider', function($routeProvider){
 		.when('/',{templateUrl: 'home.html', controller: 'homeCtrl'})
 		.when('/friendList',{templateUrl: 'friendList.html', controller: 'friendListCtrl'})
 		.when('/chatRoom',{templateUrl: 'groupList.html', controller: 'groupListCtrl'})
-		// .when('/makeFriend',{templateUrl: 'makefriend.html', controller: 'makefriendCtrl'})
+		.when('/makeFriend',{templateUrl: 'makefriend.html', controller: 'makefriendCtrl'})
 		// .when('/setting',{template:'这是设置页面'})
 		// .when('/help',{template:'这是帮助页面'})
 		.when('/chat',{templateUrl: 'chat.html', controller: 'chatCtrl'})
