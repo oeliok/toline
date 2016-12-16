@@ -283,7 +283,6 @@ function socketSendGroupmsg(getGroupId,groupMessage) {
 function socketMonitor() {
 	if(sessionStorage.getItem('count')){
 		var count=sessionStorage.getItem('count');
-		console.log(count);
 	};
 	socket.on('news',function (data) {
 		consoleTemp("系统消息："+data.info+" "+data.msg);
@@ -296,12 +295,10 @@ function socketMonitor() {
 			if(count<=2){
 				location.reload(true);
 				count++;
-				console.log(count);
 				sessionStorage.setItem('count',count);
 			}else {
 				alert("登录失败次数过多，请重新登录_(:зゝ∠)_");
-				// location.href="login.html";
-				console.log(count);
+				location.href="login.html";
 			};
 		};
 	});
@@ -518,6 +515,10 @@ function socketMonitor() {
 	socket.on('deletefriend',function (data) {
 		consoleTemp("删除好友"+JSON.stringify(data));
 	});
+	socket.on('addfriendcheckreply',function (data) {
+		consoleTemp("已添加好友确认"+JSON.stringify(data));
+		loadFriendList();
+	});
 	socket.on('exitgroup',function (data) {
 		consoleTemp("群员退出群组"+JSON.stringify(data));
 	});
@@ -539,7 +540,10 @@ function socketMonitor() {
 		Materialize.toast(currentChat.msg, 1500, 'rounded');
 		sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
 	});
-
+	socket.on('joingroupcheckreply',function (data) {
+		consoleTemp("已添加群确认"+JSON.stringify(data));
+		loadGroupList();
+	});
 }
 function check_input(input,max){
 	var maxLength = max;
