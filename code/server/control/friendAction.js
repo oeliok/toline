@@ -27,39 +27,45 @@ function addfriend(req, res) {
     v.setRules(rule);
     if (v.isok()) {
         log.debug(data);
-        soketIO.socketIO(function (io) {
-            soketIO.useridTosocketid(data.id, function (socket) {
-                var d = {
-                    from:req.session.user._id,
-                    to:data.id,
-                    type:'addfriend',
-                    datetime:Date.now(),
-                    msg:data.msg
-                };
-                if (socket) {
-                    if (io.sockets.sockets[socket]){
-                        io.sockets.sockets[socket].emit('addfriend',d);
-                        res.json({code:1});
-                    } else {
-                        Msg.addAmsg(d, function (r) {
-                            if (r) {
-                                res.json({code: 1});
+        friend.checkIsfriend(req.session.user._id,data.id, function (r) {
+            if(r) {
+                res.json({code:11});
+            } else {
+                soketIO.socketIO(function (io) {
+                    soketIO.useridTosocketid(data.id, function (socket) {
+                        var d = {
+                            from:req.session.user._id,
+                            to:data.id,
+                            type:'addfriend',
+                            datetime:Date.now(),
+                            msg:data.msg
+                        };
+                        if (socket) {
+                            if (io.sockets.sockets[socket]){
+                                io.sockets.sockets[socket].emit('addfriend',d);
+                                res.json({code:1});
                             } else {
-                                res.json({code: 0});
+                                Msg.addAmsg(d, function (r) {
+                                    if (r) {
+                                        res.json({code: 1});
+                                    } else {
+                                        res.json({code: 0});
+                                    }
+                                })
                             }
-                        })
-                    }
-                } else {
-                    Msg.addAmsg(d,function (r) {
-                        if (r) {
-                            res.json({code:1});
                         } else {
-                            res.json({code:0});
+                            Msg.addAmsg(d,function (r) {
+                                if (r) {
+                                    res.json({code:1});
+                                } else {
+                                    res.json({code:0});
+                                }
+                            })
                         }
                     })
-                }
-            })
-        })
+                })
+            }
+        });
     } else {
         res.json({code:10});
     }
