@@ -123,10 +123,10 @@
         <div class="head-row">
             <input ng-show="{{show_search}}" type="text" placeholder="请输入好友名称或群名称" class="mdl-textfield__input" style="padding-left: 20px;">
             <ul class="mdl-list">
-                <li ng-repeat="item in list"  class=" mdl-navigation  mdl-list__item" >
+                <li ng-repeat="item in list" ng-init="p_index=$index" data-ng-click="index(p_index)" class=" mdl-navigation  mdl-list__item" >
                     <img src="../avator/{{item._id}}" alt="" class="img-circle head-img">&nbsp;
                     <div class="text-overflow" style="width:100%;height:40px;margin: auto;">
-                        <a  href="#/chat" ng-init="p_index=$index" ng-click="index(p_index)" class="mdl-navigation__link a-friend ">
+                        <a  href=""  class="mdl-navigation__link a-friend ">
                             <span >{{item.name}}</span>&nbsp;&nbsp;&nbsp;
                             <span >{{item.remark}}</span>
                         </a>
