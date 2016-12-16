@@ -281,7 +281,10 @@ function socketSendGroupmsg(getGroupId,groupMessage) {
 	});
 }
 function socketMonitor() {
-	// var count;
+	if(sessionStorage.getItem('count')){
+		var count=sessionStorage.getItem('count');
+		console.log(count);
+	};
 	socket.on('news',function (data) {
 		consoleTemp("系统消息："+data.info+" "+data.msg);
 	});
@@ -290,14 +293,16 @@ function socketMonitor() {
 		if(data.code===1){
 			Materialize.toast("登录"+code[data.code+1], 1500, 'rounded');
 		}else {
-			// count++;
-			// if(count<=3){
-			// 	location.reload(true);
-			// }else {
-			// 	Materialize.toast("登录失败次数过多，请重新登录_(:зゝ∠)_", 1500, 'rounded');
-			// 	count=0;
-			// };
-			location.reload(true);
+			if(count<=2){
+				location.reload(true);
+				count++;
+				console.log(count);
+				sessionStorage.setItem('count',count);
+			}else {
+				alert("登录失败次数过多，请重新登录_(:зゝ∠)_");
+				// location.href="login.html";
+				console.log(count);
+			};
 		};
 	});
 	socket.on('saoff',function (data) {
