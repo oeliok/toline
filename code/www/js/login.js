@@ -60,7 +60,7 @@ function check_login(){
 		console.log(JSON.stringify(data) + "	");
 		if(data.code == 1){
 			alert(code[data.code+1]);
-			localStorage.clear();
+			clear();
             document.getElementById('login_form').submit();
 		}else{
 			alert(code[data.code+1]);
@@ -103,4 +103,8 @@ function check_register(){
 		var codeImg_register = document.getElementById("code_img_register");
 		codeImg_register.src="/public/api/cyzm6?random?" + Math.random();
 	});
+}
+function clear(){
+	localStorage.clear();
+	sessionStorage.setItem('count',0);
 }
