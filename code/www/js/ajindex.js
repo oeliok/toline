@@ -89,7 +89,7 @@ app.controller('homeCtrl',function ($scope,$location,$route) {
 			var addgroupId=currentChats[pos].addgroupId;
 			var r=confirm(msg+"，是否同意");
 			if (r==true){
-				console.log("chatOtherId:"+chatOtherId+",addgroupId:"+addgroupId);
+				consoleTemp("chatOtherId:"+chatOtherId+",addgroupId:"+addgroupId);
 				var temp=applygroupcheck(chatOtherId,addgroupId);
 				if(temp===1){
 					loadGroupList();
@@ -105,7 +105,7 @@ app.controller('homeCtrl',function ($scope,$location,$route) {
 			sessionStorage.setItem("chatOtherId",chatOtherId);
 			sessionStorage.setItem("chatOtherName",chatOtherName);
 			sessionStorage.setItem("friendorgroup",friendorgroup);
-			console.log(" pos:"+pos+" otherid:"+chatOtherId+" othername:"+chatOtherName);
+			consoleTemp(" pos:"+pos+" otherid:"+chatOtherId+" othername:"+chatOtherName);
 			$location.path('/chat');
 			$scope.$apply();
 		}
@@ -135,7 +135,7 @@ app.controller('friendListCtrl',function ($scope,$location) {
 		sessionStorage.setItem("chatOtherId",chatOtherId);
 		sessionStorage.setItem("chatOtherName",chatOtherName);
 		sessionStorage.setItem("friendorgroup","friend");
-		console.log("friendList pos:"+pos+" otherid:"+chatOtherId+" othername:"+chatOtherName);
+		consoleTemp("friendList pos:"+pos+" otherid:"+chatOtherId+" othername:"+chatOtherName);
 		//var pos = $(this).index();
 		//双人聊天
 
@@ -151,7 +151,7 @@ app.controller('groupListCtrl',function ($scope,$location) {
 	var content=document.getElementById('content');
 
 	var chatIfo = localStorage.getItem("groupIfo_"+localStorage. currentId);
-	console.log(chatIfo);
+	consoleTemp(chatIfo);
 	chatIfo = JSON.parse(chatIfo);
 	if(chatIfo){
 		for (var i=0;i<chatIfo.length;i++)
@@ -167,7 +167,7 @@ app.controller('groupListCtrl',function ($scope,$location) {
 		sessionStorage.setItem("chatOtherId",chatOtherId);
 		sessionStorage.setItem("chatOtherName",chatOtherName);
 		sessionStorage.setItem("friendorgroup","group");
-		console.log("groupList pos:"+pos+" otherid:"+chatOtherId+" othername:"+chatOtherName);
+		consoleTemp("groupList pos:"+pos+" otherid:"+chatOtherId+" othername:"+chatOtherName);
 		//var pos = $(this).index();
 		//双人聊天
 
@@ -196,7 +196,7 @@ app.controller('chatCtrl',function ($scope) {
 	if("friend"===friendorgroup){
 		if(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId)){
 			var data=JSON.parse(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId));
-			console.log(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId));
+			consoleTemp(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId));
 			$("#contentInput").text="";
 			for(var i=0;i<data.length;i++){
 				var date = new Date(data[i].datetime);
@@ -227,7 +227,7 @@ app.controller('chatCtrl',function ($scope) {
 	if("group"===friendorgroup){
 		if(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId)){
 			var data=JSON.parse(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId));
-			console.log(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId));
+			consoleTemp(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId));
 			$("#contentInput").text="";
 			for(var i=0;i<data.length;i++){
 				var date = new Date(data[i].datetime);
@@ -260,7 +260,7 @@ app.controller('chatCtrl',function ($scope) {
 	$scope.say=function () {
 		if (document.getElementById('msg').value != ''){
 			sendState=setTimeout("Materialize.toast('发送失败,请检查网络并刷新试试_(:зゝ∠)_', 1500, 'rounded')",3000);
-			console.log("sendmsg:"+document.getElementById('msg').value);
+			consoleTemp("sendmsg:"+document.getElementById('msg').value);
 			if("friend"===friendorgroup){
 				socketSendChatmsg(chatOtherId,document.getElementById('msg').value);
 			};
@@ -280,7 +280,7 @@ app.controller('makefriendCtrl',function ($scope) {
 	if (name!=null && name!="")
 	{
 		dateTemp=getIfoByName(name);
-		console.log("查找结果"+JSON.stringify(dateTemp));
+		consoleTemp("查找结果"+JSON.stringify(dateTemp));
 		if(dateTemp){
 			for(var i=0;i<dateTemp.length;i++){
 				var html = template('makeFriendList', dateTemp[i]);
@@ -290,9 +290,9 @@ app.controller('makefriendCtrl',function ($scope) {
 				pos = $("#content a").index($(this));
 				var msg=prompt("请输入申请好友的留言","");
 				if(msg!=null && msg!=""){
-					console.log("添加"+JSON.stringify(dateTemp[pos]));
+					consoleTemp("添加"+JSON.stringify(dateTemp[pos]));
 					var temp=addFriend(dateTemp[pos].id,msg);
-					console.log("添加好友返回值"+temp);
+					consoleTemp("添加好友返回值"+temp);
 					if(temp===1){
 						Materialize.toast('好友申请已发送_(:зゝ∠)_', 1500, 'rounded');
 					}else {
@@ -317,7 +317,7 @@ app.controller('makeGroupCtrl',function ($scope) {
 	if (name!=null && name!="")
 	{
 		dateTemp=searchgroupbyname(name,0,5);
-		console.log("查找结果"+JSON.stringify(dateTemp));
+		consoleTemp("查找结果"+JSON.stringify(dateTemp));
 		if(dateTemp){
 			for(var i=0;i<dateTemp.length;i++){
 				var html = template('makeGroupList', dateTemp[i]);
@@ -325,12 +325,12 @@ app.controller('makeGroupCtrl',function ($scope) {
 			};
 			$("#content a").click(function(){
 				pos = $("#content a").index($(this));
-				console.log(dateTemp[pos]);
+				consoleTemp(dateTemp[pos]);
 				var msg=prompt("请输入申请群的留言","");
 				if(msg!=null && msg!=""){
-					console.log("添加"+JSON.stringify(dateTemp[pos]));
+					consoleTemp("添加"+JSON.stringify(dateTemp[pos]));
 					var temp=applygroup(searchgroupbyid(dateTemp[pos]._id).owner,dateTemp[pos]._id,msg);
-					console.log("添加群返回值"+temp);
+					consoleTemp("添加群返回值"+temp);
 					if(temp===1){
 						Materialize.toast('群申请已发送_(:зゝ∠)_', 1500, 'rounded');
 					}else {
@@ -353,7 +353,7 @@ app.controller('createGroupCtrl',function ($scope) {
 	if (name!=null && name!=""){
 		var remark=prompt("请输入创建群的签名","");
 		if(remark!=null&&remark!=""){
-			console.log(name+":"+remark);
+			consoleTemp(name+":"+remark);
 			var temp=creategroup(name,remark);
 			if(temp===1){
 				Materialize.toast(name+"群创建成功", 1500, 'rounded');
@@ -372,14 +372,14 @@ app.controller('personalCtrl',function ($scope,$route,$location) {
 	$("#prompt").text("个人信息");
 	$scope.getPersonInfo = function (){
 		$.post('/suser/private/user/user/myinfo',{},function (data) {
-			console.log(JSON.stringify(data));
+			consoleTemp(JSON.stringify(data));
 			localStorage.setItem("my_allInfo_"+localStorage. currentId ,JSON.stringify(data));
 		});
 	};
 
 	$scope.getPersonInfo();
 	$scope.personal = JSON.parse(localStorage.getItem("my_allInfo_"+localStorage. currentId));
-	console.log(JSON.stringify($scope.personal));
+	consoleTemp(JSON.stringify($scope.personal));
 	$scope.changeName = function (){
 		var newInfo = prompt("请输入新的名称",$scope.personal.name);
 		if(check_input(newInfo,20)){
@@ -387,7 +387,7 @@ app.controller('personalCtrl',function ($scope,$route,$location) {
 				name: newInfo
 			},function (data) {
 				$('#ownerName').text(newInfo);
-				console.log(JSON.stringify(data));
+				consoleTemp(JSON.stringify(data));
 				Materialize.toast(code[data.code + 1], 1500, 'rounded');
 				getPersonalIfo();
 				$scope.getPersonInfo();
@@ -401,7 +401,7 @@ app.controller('personalCtrl',function ($scope,$route,$location) {
 			$.get("/suser/private/user/modifysign",{
 				words:newInfo
 			},function (data) {
-				console.log(JSON.stringify(data));
+				consoleTemp(JSON.stringify(data));
 				Materialize.toast(code[data.code + 1], 1500, 'rounded');
 				$scope.getPersonInfo();
 				$route.reload();
@@ -414,7 +414,7 @@ app.controller('personalCtrl',function ($scope,$route,$location) {
 			$.get("/suser/private/user/modifyage",{
 				age:newInfo
 			},function (data) {
-				console.log(JSON.stringify(data));
+				consoleTemp(JSON.stringify(data));
 				Materialize.toast(code[data.code + 1], 1500, 'rounded');
 				$scope.getPersonInfo();
 				$route.reload();
