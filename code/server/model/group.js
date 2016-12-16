@@ -154,7 +154,7 @@ function findgroupin(q,next) {
 
 function checkUserinGroup(gid, uid, next) {
     mongo.getConnection(function (db) {
-        var group = db.collection(dbt.name);
+        var group = db.collection(dbt.guser);
         group.findOne({gid:ObjectId(gid),uid:ObjectId(uid)}, function (err, r) {
             if (err) {
                 log.error(err);
