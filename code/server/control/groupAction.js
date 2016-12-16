@@ -332,7 +332,7 @@ function applyGroupcheck(req, res) {
     v.setRules(rule);
     if (v.isok()) {
         group.findAgroup({_id:ObjectId(data.gid)},function (g) {
-            if (g && (('' + g.owner) == data.uid)) {
+            if (g && (('' + g.owner) == req.session.user._id)) {
                 fuser.addAmember(data.gid,data.uid,function (r) {
                     if (r) {
                         res.json({code:1});
