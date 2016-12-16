@@ -60,6 +60,7 @@ function check_login(){
 		console.log(JSON.stringify(data) + "	");
 		if(data.code == 1){
 			alert(code[data.code+1]);
+			localStorage.clear();
             document.getElementById('login_form').submit();
 		}else{
 			alert(code[data.code+1]);
