@@ -45,6 +45,12 @@ app.controller('homeCtrl',function ($scope,$location,$route) {
 		chatIfo = JSON.parse(chatIfo);
 		for (var i=0;i<chatIfo.length;i++)
 		{
+			if(chatIfo[i].type==="friend"||chatIfo[i].type==="addfriend"){
+				chatIfo[i].from="avator/"+chatIfo[i].from;
+			};
+			if(chatIfo[i].type==="group"||chatIfo[i].type==="addgroup"){
+				chatIfo[i].from="gavator/"+chatIfo[i].from;
+			};
 			var date = new Date(chatIfo[i].sendDate);
 			var Y = date.getFullYear() + '-';
 			var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
@@ -64,6 +70,7 @@ app.controller('homeCtrl',function ($scope,$location,$route) {
 		var chatOtherId=currentChats[pos].from;
 		var chatOtherName=currentChats[pos].name;
 		var friendorgroup=currentChats[pos].type;
+		var msg=currentChats[pos].msg;
 		if(friendorgroup==="addfriend"){
 			var r=confirm("确认添加"+chatOtherName+"为好友？");
 			if (r==true){
@@ -78,7 +85,23 @@ app.controller('homeCtrl',function ($scope,$location,$route) {
 					Materialize.toast("添加"+chatOtherName+"失败_(:зゝ∠)_:"+code[temp+1], 1500, 'rounded');
 				};
 			};
-		}else {
+		}else if(friendorgroup==="addgroup"){
+			var addgroupId=currentChats[pos].addgroupId;
+			var r=confirm(msg+"，是否同意");
+			if (r==true){
+				console.log("chatOtherId:"+chatOtherId+",addgroupId:"+addgroupId);
+				var temp=applygroupcheck(chatOtherId,addgroupId);
+				if(temp===1){
+					loadGroupList();
+					Materialize.toast(msg+"，申请通过", 1500, 'rounded');
+					currentChats.splice(pos,1);
+					sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
+					$route.reload();
+				}else {
+					Materialize.toast(msg+",申请失败_(:зゝ∠)_:"+code[temp+1], 1500, 'rounded');
+				};
+			};
+		} else {
 			sessionStorage.setItem("chatOtherId",chatOtherId);
 			sessionStorage.setItem("chatOtherName",chatOtherName);
 			sessionStorage.setItem("friendorgroup",friendorgroup);
@@ -286,6 +309,65 @@ app.controller('makefriendCtrl',function ($scope) {
 		Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
 	};
 });
+app.controller('makeGroupCtrl',function ($scope) {
+	$("#prompt").text("添加群");
+	var content=document.getElementById('content');
+	var dateTemp;
+	var name=prompt("请输入要查找的群名","");
+	if (name!=null && name!="")
+	{
+		dateTemp=searchgroupbyname(name,0,5);
+		console.log("查找结果"+JSON.stringify(dateTemp));
+		if(dateTemp){
+			for(var i=0;i<dateTemp.length;i++){
+				var html = template('makeGroupList', dateTemp[i]);
+				content.innerHTML += html;
+			};
+			$("#content a").click(function(){
+				pos = $("#content a").index($(this));
+				console.log(dateTemp[pos]);
+				var msg=prompt("请输入申请群的留言","");
+				if(msg!=null && msg!=""){
+					console.log("添加"+JSON.stringify(dateTemp[pos]));
+					var temp=applygroup(searchgroupbyid(dateTemp[pos]._id).owner,dateTemp[pos]._id,msg);
+					console.log("添加群返回值"+temp);
+					if(temp===1){
+						Materialize.toast('群申请已发送_(:зゝ∠)_', 1500, 'rounded');
+					}else {
+						Materialize.toast('群申请发送失败_(:зゝ∠)_:'+code[temp+1]+'', 1500, 'rounded');
+					};
+				}else{
+					Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
+				};
+			});
+		}else {
+			Materialize.toast('Nothing we find_(:зゝ∠)_', 1500, 'rounded');
+		}
+	}else {
+		Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
+	};
+})
+app.controller('createGroupCtrl',function ($scope) {
+	$("#prompt").text("创建群");
+	var name=prompt("请输入创建的群名","");
+	if (name!=null && name!=""){
+		var remark=prompt("请输入创建群的签名","");
+		if(remark!=null&&remark!=""){
+			console.log(name+":"+remark);
+			var temp=creategroup(name,remark);
+			if(temp===1){
+				Materialize.toast(name+"群创建成功", 1500, 'rounded');
+			}else{
+				Materialize.toast("群创建失败_(:зゝ∠)_"+code[temp+1], 1500, 'rounded');
+			};
+		}else {
+			Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
+		};
+	}else {
+		Materialize.toast('Nothing input_(:зゝ∠)_', 1500, 'rounded');
+	};
+
+})
 app.controller('personalCtrl',function ($scope,$route,$location) {
 	$("#prompt").text("个人信息");
 	$scope.getPersonInfo = function (){
@@ -346,8 +428,8 @@ app.config(['$routeProvider', function($routeProvider){
 		.when('/friendList',{templateUrl: 'friendList.html', controller: 'friendListCtrl'})
 		.when('/chatRoom',{templateUrl: 'groupList.html', controller: 'groupListCtrl'})
 		.when('/makeFriend',{templateUrl: 'makefriend.html', controller: 'makefriendCtrl'})
-		// .when('/setting',{template:'这是设置页面'})
-		// .when('/help',{template:'这是帮助页面'})
+		.when('/makeGroup',{templateUrl: 'makegroup.html', controller: 'makeGroupCtrl'})
+		.when('/createGroup',{templateUrl: 'createGroup.html', controller: 'createGroupCtrl'})
 		.when('/chat',{templateUrl: 'chat.html', controller: 'chatCtrl'})
 		.when('/personal',{templateUrl: 'personalIfo.html', controller: 'personalCtrl'})
 		.otherwise({redirectTo:'/'});

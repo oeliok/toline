@@ -67,7 +67,7 @@ function getPersonalIfo(){
 function getNameById(searchId) {
 	var temp;
 	$.get("/suser/private/friend/searchid",{id:searchId}).done(function (data) {
-		console.log("getNameById"+JSON.stringify(data));
+		// console.log("getNameById"+JSON.stringify(data));
 		if(data.data){
 			temp=data.data.name;
 		};
@@ -200,8 +200,8 @@ function searchgroupbyname(keyword,page,size) {
 	$.post("/suser/private/group/searchgroupbyname", {keyword:keyword,page:page,size:size},
 		function (data) {
 			console.log("searchgroupbyname"+JSON.stringify(data));
-			if(data.code===1){
-				temp=data.groups;
+			if(data){
+				temp=data;
 			};
 		}, "json");
 	return temp;
@@ -232,19 +232,25 @@ function setgrouphead(head,gid) {
 		}, "json");
 }
 function applygroup(id,gid,msg) {
+	var temp;
 	$.post("/suser/private/group/applygroup", {id:id,gid:gid,msg:msg},
 		function (data) {
-			console.log("applygroup"+data);
+			console.log("applygroup"+JSON.stringify(data));
+			temp=data.code;
 		}, "json");
+	return temp;
 }
 function applygroupcheck(gid,uid) {
-	$.post("/suser/private/group/applygroup", {gid:gid,uid:uid},
+	var temp;
+	$.post("/suser/private/group/applygroupcheck", {gid:gid,uid:uid},
 		function (data) {
-			console.log("applygroupcheck"+data);
+			console.log("applygroupcheck"+JSON.stringify(data));
+			temp=data.code;
 		}, "json");
+	return temp;
 }
 function exitgroup(id,gid,msg) {
-	$.post("/suser/private/group/applygroup", {id:id,gid:gid,msg:msg},
+	$.post("/suser/private/group/exitgroup", {id:id,gid:gid,msg:msg},
 		function (data) {
 			console.log("exitgroup"+data);
 		}, "json");
@@ -304,13 +310,13 @@ function socketMonitor() {
 		if(data.code===1){
 			Materialize.toast("登录"+code[data.code+1], 1500, 'rounded');
 		}else {
+			count++;
 			if(count<=3){
 				location.reload(true);
-				count++;
 			}else {
 				Materialize.toast("登录失败次数过多，请重新登录_(:зゝ∠)_", 1500, 'rounded');
 				count=0;
-			}
+			};
 
 		};
 	});
@@ -532,6 +538,21 @@ function socketMonitor() {
 	});
 	socket.on('joingroup',function (data) {
 		console.log("用户申请加入群组"+JSON.stringify(data));
+		if(sessionStorage.getItem("currentChat_"+localStorage.currentId)){
+			var currentChats=JSON.parse(sessionStorage.getItem("currentChat_"+localStorage.currentId));
+		}else {
+			var currentChats=[];
+		};
+		var currentChat = {};
+		currentChat.from=data.gid;
+		currentChat.addgroupId=data.from;
+		currentChat.name=searchgroupbyid(data.gid).name;
+		currentChat.msg=getNameById(data.from)+"请求加群"+currentChat.name+":"+data.msg;
+		currentChat.sendDate=data.datetime;
+		currentChat.type="addgroup";
+		currentChats.unshift(currentChat);
+		Materialize.toast(currentChat.msg, 1500, 'rounded');
+		sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
 	});
 
 }
