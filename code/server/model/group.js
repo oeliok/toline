@@ -152,6 +152,24 @@ function findgroupin(q,next) {
     })
 }
 
+function checkUserinGroup(gid, uid, next) {
+    mongo.getConnection(function (db) {
+        var group = db.collection(dbt.name);
+        group.findOne({gid:ObjectId(gid),uid:ObjectId(uid)}, function (err, r) {
+            if (err) {
+                log.error(err);
+                next(true);
+            } else {
+                if (r){
+                    next(true);
+                } else {
+                    next(false);
+                }
+            }
+        })
+    })
+}
+
 exports.insertagroup = insertAgroup;
 exports.findAgroup = findAgroup;
 exports.deleteAgroup = deleteAgroup;
@@ -161,3 +179,4 @@ exports.findgmembers = findgmembers;
 exports.findgroupin = findgroupin;
 exports.findgroups = findgroups;
 exports.updateAfield = updateAfield;
+exports.checkUserinGroup = checkUserinGroup;

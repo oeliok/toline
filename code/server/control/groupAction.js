@@ -276,40 +276,46 @@ function applygroup(req, res) {
     v.setData(data);
     v.setRules(rule);
     if (v.isok()) {
-        io.socketIO(function (ios) {
-            io.useridTosocketid(data.id, function (socket) {
-                var d = {
-                    from:req.session.user._id,
-                    to:data.id,
-                    gid:data.gid,
-                    type:'joingroup',
-                    datetime:Date.now(),
-                    msg:data.msg
-                };
-                if (socket) {
-                    if (ios.sockets.sockets[socket]){
-                        ios.sockets.sockets[socket].emit('joingroup',d);
-                        res.json({code:1});
-                    } else {
-                        Msg.addAmsg(d,function (r) {
-                            if (r) {
+        group.checkUserinGroup(data.gid,req.session.user._id, function (r) {
+            if (r) {
+                res.json({code:13});
+            } else {
+                io.socketIO(function (ios) {
+                    io.useridTosocketid(data.id, function (socket) {
+                        var d = {
+                            from:req.session.user._id,
+                            to:data.id,
+                            gid:data.gid,
+                            type:'joingroup',
+                            datetime:Date.now(),
+                            msg:data.msg
+                        };
+                        if (socket) {
+                            if (ios.sockets.sockets[socket]){
+                                ios.sockets.sockets[socket].emit('joingroup',d);
                                 res.json({code:1});
                             } else {
-                                res.json({code:0});
+                                Msg.addAmsg(d,function (r) {
+                                    if (r) {
+                                        res.json({code:1});
+                                    } else {
+                                        res.json({code:0});
+                                    }
+                                });
                             }
-                        });
-                    }
-                } else {
-                    Msg.addAmsg(d,function (r) {
-                        if (r) {
-                            res.json({code:1});
                         } else {
-                            res.json({code:0});
+                            Msg.addAmsg(d,function (r) {
+                                if (r) {
+                                    res.json({code:1});
+                                } else {
+                                    res.json({code:0});
+                                }
+                            })
                         }
                     })
-                }
-            })
-        })
+                })
+            }
+        });
     } else {
         res.json({code:10});
     }
@@ -332,35 +338,41 @@ function applyGroupcheck(req, res) {
     v.setData(data);
     v.setRules(rule);
     if (v.isok()) {
-        group.findAgroup({_id:ObjectId(data.gid)},function (g) {
-            log.debug(JSON.stringify(g));
-            if (g) {
-                var go = g.owner+'';
-                if (go == req.session.user._id){
-                    fuser.addAmember(data.gid,data.uid,function (r) {
-                        if (r) {
-                            res.json({code:1});
-                            io.socketIO(function (ios) {
-                                io.useridTosocketid(data.uid, function (socketid) {
-                                    var mms = {"from":data.gid,"to":data.uid,"type":"joingroupcheckreply","datetime":Date.now(),"msg":"同意加群！"};
-                                    if (ios.sockets.sockets[socketid]) {
-                                        ios.sockets.sockets[socketid].emit('joingroupcheckreply',mms);
-                                    } else {
-                                        Msg.addAmsg(mms,function (r) {
-                                            log.debug(r);
+        group.checkUserinGroup(data.gid, data.uid, function (r) {
+            if (r) {
+                res.json({code:13});
+            } else {
+                group.findAgroup({_id:ObjectId(data.gid)},function (g) {
+                    log.debug(JSON.stringify(g));
+                    if (g) {
+                        var go = g.owner+'';
+                        if (go == req.session.user._id){
+                            fuser.addAmember(data.gid,data.uid,function (r) {
+                                if (r) {
+                                    res.json({code:1});
+                                    io.socketIO(function (ios) {
+                                        io.useridTosocketid(data.uid, function (socketid) {
+                                            var mms = {"from":data.gid,"to":data.uid,"type":"joingroupcheckreply","datetime":Date.now(),"msg":"同意加群！"};
+                                            if (ios.sockets.sockets[socketid]) {
+                                                ios.sockets.sockets[socketid].emit('joingroupcheckreply',mms);
+                                            } else {
+                                                Msg.addAmsg(mms,function (r) {
+                                                    log.debug(r);
+                                                })
+                                            }
                                         })
-                                    }
-                                })
-                            })
+                                    })
+                                } else {
+                                    res.json({code:0});
+                                }
+                            });
                         } else {
                             res.json({code:0});
                         }
-                    });
-                } else {
-                    res.json({code:0});
-                }
-            } else {
-                res.json({code:0});
+                    } else {
+                        res.json({code:0});
+                    }
+                })
             }
         })
     } else {
