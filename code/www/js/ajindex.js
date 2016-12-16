@@ -81,7 +81,7 @@ app.controller('homeCtrl',function ($scope,$location,$route) {
 					currentChats.splice(pos,1);
 					sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
 					$route.reload();
-				}if(temp===11){
+				}else if(temp===11){
 					Materialize.toast("添加"+chatOtherName+"失败_(:зゝ∠)_:"+code[temp+1], 1500, 'rounded');
 					currentChats.splice(pos,1);
 					sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
@@ -102,7 +102,7 @@ app.controller('homeCtrl',function ($scope,$location,$route) {
 					currentChats.splice(pos,1);
 					sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
 					$route.reload();
-				}if(temp===13){
+				}else if(temp===13){
 					Materialize.toast(msg+",申请失败_(:зゝ∠)_:"+code[temp+1], 1500, 'rounded');
 					currentChats.splice(pos,1);
 					sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
