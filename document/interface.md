@@ -394,7 +394,7 @@ C -> S(客户端到服务器)
     "return":[
         {"code":-1},
         {"code":0},
-        {"code":1,"groups":[{"_id":ObjectId(""),"name":"","remark":"","datetime":"","owner":ObjectId("")}])}
+        {"code":1,"groups":[{"_id":"","name":"","remark":"","datetime":"","owner":""}])}
     ]
 }
 {

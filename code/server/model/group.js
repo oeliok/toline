@@ -160,3 +160,4 @@ exports.updategname = updategname;
 exports.findgmembers = findgmembers;
 exports.findgroupin = findgroupin;
 exports.findgroups = findgroups;
+exports.updateAfield = updateAfield;

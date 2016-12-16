@@ -67,7 +67,7 @@ function deletegroup(req, res) {
     v.setData(data);
     v.setRules(rule);
     if (v.isok()) {
-        group.findAgroup({_id:ObjectId(data._id),owner:ObjectId(req.session.user_id)}, function (r) {
+        group.findAgroup({_id:ObjectId(data._id),owner:ObjectId(req.session.user._id)}, function (r) {
             if (r){
                 group.deleteAgroup({_id:ObjectId(data._id)},function (r) {
                     if (r) {
@@ -340,6 +340,18 @@ function applyGroupcheck(req, res) {
                     fuser.addAmember(data.gid,data.uid,function (r) {
                         if (r) {
                             res.json({code:1});
+                            io.socketIO(function (ios) {
+                                io.useridTosocketid(data.uid, function (socketid) {
+                                    var mms = {"from":data.gid,"to":data.uid,"type":"joingroupcheckreply","datetime":Date.now(),"msg":"同意加群！"};
+                                    if (ios.sockets.sockets[socketid]) {
+                                        ios.sockets.sockets[socketid].emit('joingroupcheckreply',mms);
+                                    } else {
+                                        Msg.addAmsg(mms,function (r) {
+                                            log.debug(r);
+                                        })
+                                    }
+                                })
+                            })
                         } else {
                             res.json({code:0});
                         }
