@@ -281,13 +281,24 @@ function applygroup(req, res) {
                 var d = {
                     from:req.session.user._id,
                     to:data.id,
+                    gid:data.gid,
                     type:'joingroup',
                     datetime:Date.now(),
                     msg:data.msg
                 };
                 if (socket) {
-                    ios.sockets.sockets[socket].emit('joingroup',d);
-                    res.json({code:1});
+                    if (ios.sockets.sockets[socket]){
+                        ios.sockets.sockets[socket].emit('joingroup',d);
+                        res.json({code:1});
+                    } else {
+                        Msg.addAmsg(d,function (r) {
+                            if (r) {
+                                res.json({code:1});
+                            } else {
+                                res.json({code:0});
+                            }
+                        });
+                    }
                 } else {
                     Msg.addAmsg(d,function (r) {
                         if (r) {
@@ -305,6 +316,7 @@ function applygroup(req, res) {
 }
 
 function applyGroupcheck(req, res) {
+    log.debug("applyGroupcheck");
     var data = req.query;
     var rule = {
         uid:{
@@ -321,16 +333,22 @@ function applyGroupcheck(req, res) {
     v.setRules(rule);
     if (v.isok()) {
         group.findAgroup({_id:ObjectId(data.gid)},function (g) {
-            if (g && ('' + g.owner) == data.gid) {
-                fuser.addAmember(data.gid,data.uid,function (r) {
-                    if (r) {
-                        res.json({code:1});
-                    } else {
-                        res.json({code:0});
-                    }
-                });
+            log.debug(JSON.stringify(g));
+            if (g) {
+                var go = g.owner+'';
+                if (go == req.session.user._id){
+                    fuser.addAmember(data.gid,data.uid,function (r) {
+                        if (r) {
+                            res.json({code:1});
+                        } else {
+                            res.json({code:0});
+                        }
+                    });
+                } else {
+                    res.json({code:0});
+                }
             } else {
-                res.json({code:10});
+                res.json({code:0});
             }
         })
     } else {

@@ -212,7 +212,7 @@
           "source":"server",
           "event":"joingroup",
           "arg":[
-            {"_id":ObjectId(""),"from":"","to":"","type":"joingroup","datetime":"","msg":""}
+            {"_id":ObjectId(""),"from":"","to":"","gid":"","type":"joingroup","datetime":"","msg":""}
           ],
           "datatype":"json",
           "describe":"用户申请加入群组"
