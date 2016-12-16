@@ -25,6 +25,9 @@ myApp.controller('squareCtrl',function($scope,$state){
         inputName();
     };
     $scope.input();
+    $scope.back = function (){
+        location.href="login.html";
+    };
 
 });
 
@@ -96,4 +99,9 @@ function sendmsg() {
     }
     else
         alert("输入内容不能为空");
+}
+function scroll(){
+    var scrol = document.getElementById("container");
+    scrol.scrollTop = scrol.scrollHeight;
+    console.log( scrol.scrollTop+":"+ scrol.scrollHeight);
 }

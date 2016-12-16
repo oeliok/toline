@@ -16,12 +16,15 @@
     <div data-ui-view=""></div>
     <script type="text/ng-template" id="square.html">
         <div class="mdl-grid mdl-shadow--2dp my-head" >
-            <div class="mdl-cell--1-col-desktop     my-picture">
-                <a class="mdl-navigation__link" href="#/person"><img src="../image/bg/m1.png" class="img-circle head-img" title="" alt=""></a>
+            <div class="">
+                <a class="mdl-navigation__link" data-ng-click="back()" ><i class="mdl-color-text--white material-icons" role="presentation">keyboard_arrow_left</i></a>
             </div>
-            <div class="mdl-cell--1-col-desktop   mdl-cell--2-offset-desktop my-menu">
-                <a class="mdl-navigation__link" href="login.html"><i class="mdl-color-text--white material-icons" role="presentation">message</i> </a>
+            <div class=" span_center">
+                <p class="">
+                    <img src="../image/bg/m1.png" class="img-circle head-img" title="" alt="">
+                </p>
             </div>
+
         </div>
         <!--公共聊天室-->
         <div class= middle">
