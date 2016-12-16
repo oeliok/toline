@@ -291,7 +291,13 @@ function applygroup(req, res) {
                         ios.sockets.sockets[socket].emit('joingroup',d);
                         res.json({code:1});
                     } else {
-                        res.json({code:0});
+                        Msg.addAmsg(d,function (r) {
+                            if (r) {
+                                res.json({code:1});
+                            } else {
+                                res.json({code:0});
+                            }
+                        });
                     }
                 } else {
                     Msg.addAmsg(d,function (r) {
