@@ -287,8 +287,12 @@ function applygroup(req, res) {
                     msg:data.msg
                 };
                 if (socket) {
-                    ios.sockets.sockets[socket].emit('joingroup',d);
-                    res.json({code:1});
+                    if (ios.sockets.sockets[socket]){
+                        ios.sockets.sockets[socket].emit('joingroup',d);
+                        res.json({code:1});
+                    } else {
+                        res.json({code:0});
+                    }
                 } else {
                     Msg.addAmsg(d,function (r) {
                         if (r) {
@@ -322,7 +326,7 @@ function applyGroupcheck(req, res) {
     v.setRules(rule);
     if (v.isok()) {
         group.findAgroup({_id:ObjectId(data.gid)},function (g) {
-            if (g && ('' + g.owner) == data.gid) {
+            if (g && (('' + g.owner) == data.uid)) {
                 fuser.addAmember(data.gid,data.uid,function (r) {
                     if (r) {
                         res.json({code:1});
