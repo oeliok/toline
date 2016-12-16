@@ -81,7 +81,7 @@ function addfriendCheck(req, res) {
 			if (r) {
 				res.json({code:1});
                 soketIO.socketIO(function (ios) {
-                    soketIO.useridTosocketid(data.uid, function (socketid) {
+                    soketIO.useridTosocketid(data.fid, function (socketid) {
                         var mms = {"from":req.session.user._id,"to":data.fid,"type":"addfriendcheckreply","datetime":Date.now(),"msg":"同意成为好友！"};
                         if (ios.sockets.sockets[socketid]) {
                             ios.sockets.sockets[socketid].emit('addfriendcheckreply',mms);

@@ -47,6 +47,17 @@ function deleteFriend(myid, frid, next) {
     })
 }
 
+function checkIsfriend(myid, frid, next) {
+    var record = [
+        {myid:ObjectId(myid),frid:ObjectId(frid)},
+        {myid:ObjectId(frid),frid:ObjectId(myid)}
+    ];
+    mongo.getConnection(function (db) {
+        var friend = db.collection('friend');
+        friend
+    })
+}
+
 function findFriend(myid, next) {
     mongo.getConnection(function (db) {
         var friend = db.collection('friend');
