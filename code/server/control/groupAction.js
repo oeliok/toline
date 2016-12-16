@@ -281,6 +281,7 @@ function applygroup(req, res) {
                 var d = {
                     from:req.session.user._id,
                     to:data.id,
+                    gid:data.gid,
                     type:'joingroup',
                     datetime:Date.now(),
                     msg:data.msg

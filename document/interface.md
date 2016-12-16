@@ -45,8 +45,7 @@ C -> S(客户端到服务器)
 登陆(未登录)
 ```
 {
-	name:/cyzm6/
-	public/user/login,
+	name:/cyzm6/public/user/login,
 	method:post,
     arg:[
         {name:email,type:string,max-len:128},

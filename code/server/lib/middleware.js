@@ -4,12 +4,14 @@
 var log = require('../log');
 exports.cyzm6 = function (req, res, next) {
     var yzm = req.session.yzm;
+    log.debug(yzm);
     if ((typeof yzm) != 'string' || yzm == null) {
         res.json({code:0});
         return false;
     }
     req.session.yzm = null;
     var myyzm = req.query.code;
+    log.debug(myyzm);
     if ((typeof myyzm) != 'string' || myyzm == null) {
         res.json({code:0});
         return false;
