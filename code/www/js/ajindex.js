@@ -147,7 +147,7 @@ app.controller('friendListCtrl',function ($scope,$location) {
 app.controller('groupListCtrl',function ($scope,$location) {
 	//群列表破模板[_id,name,remark]
 	//***对应提示信息,群列表模板加载的div
-	$("#prompt").text("聊天室");
+	$("#prompt").text("群聊");
 	var content=document.getElementById('content');
 
 	var chatIfo = localStorage.getItem("groupIfo_"+localStorage. currentId);
@@ -357,6 +357,7 @@ app.controller('createGroupCtrl',function ($scope) {
 			var temp=creategroup(name,remark);
 			if(temp===1){
 				Materialize.toast(name+"群创建成功", 1500, 'rounded');
+				loadGroupList();
 			}else{
 				Materialize.toast("群创建失败_(:зゝ∠)_"+code[temp+1], 1500, 'rounded');
 			};

@@ -153,7 +153,6 @@ myApp.controller('personalCtrl',function($scope,$state){
             localStorage.setItem("my_allInfo_"+localStorage. currentId ,JSON.stringify(data));
         });
     };
-
     $scope.getPersonInfo();
     $scope.personal = JSON.parse(localStorage.getItem("my_allInfo_"+localStorage. currentId));
     console.log(JSON.stringify($scope.personal));
@@ -220,7 +219,6 @@ myApp.controller('friendsCtrl',function($scope,$state){
         $state.go(homePath_app);
     };
     $scope.list_name = "好友列表";
-
     var friends = JSON.parse( localStorage.getItem("chatIfo_"+localStorage. currentId) );
     $scope.list = friends;
     console.log(JSON.stringify(friends));
@@ -371,7 +369,7 @@ myApp.controller('chatCtrl',function($scope,$state){
 });
 //查找好友／群
 myApp.controller('searchCtrl',function($scope,$state){
-    $scope.show_search = 1;
+    $scope.show_search = 0;
     $scope.back = function(){
         $state.go('^.home');
     };
