@@ -517,6 +517,7 @@ function socketMonitor() {
 	});
 	socket.on('addfriendcheckreply',function (data) {
 		consoleTemp("已添加好友确认"+JSON.stringify(data));
+		Materialize.toast(data.msg, 1500, 'rounded');
 		loadFriendList();
 	});
 	socket.on('exitgroup',function (data) {
@@ -542,6 +543,7 @@ function socketMonitor() {
 	});
 	socket.on('joingroupcheckreply',function (data) {
 		consoleTemp("已添加群确认"+JSON.stringify(data));
+		Materialize.toast(data.msg, 1500, 'rounded');
 		loadGroupList();
 	});
 }
