@@ -516,7 +516,7 @@ function socketMonitor() {
 		consoleTemp("删除好友"+JSON.stringify(data));
 	});
 	socket.on('addfriendcheckreply',function (data) {
-		consoleTemp("已添加好友确认"+JSON.stringify(data));
+		console.log("已添加好友确认"+JSON.stringify(data));
 		loadFriendList();
 	});
 	socket.on('exitgroup',function (data) {
@@ -541,7 +541,7 @@ function socketMonitor() {
 		sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
 	});
 	socket.on('joingroupcheckreply',function (data) {
-		consoleTemp("已添加群确认"+JSON.stringify(data));
+		console.log("已添加群确认"+JSON.stringify(data));
 		loadGroupList();
 	});
 }

@@ -357,6 +357,7 @@ app.controller('createGroupCtrl',function ($scope) {
 			var temp=creategroup(name,remark);
 			if(temp===1){
 				Materialize.toast(name+"群创建成功", 1500, 'rounded');
+				loadGroupList();
 			}else{
 				Materialize.toast("群创建失败_(:зゝ∠)_"+code[temp+1], 1500, 'rounded');
 			};
