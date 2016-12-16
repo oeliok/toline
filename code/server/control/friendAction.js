@@ -80,6 +80,18 @@ function addfriendCheck(req, res) {
 		friend.addfriend(req.session.user._id,data.fid,function (r) {
 			if (r) {
 				res.json({code:1});
+                soketIO.socketIO(function (ios) {
+                    soketIO.useridTosocketid(data.uid, function (socketid) {
+                        var mms = {"from":req.session.user._id,"to":data.fid,"type":"addfriendcheckreply","datetime":Date.now(),"msg":"同意成为好友！"};
+                        if (ios.sockets.sockets[socketid]) {
+                            ios.sockets.sockets[socketid].emit('addfriendcheckreply',mms);
+                        } else {
+                            Msg.addAmsg(mms,function (r) {
+                                log.debug(r);
+                            })
+                        }
+                    })
+                })
 			} else {
 				res.json({code:0});
 			}

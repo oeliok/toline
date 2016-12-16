@@ -169,6 +169,15 @@
         },
         {
           "source":"server",
+          "event":"addfriendcheckreply",
+          "arg":[
+            {"_id":ObjectId(""),"from":"uid","to":"your id","type":"addfriendcheckreply","datetime":"","msg":""}
+          ],
+          "datatype":"json",
+          "describe":"别人同意添加你为好友"
+        },
+        {
+          "source":"server",
           "event":"deletefriend",
           "arg":[
             {"_id":ObjectId(""),"from":"","to":"","type":"deletefriend","datetime":"","msg":""}
@@ -216,6 +225,15 @@
           ],
           "datatype":"json",
           "describe":"用户申请加入群组"
+        },
+        {
+          "source":"server",
+          "event":"joingroupcheckreply",
+          "arg":[
+            {"_id":ObjectId(""),"from":"gid","to":"your id","type":"joingroupcheckreply","datetime":"","msg":""}
+          ],
+          "datatype":"json",
+          "describe":"群组同意加入群组"
         }
       ]
     }
