@@ -1,29 +1,29 @@
 var app = angular.module("toline", ['ngRoute']);
 var personIfo=JSON.parse(localStorage.getItem("personIfo_"+localStorage.currentId));
+var chatIfoTemp = localStorage.getItem("chatIfo_"+localStorage. currentId);
+var groupChatIfo = localStorage.getItem("groupIfo_"+localStorage. currentId);
 app.controller('personalIfoCtrl',function($scope,$location){
 	getCurrentId();
 	getSesssionId();
 	socket= io.connect();
 	socketMonitor();
 	socketConfirm();
-	if(localStorage.getItem("chatIfo_"+localStorage.currentId)){
+	// if(localStorage.getItem("chatIfo_"+localStorage.currentId)){
 		//遍历好友列表，获取好友聊天信息
-		var chatIfoTemp = localStorage.getItem("chatIfo_"+localStorage. currentId);
 		chatIfoTemp = JSON.parse(chatIfoTemp);
 		for (var i=0;i<chatIfoTemp.length;i++)
 		{
-			socketHistoryGet("friend",chatIfoTemp[i]._id,100);
+			socketHistoryGet("friend",chatIfoTemp[i]._id,200);
 		};
-	};
-	if(localStorage.getItem("groupIfo_"+localStorage.currentId)){
+	// };
+	// if(localStorage.getItem("groupIfo_"+localStorage.currentId)){
 		//遍历群列表，获取群聊天信息
-		var groupChatIfo = localStorage.getItem("groupIfo_"+localStorage. currentId);
 		groupChatIfo = JSON.parse(groupChatIfo);
 		for (var i=0;i<groupChatIfo.length;i++)
 		{
-			socketHistoryGet("group",groupChatIfo[i]._id,100);
+			socketHistoryGet("group",groupChatIfo[i]._id,200);
 		};
-	};
+	// };
 	$('#ownerName').text(personIfo.name);
 	$scope.ownerPic=personIfo._id;
 	$scope.toPersonalIfo=function () {
@@ -183,6 +183,7 @@ app.controller('groupListCtrl',function ($scope,$location) {
 });
 
 app.controller('chatCtrl',function ($scope) {
+	$scope.btnhidden=true;
 	//聊天模板[from,name,date,msg]
 	//***聊天界面模板加载的div
 	var contentInput=document.getElementById('contentInput');
@@ -202,8 +203,16 @@ app.controller('chatCtrl',function ($scope) {
 		if(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId)){
 			var data=JSON.parse(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId));
 			consoleTemp(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId));
-			$("#contentInput").text="";
-			for(var i=0;i<data.length;i++){
+			// $("#contentInput").text="";
+			var i;
+			if(data.length>30){
+				i=data.length-30;
+				$scope.btnhidden=false;
+			}else {
+				i=0;
+			};
+			sessionStorage.setItem("anchor",i);
+			for(i;i<data.length;i++){
 				var date = new Date(data[i].datetime);
 				var Y = date.getFullYear() + '-';
 				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
@@ -233,8 +242,15 @@ app.controller('chatCtrl',function ($scope) {
 		if(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId)){
 			var data=JSON.parse(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId));
 			consoleTemp(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId));
-			$("#contentInput").text="";
-			for(var i=0;i<data.length;i++){
+			// $("#contentInput").text="";
+			if(data.length>30){
+				$scope.btnhidden=false;
+				i=data.length-30;
+			}else {
+				i=0;
+			};
+			sessionStorage.setItem("anchor",i);
+			for(i;i<data.length;i++){
 				var date = new Date(data[i].datetime);
 				var Y = date.getFullYear() + '-';
 				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
@@ -264,12 +280,153 @@ app.controller('chatCtrl',function ($scope) {
 	$('#msg').bind('keyup', function(event) {
 		if (event.keyCode == "13") {
 			//回车执行查询
-			$scope.say();
+			if (document.getElementById('msg').value.replace(/\s+/g,"")===""){
+				// Materialize.toast('Nothing input,QAQ', 1500, 'rounded');
+			}else{
+				$scope.say();
+			}
 		}
 	});
-
+	var htmltemp="";
+	$scope.getMore=function () {
+		var anchor=sessionStorage.getItem("anchor");
+		if(anchor<=30){
+			$scope.btnhidden=true;
+			if("friend"===friendorgroup){
+				if(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId)){
+					var data=JSON.parse(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId));
+					// $("#contentInput").text="";
+					sessionStorage.setItem("anchor",0);
+					for(var i=0;i<=anchor;i++){
+						var date = new Date(data[i].datetime);
+						var Y = date.getFullYear() + '-';
+						var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+						var D = date.getDate() + ' ';
+						var h = date.getHours() + ':';
+						var m = date.getMinutes();
+						// var s = date.getSeconds();
+						if (data[i].sendId === localStorage.currentId) {
+							dataTemp.name=personIfo.name;
+							dataTemp.from=personIfo._id;
+							dataTemp.date=Y+M+D+h+m;
+							dataTemp.msg=data[i].msg;
+							var html = template('mysay',dataTemp);
+							htmltemp += html;
+						} else {
+							dataTemp.name=chatOtherName;
+							dataTemp.from=chatOtherId;
+							dataTemp.date=Y+M+D+h+m;
+							dataTemp.msg=data[i].msg;
+							var html = template('othersay',dataTemp);
+							htmltemp += html;
+						}
+					}
+				};
+			};
+			if("group"===friendorgroup){
+				if(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId)){
+					var data=JSON.parse(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId));
+					consoleTemp(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId));
+					// $("#contentInput").text="";
+					sessionStorage.setItem("anchor",0);
+					for(var i=0;i<=anchor;i++){
+						var date = new Date(data[i].datetime);
+						var Y = date.getFullYear() + '-';
+						var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+						var D = date.getDate() + ' ';
+						var h = date.getHours() + ':';
+						var m = date.getMinutes()+" ";
+						// var s = date.getSeconds();
+						if (data[i].uid === localStorage.currentId) {
+							dataTemp.name=personIfo.name;
+							dataTemp.from=personIfo._id;
+							dataTemp.date=Y+M+D+h+m;
+							dataTemp.msg=data[i].msg;
+							var html = template('mysay',dataTemp);
+							htmltemp += html;
+						} else {
+							dataTemp.name=data[i].name;
+							dataTemp.from=data[i].uid;
+							dataTemp.date=Y+M+D+h+m;
+							dataTemp.msg=data[i].msg;
+							var html = template('othersay',dataTemp);
+							htmltemp += html;
+						}
+					}
+				};
+			}
+		}else {
+			$scope.btnhidden=false;
+			if("friend"===friendorgroup){
+				if(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId)){
+					var data=JSON.parse(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId));
+					consoleTemp(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId));
+					// $("#contentInput").text="";
+					sessionStorage.setItem("anchor",anchor-30);
+					for(var i=anchor-30;i<=anchor;i++){
+						var date = new Date(data[i].datetime);
+						var Y = date.getFullYear() + '-';
+						var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+						var D = date.getDate() + ' ';
+						var h = date.getHours() + ':';
+						var m = date.getMinutes();
+						// var s = date.getSeconds();
+						if (data[i].sendId === localStorage.currentId) {
+							dataTemp.name=personIfo.name;
+							dataTemp.from=personIfo._id;
+							dataTemp.date=Y+M+D+h+m;
+							dataTemp.msg=data[i].msg;
+							var html = template('mysay',dataTemp);
+							htmltemp += html;
+						} else {
+							dataTemp.name=chatOtherName;
+							dataTemp.from=chatOtherId;
+							dataTemp.date=Y+M+D+h+m;
+							dataTemp.msg=data[i].msg;
+							var html = template('othersay',dataTemp);
+							htmltemp += html;
+						}
+					}
+				};
+			};
+			if("group"===friendorgroup){
+				if(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId)){
+					var data=JSON.parse(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId));
+					consoleTemp(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId));
+					// $("#contentInput").text="";
+					sessionStorage.setItem("anchor",anchor-30);
+					for(var i=anchor-30;i<=anchor;i++){
+						var date = new Date(data[i].datetime);
+						var Y = date.getFullYear() + '-';
+						var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+						var D = date.getDate() + ' ';
+						var h = date.getHours() + ':';
+						var m = date.getMinutes()+" ";
+						// var s = date.getSeconds();
+						if (data[i].uid === localStorage.currentId) {
+							dataTemp.name=personIfo.name;
+							dataTemp.from=personIfo._id;
+							dataTemp.date=Y+M+D+h+m;
+							dataTemp.msg=data[i].msg;
+							var html = template('mysay',dataTemp);
+							htmltemp += html;
+						} else {
+							dataTemp.name=data[i].name;
+							dataTemp.from=data[i].uid;
+							dataTemp.date=Y+M+D+h+m;
+							dataTemp.msg=data[i].msg;
+							var html = template('othersay',dataTemp);
+							htmltemp += html;
+						}
+					}
+				};
+			}
+		}
+		$("#anchor").after(htmltemp);
+		$("#contentInput").remove("undefined");
+	};
 	$scope.say=function () {
-		if (document.getElementById('msg').value != ''){
+		if (document.getElementById('msg').value.length>0){
 			sendState=setTimeout("Materialize.toast('发送失败,请检查网络并刷新试试_(:зゝ∠)_', 1500, 'rounded')",3000);
 			consoleTemp("sendmsg:"+document.getElementById('msg').value);
 			if("friend"===friendorgroup){
