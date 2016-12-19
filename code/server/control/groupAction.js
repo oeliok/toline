@@ -439,6 +439,10 @@ function getgroups(req, res) {
             for (var i in gids) {
                 q[i] = {_id:gids[i].gid};
             }
+            if (q == []) {
+                res.json({code:1,groups:[]});
+                return false;
+            }
             group.findgroups({$or:q},function (gs) {
                 res.json({code:1,groups:gs});
             })

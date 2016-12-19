@@ -130,7 +130,7 @@ function findgroups(q, next) {
         group.find(q).toArray(function (err, gs) {
             if (err) {
                 log.error(err);
-                next([]);
+                next(false);
             } else {
                 next(gs);
             }

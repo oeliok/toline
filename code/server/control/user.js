@@ -326,7 +326,7 @@ function modifyname(req, res) {
 
 function uploadhead(req, res) {
     var blob = new Buffer(req.body.head, 'base64');
-    fs.writeFile('../../www/avator/'+req.session.user._id,blob,function (err) {
+    fs.writeFile(__dirname +'../../www/avator/'+req.session.user._id,blob,function (err) {
         if (err) {
             log.error(err);
             res.json({code:0});

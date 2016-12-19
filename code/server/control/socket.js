@@ -136,6 +136,9 @@ function friendHsitoryMsg(socket, userid, frid, datetime, limit, id) {
                     fid: friends[i]._id
                 };
             }
+            if (fid == []) {
+                return false;
+            }
             db.collection('flog').find({
                 $or: fid,
                 datetime: {
@@ -453,7 +456,7 @@ function friendMessage(io, socket, userid) {
                         if (err) {
                             log.error(err);
                         } else {
-                            log.debug(reply);
+                            log.debug(JSON.stringify(reply));
                         }
                     })
                 }
