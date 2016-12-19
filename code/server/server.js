@@ -45,6 +45,11 @@ app.use(session({
 app.use(express.static(__dirname + '/../www'));
 app.use(express.static(__dirname + '/../lib'));
 
+
+app.get('test',function (req, res) {
+    res.end("ok, I konw !");
+});
+
 //头像上传
 app.post('/suser/private/user/uploadhead',user.uploadhead);
 app.post('/suser/private/group/setgrouphead', group.setgrouphead);
