@@ -560,7 +560,7 @@ function check_input(input,max){
 			return false;
 		}
 	}
-	else{
+	else if(input!=null){
 		Materialize.toast("输入不能为空", 1500, 'rounded');
 		return false;
 	}

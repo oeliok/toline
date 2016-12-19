@@ -399,9 +399,7 @@ app.controller('personalCtrl',function ($scope,$route,$location) {
 			},function (data) {
 				$('#ownerName').text(newInfo);
 				consoleTemp(JSON.stringify(data));
-				if(newInfo!=null && newInfo!=""){
-					Materialize.toast(code[data.code + 1], 1500, 'rounded');
-				};
+				Materialize.toast(code[data.code + 1], 1500, 'rounded');
 				getPersonalIfo();
 				$scope.getPersonInfo();
 				$route.reload();
@@ -415,9 +413,7 @@ app.controller('personalCtrl',function ($scope,$route,$location) {
 				words:newInfo
 			},function (data) {
 				consoleTemp(JSON.stringify(data));
-				if(newInfo!=null && newInfo!=""){
-					Materialize.toast(code[data.code + 1], 1500, 'rounded');
-				};
+				Materialize.toast(code[data.code + 1], 1500, 'rounded');
 				$scope.getPersonInfo();
 				$route.reload();
 			});
@@ -430,9 +426,7 @@ app.controller('personalCtrl',function ($scope,$route,$location) {
 				age:newInfo
 			},function (data) {
 				consoleTemp(JSON.stringify(data));
-				if(newInfo!=null && newInfo!=""){
-					Materialize.toast(code[data.code + 1], 1500, 'rounded');
-				};
+				Materialize.toast(code[data.code + 1], 1500, 'rounded');
 				$scope.getPersonInfo();
 				$route.reload();
 			});
