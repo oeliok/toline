@@ -39,7 +39,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-var router = express.Router();
+//var router = express.Router();
 
 //指定静态文件目录
 app.use(express.static(__dirname + '/../www'));
@@ -89,7 +89,6 @@ app.get('/suser/private/user/modifysex',user.modifysex);
 //app.get('/suser/private/friend/add',user.add);
 app.get('/suser/private/friend/searchname',user.searchname);
 app.get('/suser/private/friend/searchid',user.searchid);
-app.get('/suser/private/friend/delete',user.deletef);
 app.get('/suser/private/friend/modifyrm',user.modifyrm);
 app.post('/suser/private/friend/getlist',user.getlist);
 app.get('/suser/sessionid',user.getSessionid);

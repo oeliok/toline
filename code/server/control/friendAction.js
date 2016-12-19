@@ -114,7 +114,6 @@ function addfriendCheck(req, res) {
 }
 
 function deletefriend(req, res) {
-
     var data = req.query;
     var rule = {
         id:{
@@ -131,39 +130,34 @@ function deletefriend(req, res) {
     v.setData(data);
     v.setRules(rule);
     if (v.isok()) {
-        soketIO.socketIO(function (io) {
-            soketIO.useridTosocketid(data.id, function (socket) {
-                var d = {
-                    from:req.session.user._id,
-                    to:data.id,
-                    type:'deletefriend',
-                    datetime:Date.now(),
-                    msg:data.msg
-                };
-                if (socket) {
-                    if (io.sockets.sockets[socket]) {
-                        io.sockets.sockets[socket].emit('deletefriend',d);
-                    } else {
-                        Msg.addAmsg(d,function (r) {
-                            if (r) {
-                                res.json({code:1});
-                            } else {
-                                res.json({code:0});
-                            }
-                        })
-                    }
-                } else {
-                    Msg.addAmsg(d,function (r) {
-                        if (r) {
-                            res.json({code:1});
+        friend.deletefriend(req.session.user._id, data.id,function (r) {
+            if (r) {
+                soketIO.socketIO(function (io) {
+                    soketIO.useridTosocketid(data.id, function (socket) {
+                        var d = {
+                            from:req.session.user._id,
+                            to:data.id,
+                            type:'deletefriend',
+                            datetime:Date.now(),
+                            msg:data.msg
+                        };
+                        if (io.sockets.sockets[socket]) {
+                            io.sockets.sockets[socket].emit('deletefriend',d);
                         } else {
-                            res.json({code:0});
+                            Msg.addAmsg(d,function (r) {
+                                if (r) {
+                                    res.json({code:1});
+                                } else {
+                                    res.json({code:0});
+                                }
+                            })
                         }
                     })
-                }
-                friend.deletefriend(d.from,d.to,null);
-            })
-        })
+                })
+            } else {
+                res.json({code:0});
+            }
+        });
     } else {
         res.json({code:10});
     }
