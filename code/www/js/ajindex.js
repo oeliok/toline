@@ -261,6 +261,12 @@ app.controller('chatCtrl',function ($scope) {
 		};
 	}
 	contentInput.scrollTop = contentInput.scrollHeight;
+	$('#msg').bind('keyup', function(event) {
+		if (event.keyCode == "13") {
+			//回车执行查询
+			$scope.say();
+		}
+	});
 
 	$scope.say=function () {
 		if (document.getElementById('msg').value != ''){

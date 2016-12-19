@@ -4,8 +4,9 @@ $(document).ready(function(){
 	});
 });
 var sendState;
+var myVideo=document.getElementById("sound");
 function consoleTemp(msg) {
-	console.log(msg);
+	// console.log(msg);
 }
 function getSortFun(order, sortBy) {
 	var ordAlpah = (order == 'asc') ? '>' : '<';
@@ -334,6 +335,7 @@ function socketMonitor() {
 		};
 		var currentChat = {};
 		consoleTemp("双人聊天信息当前获取"+JSON.stringify(data));
+		myVideo.play();
 		clearTimeout(sendState);
 		if (data.from === localStorage.currentId) {
 			if((data.to===chatOtherId)&&contentInput){
@@ -403,6 +405,7 @@ function socketMonitor() {
 	});
 	socket.on('sgmsg',function (data) {
 		consoleTemp("群聊天信息当前获取"+JSON.stringify(data));
+		myVideo.play();
 		var contentInput=document.getElementById('contentInput');
 		var chatOtherId=sessionStorage.getItem("chatOtherId");
 		var chatOtherName=sessionStorage.getItem("chatOtherName");
@@ -488,6 +491,7 @@ function socketMonitor() {
 	});
 	socket.on('addfriend',function (data) {
 		consoleTemp("别人请求添加好友"+JSON.stringify(data));
+		myVideo.play();
 		if(sessionStorage.getItem("currentChat_"+localStorage.currentId)){
 			var currentChats=JSON.parse(sessionStorage.getItem("currentChat_"+localStorage.currentId));
 		}else {
@@ -505,11 +509,13 @@ function socketMonitor() {
 	});
 	socket.on('deletefriend',function (data) {
 		consoleTemp("删除好友"+JSON.stringify(data));
+		myVideo.play();
 		Materialize.toast(data.msg, 1500, 'rounded');
 		getCurrentId();
 	});
 	socket.on('addfriendcheckreply',function (data) {
 		consoleTemp("已添加好友确认"+JSON.stringify(data));
+		myVideo.play();
 		Materialize.toast(data.msg, 1500, 'rounded');
 		loadFriendList();
 	});
@@ -518,6 +524,7 @@ function socketMonitor() {
 	});
 	socket.on('joingroup',function (data) {
 		consoleTemp("用户申请加入群组"+JSON.stringify(data));
+		myVideo.play();
 		if(sessionStorage.getItem("currentChat_"+localStorage.currentId)){
 			var currentChats=JSON.parse(sessionStorage.getItem("currentChat_"+localStorage.currentId));
 		}else {
@@ -536,6 +543,7 @@ function socketMonitor() {
 	});
 	socket.on('joingroupcheckreply',function (data) {
 		consoleTemp("已添加群确认"+JSON.stringify(data));
+		myVideo.play();
 		Materialize.toast(data.msg, 1500, 'rounded');
 		loadGroupList();
 	});
