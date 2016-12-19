@@ -32,7 +32,7 @@ function getPersonalIfo(){
 	var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
 	personIfo = JSON.parse(personIfo);
 	if(personIfo){
-		//加载个人信息（personIfo._id,personIfo.name,personIfo.remark）
+		localStorage.removeItem("personIfo_"+localStorage. currentId);
 	};
 	$.post("/suser/private/user/user/myinfo", { },
 		function(pdata){
@@ -86,6 +86,7 @@ function loadFriendList() {
 	chatIfo = JSON.parse(chatIfo);
 	if(chatIfo){
 		consoleTemp("好友列表存在，长度:"+chatIfo.length);
+		localStorage.removeItem("chatIfo_"+localStorage. currentId);
 	};
 	$.post("/suser/private/friend/getlist", {},
 		function (cdata) {
@@ -103,6 +104,7 @@ function loadGroupList() {
 	groupIfo = JSON.parse(groupIfo);
 	if(groupIfo){
 		consoleTemp("群列表存在，长度:"+groupIfo.length);
+		localStorage.removeItem("groupIfo_"+localStorage. currentId);
 	};
 	consoleTemp("currentId:"+localStorage.currentId);
 	$.post("/suser/private/group/getgroups",
@@ -146,7 +148,8 @@ function addCheck(friendId) {
 function deleteFriend(friendId,msg) {
 	var temp;
 	$.get("/suser/private/friend/delete",{id:friendId,msg:msg}).done(function (data) {
-		consoleTemp("deleteFriend"+data);
+		consoleTemp("deleteFriend"+JSON.stringify(data));
+		return temp=data.code;
 	})
 	return temp;
 }
@@ -559,7 +562,7 @@ function check_input(input,max){
 			return false;
 		}
 	}
-	else{
+	else if(input!=null){
 		Materialize.toast("输入不能为空", 1500, 'rounded');
 		return false;
 	}

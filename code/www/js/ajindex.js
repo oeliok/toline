@@ -433,6 +433,38 @@ app.controller('personalCtrl',function ($scope,$route,$location) {
 		}
 	};
 });
+app.controller('deleteFriendCtrl',function ($scope,$route) {
+	$("#prompt").text("删除好友");
+	var content=document.getElementById('content');
+
+	var chatIfo = localStorage.getItem("chatIfo_"+localStorage. currentId);
+	chatIfo = JSON.parse(chatIfo);
+	if(chatIfo){
+		for (var i=0;i<chatIfo.length;i++)
+		{
+			var html = template('chatList', chatIfo[i]);
+			content.innerHTML += html;
+		};
+	};
+	var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
+	personIfo = JSON.parse(personIfo);
+	$("#content a").click(function(){
+		pos = $("#content a").index($(this));
+		var chatOtherId=(JSON.parse( localStorage.getItem("chatIfo_"+localStorage. currentId))[pos])._id;
+		var chatOtherName=(JSON.parse( localStorage.getItem("chatIfo_"+localStorage. currentId))[pos]).name;
+		var r=confirm("确认删除"+chatOtherName+"好友？");
+		if(r==true){
+			var temp=deleteFriend(chatOtherId,personIfo.name+"与"+chatOtherName+"的好友关系已解除");
+			if(temp===1){
+				Materialize.toast("删除好友成功", 1500, 'rounded');
+				loadFriendList();
+				$route.reload();
+			}else{
+				Materialize.toast('删除好友失败_(:зゝ∠)_:'+code[temp+1]+'', 1500, 'rounded');
+			};
+		};
+	});
+})
 app.config(['$routeProvider', function($routeProvider){
 	$routeProvider
 		.when('/',{templateUrl: 'home.html', controller: 'homeCtrl'})
@@ -443,5 +475,6 @@ app.config(['$routeProvider', function($routeProvider){
 		.when('/createGroup',{templateUrl: 'createGroup.html', controller: 'createGroupCtrl'})
 		.when('/chat',{templateUrl: 'chat.html', controller: 'chatCtrl'})
 		.when('/personal',{templateUrl: 'personalIfo.html', controller: 'personalCtrl'})
+		.when('/deleteFriend',{templateUrl: 'deleteFriend.html', controller: 'deleteFriendCtrl'})
 		.otherwise({redirectTo:'/'});
 }]);
