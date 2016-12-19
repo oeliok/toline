@@ -579,36 +579,35 @@ function modifyrm(req, res) {
 }
 
 function getlist(req, res) {
-    db.getDB(function (mongo) {
-        mongo.collection('friend').find({myid:req.session.user._id}).toArray(function (err, fs) {
+    db.getConnection(function(dbs) {
+        dbs.collection('friend').find({myid: ObjectId(req.session.user._id)}).toArray(function(err, result) {
             if (err) {
                 log.error(err);
                 res.json({code:-1});
             } else {
-                var fids = [];
-                for (var i in fs) {
-                    fids[i] = {_id:fs[i].frid};
-                }
-                if (fids == []) {
-                    res.json({code:1,data:[]});
-                } else {
-                    mongo.collection('user').find({$or:fids}).toArray(function (err, r) {
+                if (result.length > 0) {
+                    var data = new Array(result.length);
+                    for (var i = 0; i < result.length; i++) {
+                        data[i] = {_id: result[i].frid};
+                    }
+                    dbs.collection('user').find({$or: data}).toArray(function(errs, results) {
                         if (err) {
                             log.error(err);
-                            res.json({code:-1});
+                            res.json({code: -1});
                         } else {
-                            for (var i in r) {
-                                r.pwd = null;
-                                r.type = null;
+                            for (var i in results) {
+                                results[i].pwd = null;
                             }
-                            res.json({code:1,data:r});
-                            log.debug(JSON.stringify(r));
+                            res.json({code: 1,data: results });
+                            log.debug(JSON.stringify(results));
                         }
-                    })
+                    });
+                } else {
+                    res.json({code:1,data:[]})
                 }
             }
         })
-    })
+    });
 }
 
 function getSessionid(req, res) {
