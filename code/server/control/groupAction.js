@@ -355,6 +355,7 @@ function applyGroupcheck(req, res) {
                                             var mms = {"from":data.gid,"to":data.uid,"type":"joingroupcheckreply","datetime":Date.now(),"msg":"同意加群！"};
                                             if (ios.sockets.sockets[socketid]) {
                                                 ios.sockets.sockets[socketid].emit('joingroupcheckreply',mms);
+                                                res.json({code:1});
                                             } else {
                                                 Msg.addAmsg(mms,function (r) {
                                                     log.debug(r);

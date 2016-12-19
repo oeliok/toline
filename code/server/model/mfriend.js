@@ -31,19 +31,18 @@ function deleteFriend(myid, frid, next) {
 
     mongo.getConnection(function (db) {
         var friend = db.collection('friend');
-        friend.removeOne(my,{w:1}).then(function (r) {
-            if (r.result.n == 1){
-                friend.removeOne(my,{w:1}).then(function (r) {
-                    if (r.result.n == 1){
-                        next(true);
-                    } else {
-                        next(false);
-                    }
-                });
-            } else {
+        friend.removeMany({$or:[my,you]}, function (err, r) {
+            if (err) {
+                log.error(err);
                 next(false);
+            } else {
+                if (r.result.n >= 2) {
+                    next(true);
+                } else {
+                    next(false);
+                }
             }
-        });
+        })
     })
 }
 
