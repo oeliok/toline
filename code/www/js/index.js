@@ -4,7 +4,6 @@ $(document).ready(function(){
 	});
 });
 var sendState;
-var myVideo=document.getElementById("sound");
 function consoleTemp(msg) {
 	// console.log(msg);
 }
@@ -273,6 +272,7 @@ function socketSendGroupmsg(getGroupId,groupMessage) {
 	});
 }
 function socketMonitor() {
+	var myVideo=document.getElementById("sound");
 	if(sessionStorage.getItem('count')){
 		var count=sessionStorage.getItem('count');
 	};
