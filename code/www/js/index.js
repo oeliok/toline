@@ -539,6 +539,11 @@ function socketMonitor() {
 		Materialize.toast(data.msg, 1500, 'rounded');
 		loadGroupList();
 	});
+	socket.on('disconnect', function(){
+		console.log('disconnect');
+		socket.socket.reconnect();
+	});
+
 }
 function check_input(input,max){
 	var maxLength = max;
