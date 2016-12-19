@@ -95,7 +95,7 @@ app.get('/suser/sessionid',user.getSessionid);
 app.post('/suser/private/group/groupinfo',user.getgroupinfobyid);
 //好友操作
 app.get('/suser/private/friend/add', friend.addfriend);
-app.post('/suser/private/friend/delete', friend.deletefriend);
+app.get('/suser/private/friend/delete', friend.deletefriend);
 app.post('/suser/private/friend/addcheck', friend.addfriendcheck);
 //群组操作
 app.post('/suser/private/group/getgroups',group.getgroups);
