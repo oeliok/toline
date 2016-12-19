@@ -326,7 +326,7 @@ function modifyname(req, res) {
 
 function uploadhead(req, res) {
     var blob = new Buffer(req.body.head, 'base64');
-    fs.writeFile(__dirname +'../../www/avator/'+req.session.user._id,blob,function (err) {
+    fs.writeFile(__dirname +'/../../www/avator/'+req.session.user._id,blob,function (err) {
         if (err) {
             log.error(err);
             res.json({code:0});
@@ -579,53 +579,36 @@ function modifyrm(req, res) {
 }
 
 function getlist(req, res) {
-	db.getConnection(function(dbs) {
-		dbs.collection('friend').find({
-			myid: ObjectId(req.session.user._id)
-		}).toArray(function(err, result) {
-			if (err) {
-				log.error(err);
-				res.json({
-					code: -1
-				});
-			} else {
-				log.debug(JSON.stringify(result));
-				if (result.length > 0) {
-					var data = new Array(result.length);
-					for (var i = 0; i < result.length; i++) {
-						data[i] = {
-							_id: result[i].frid
-						};
-						//log.debug(result[i].frid);
-					}
-					log.debug(data);
-					dbs.collection('user').find({
-						$or: data
-					}).toArray(function(errs, results) {
-						if (err) {
-							log.error(err);
-							res.json({
-								code: -1
-							});
-						} else {
-							for (var i = 0; i < results.length; i++) {
-								results[i].pwd = null;
-							}
-							log.debug(JSON.stringify(results));
-							res.json({
-								code: 1,
-								data: results
-							});
-						}
-					});
-				} else {
-					res.json({
-						code: 1
-					})
-				}
-			}
-		})
-	});
+    db.getDB(function (mongo) {
+        mongo.collection('friend').find({myid:req.session.user._id}).toArray(function (err, fs) {
+            if (err) {
+                log.error(err);
+                res.json({code:-1});
+            } else {
+                var fids = [];
+                for (var i in fs) {
+                    fids[i] = {_id:fs[i].frid};
+                }
+                if (fids == []) {
+                    res.json({code:1,data:[]});
+                } else {
+                    mongo.collection('user').find({$or:fids}).toArray(function (err, r) {
+                        if (err) {
+                            log.error(err);
+                            res.json({code:-1});
+                        } else {
+                            for (var i in r) {
+                                r.pwd = null;
+                                r.type = null;
+                            }
+                            res.json({code:1,data:r});
+                            log.debug(JSON.stringify(r));
+                        }
+                    })
+                }
+            }
+        })
+    })
 }
 
 function getSessionid(req, res) {
