@@ -518,6 +518,8 @@ function socketMonitor() {
 	});
 	socket.on('deletefriend',function (data) {
 		consoleTemp("删除好友"+JSON.stringify(data));
+		Materialize.toast(data.msg, 1500, 'rounded');
+		loadFriendList();
 	});
 	socket.on('addfriendcheckreply',function (data) {
 		consoleTemp("已添加好友确认"+JSON.stringify(data));
