@@ -32,7 +32,7 @@ function getPersonalIfo(){
 	var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
 	personIfo = JSON.parse(personIfo);
 	if(personIfo){
-		//加载个人信息（personIfo._id,personIfo.name,personIfo.remark）
+		localStorage.removeItem("personIfo_"+localStorage. currentId);
 	};
 	$.post("/suser/private/user/user/myinfo", { },
 		function(pdata){
@@ -86,6 +86,7 @@ function loadFriendList() {
 	chatIfo = JSON.parse(chatIfo);
 	if(chatIfo){
 		consoleTemp("好友列表存在，长度:"+chatIfo.length);
+		localStorage.removeItem("chatIfo_"+localStorage. currentId);
 	};
 	$.post("/suser/private/friend/getlist", {},
 		function (cdata) {
@@ -103,6 +104,7 @@ function loadGroupList() {
 	groupIfo = JSON.parse(groupIfo);
 	if(groupIfo){
 		consoleTemp("群列表存在，长度:"+groupIfo.length);
+		localStorage.removeItem("groupIfo_"+localStorage. currentId);
 	};
 	consoleTemp("currentId:"+localStorage.currentId);
 	$.post("/suser/private/group/getgroups",
@@ -520,7 +522,7 @@ function socketMonitor() {
 	socket.on('addfriendcheckreply',function (data) {
 		consoleTemp("已添加好友确认"+JSON.stringify(data));
 		Materialize.toast(data.msg, 1500, 'rounded');
-		setTimeout('loadFriendList()',500);
+		loadFriendList();
 	});
 	socket.on('exitgroup',function (data) {
 		consoleTemp("群员退出群组"+JSON.stringify(data));
@@ -546,7 +548,7 @@ function socketMonitor() {
 	socket.on('joingroupcheckreply',function (data) {
 		consoleTemp("已添加群确认"+JSON.stringify(data));
 		Materialize.toast(data.msg, 1500, 'rounded');
-		setTimeout('loadGroupList()',500);
+		loadGroupList();
 	});
 }
 function check_input(input,max){

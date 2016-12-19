@@ -76,7 +76,7 @@ app.controller('homeCtrl',function ($scope,$location,$route) {
 			if (r==true){
 				var temp=addCheck(chatOtherId);
 				if(temp===1){
-					setTimeout('loadFriendList()',500);
+					loadFriendList();
 					Materialize.toast("已添加"+chatOtherName+"为好友", 1500, 'rounded');
 					currentChats.splice(pos,1);
 					sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
@@ -97,7 +97,7 @@ app.controller('homeCtrl',function ($scope,$location,$route) {
 				consoleTemp("chatOtherId:"+chatOtherId+",addgroupId:"+addgroupId);
 				var temp=applygroupcheck(chatOtherId,addgroupId);
 				if(temp===1){
-					setTimeout('loadGroupList()',500);
+					loadGroupList();
 					Materialize.toast(msg+"，申请通过", 1500, 'rounded');
 					currentChats.splice(pos,1);
 					sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
@@ -367,7 +367,7 @@ app.controller('createGroupCtrl',function ($scope) {
 			var temp=creategroup(name,remark);
 			if(temp===1){
 				Materialize.toast(name+"群创建成功", 1500, 'rounded');
-				setTimeout('loadGroupList()',500);
+				loadGroupList();
 			}else{
 				Materialize.toast("群创建失败_(:зゝ∠)_"+code[temp+1], 1500, 'rounded');
 			};
@@ -457,7 +457,7 @@ app.controller('deleteFriendCtrl',function ($scope,$route) {
 			var temp=deleteFriend(chatOtherId,personIfo.name+"与"+chatOtherName+"的好友关系已解除");
 			if(temp===1){
 				Materialize.toast("删除好友成功", 1500, 'rounded');
-				setTimeout('loadFriendList()',500);
+				loadFriendList();
 				$route.reload();
 			}else{
 				Materialize.toast('删除好友失败_(:зゝ∠)_:'+code[temp+1]+'', 1500, 'rounded');
