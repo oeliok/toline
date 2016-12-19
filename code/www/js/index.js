@@ -335,7 +335,6 @@ function socketMonitor() {
 		};
 		var currentChat = {};
 		consoleTemp("双人聊天信息当前获取"+JSON.stringify(data));
-		myVideo.play();
 		clearTimeout(sendState);
 		if (data.from === localStorage.currentId) {
 			if((data.to===chatOtherId)&&contentInput){
@@ -370,6 +369,7 @@ function socketMonitor() {
 			sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
 			socketHistoryGet("friend",data.to,100);
 		} else if(data.to===localStorage.currentId){
+			myVideo.play();
 			if((data.from===chatOtherId)&&contentInput){
 				var dataTemp=data;
 				dataTemp.name=chatOtherName;
@@ -405,7 +405,6 @@ function socketMonitor() {
 	});
 	socket.on('sgmsg',function (data) {
 		consoleTemp("群聊天信息当前获取"+JSON.stringify(data));
-		myVideo.play();
 		var contentInput=document.getElementById('contentInput');
 		var chatOtherId=sessionStorage.getItem("chatOtherId");
 		var chatOtherName=sessionStorage.getItem("chatOtherName");
@@ -450,6 +449,7 @@ function socketMonitor() {
 			sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
 			socketHistoryGet("group",data.to,100);
 		} else{
+			myVideo.play();
 			if((data.to===chatOtherId)&&contentInput){
 				var dataTemp=data;
 				dataTemp.name=getNameById(data.from);
