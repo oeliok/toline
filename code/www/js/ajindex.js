@@ -1,36 +1,31 @@
 var app = angular.module("toline", ['ngRoute']);
+var personIfo=JSON.parse(localStorage.getItem("personIfo_"+localStorage.currentId));
 app.controller('personalIfoCtrl',function($scope,$location){
 	getCurrentId();
 	getSesssionId();
 	socket= io.connect();
 	socketMonitor();
 	socketConfirm();
-	if(localStorage.getItem("personIfo_"+localStorage. currentId)){
-		var personIfo = localStorage.getItem("personIfo_"+localStorage. currentId);
-		personIfo = JSON.parse(personIfo);
-		//***对应名字，图片，提示信息
-		$('#ownerName').text(personIfo.name);
-		$scope.ownerPic=personIfo._id;
-		$scope.promptText="主界面";
-		if(localStorage.getItem("chatIfo_"+localStorage. currentId)){
-			//遍历好友列表，获取好友聊天信息
-			var chatIfo = localStorage.getItem("chatIfo_"+localStorage. currentId);
-			chatIfo = JSON.parse(chatIfo);
-			for (var i=0;i<chatIfo.length;i++)
-			{
-				socketHistoryGet("friend",chatIfo[i]._id,100);
-			};
-		};
-		if(localStorage.getItem("groupIfo_"+localStorage. currentId)){
-			//遍历群列表，获取群聊天信息
-			var groupChatIfo = localStorage.getItem("groupIfo_"+localStorage. currentId);
-			groupChatIfo = JSON.parse(groupChatIfo);
-			for (var i=0;i<groupChatIfo.length;i++)
-			{
-				socketHistoryGet("group",groupChatIfo[i]._id,100);
-			};
+	if(localStorage.getItem("chatIfo_"+localStorage.currentId)){
+		//遍历好友列表，获取好友聊天信息
+		var chatIfoTemp = localStorage.getItem("chatIfo_"+localStorage. currentId);
+		chatIfoTemp = JSON.parse(chatIfoTemp);
+		for (var i=0;i<chatIfoTemp.length;i++)
+		{
+			socketHistoryGet("friend",chatIfoTemp[i]._id,100);
 		};
 	};
+	if(localStorage.getItem("groupIfo_"+localStorage.currentId)){
+		//遍历群列表，获取群聊天信息
+		var groupChatIfo = localStorage.getItem("groupIfo_"+localStorage. currentId);
+		groupChatIfo = JSON.parse(groupChatIfo);
+		for (var i=0;i<groupChatIfo.length;i++)
+		{
+			socketHistoryGet("group",groupChatIfo[i]._id,100);
+		};
+	};
+	$('#ownerName').text(personIfo.name);
+	$scope.ownerPic=personIfo._id;
 	$scope.toPersonalIfo=function () {
 		$location.path('/personal');
 		$scope.$apply();

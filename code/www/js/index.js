@@ -5,7 +5,7 @@ $(document).ready(function(){
 });
 var sendState;
 function consoleTemp(msg) {
-	console.log(msg);
+	// console.log(msg);
 }
 function getSortFun(order, sortBy) {
 	var ordAlpah = (order == 'asc') ? '>' : '<';
