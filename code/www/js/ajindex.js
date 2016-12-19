@@ -8,22 +8,26 @@ app.controller('personalIfoCtrl',function($scope,$location){
 	socket= io.connect();
 	socketMonitor();
 	socketConfirm();
-	// if(localStorage.getItem("chatIfo_"+localStorage.currentId)){
+	if(chatIfoTemp){
 		//遍历好友列表，获取好友聊天信息
 		chatIfoTemp = JSON.parse(chatIfoTemp);
 		for (var i=0;i<chatIfoTemp.length;i++)
 		{
 			socketHistoryGet("friend",chatIfoTemp[i]._id,200);
 		};
-	// };
-	// if(localStorage.getItem("groupIfo_"+localStorage.currentId)){
+	}else {
+		consoleTemp("获取不到好友列表！")
+	};
+	if(groupChatIfo){
 		//遍历群列表，获取群聊天信息
 		groupChatIfo = JSON.parse(groupChatIfo);
 		for (var i=0;i<groupChatIfo.length;i++)
 		{
 			socketHistoryGet("group",groupChatIfo[i]._id,200);
 		};
-	// };
+	}else {
+		consoleTemp("获取不到群列表！")
+	};
 	$('#ownerName').text(personIfo.name);
 	$scope.ownerPic=personIfo._id;
 	$scope.toPersonalIfo=function () {
@@ -297,7 +301,7 @@ app.controller('chatCtrl',function ($scope) {
 					var data=JSON.parse(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId));
 					// $("#contentInput").text="";
 					sessionStorage.setItem("anchor",0);
-					for(var i=0;i<=anchor;i++){
+					for(var i=0;i<anchor;i++){
 						var date = new Date(data[i].datetime);
 						var Y = date.getFullYear() + '-';
 						var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
@@ -329,7 +333,7 @@ app.controller('chatCtrl',function ($scope) {
 					consoleTemp(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId));
 					// $("#contentInput").text="";
 					sessionStorage.setItem("anchor",0);
-					for(var i=0;i<=anchor;i++){
+					for(var i=0;i<anchor;i++){
 						var date = new Date(data[i].datetime);
 						var Y = date.getFullYear() + '-';
 						var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
@@ -355,7 +359,7 @@ app.controller('chatCtrl',function ($scope) {
 					}
 				};
 			}
-		}else {
+		}else if(anchor>30){
 			$scope.btnhidden=false;
 			if("friend"===friendorgroup){
 				if(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId)){
@@ -363,7 +367,7 @@ app.controller('chatCtrl',function ($scope) {
 					consoleTemp(localStorage.getItem("friendChatIfo_"+localStorage.currentId+"_"+chatOtherId));
 					// $("#contentInput").text="";
 					sessionStorage.setItem("anchor",anchor-30);
-					for(var i=anchor-30;i<=anchor;i++){
+					for(var i=anchor-30;i<anchor;i++){
 						var date = new Date(data[i].datetime);
 						var Y = date.getFullYear() + '-';
 						var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
@@ -395,7 +399,7 @@ app.controller('chatCtrl',function ($scope) {
 					consoleTemp(localStorage.getItem("groupChatIfo_"+localStorage.currentId+"_"+chatOtherId));
 					// $("#contentInput").text="";
 					sessionStorage.setItem("anchor",anchor-30);
-					for(var i=anchor-30;i<=anchor;i++){
+					for(var i=anchor-30;i<anchor;i++){
 						var date = new Date(data[i].datetime);
 						var Y = date.getFullYear() + '-';
 						var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
@@ -423,7 +427,6 @@ app.controller('chatCtrl',function ($scope) {
 			}
 		}
 		$("#anchor").after(htmltemp);
-		$("#contentInput").remove("undefined");
 	};
 	$scope.say=function () {
 		if (document.getElementById('msg').value.length>0){
