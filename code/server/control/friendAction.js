@@ -99,7 +99,8 @@ function addfriendCheck(req, res) {
                                 } else {
                                     Msg.addAmsg(mms,function (r) {
                                         log.debug(r);
-                                    })
+                                    });
+                                    res.json({code:1});
                                 }
                             })
                         })
