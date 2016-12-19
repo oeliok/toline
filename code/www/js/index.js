@@ -520,7 +520,7 @@ function socketMonitor() {
 	socket.on('addfriendcheckreply',function (data) {
 		consoleTemp("已添加好友确认"+JSON.stringify(data));
 		Materialize.toast(data.msg, 1500, 'rounded');
-		loadFriendList();
+		setTimeout('loadFriendList()',500);
 	});
 	socket.on('exitgroup',function (data) {
 		consoleTemp("群员退出群组"+JSON.stringify(data));
@@ -546,7 +546,7 @@ function socketMonitor() {
 	socket.on('joingroupcheckreply',function (data) {
 		consoleTemp("已添加群确认"+JSON.stringify(data));
 		Materialize.toast(data.msg, 1500, 'rounded');
-		loadGroupList();
+		setTimeout('loadGroupList()',500);
 	});
 }
 function check_input(input,max){
