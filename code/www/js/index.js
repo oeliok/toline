@@ -5,7 +5,7 @@ $(document).ready(function(){
 });
 var sendState;
 function consoleTemp(msg) {
-	// console.log(msg);
+	console.log(msg);
 }
 function getSortFun(order, sortBy) {
 	var ordAlpah = (order == 'asc') ? '>' : '<';
@@ -50,6 +50,7 @@ function getNameById(searchId) {
 		// consoleTemp("getNameById"+JSON.stringify(data));
 		if(data.data){
 			temp=data.data.name;
+			consoleTemp(temp);
 		};
 	});
 	return temp;
@@ -458,7 +459,7 @@ function socketMonitor() {
 		} else{
 			if((data.to===chatOtherId)&&contentInput){
 				var dataTemp=data;
-				dataTemp.name=searchgroupbyid(data.from).name;
+				dataTemp.name=getNameById(data.from);
 				var date = new Date(data.sendDate);
 				var Y = date.getFullYear() + '-';
 				var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
