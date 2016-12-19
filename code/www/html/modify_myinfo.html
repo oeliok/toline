@@ -28,6 +28,9 @@
 <body>
 <!-- 按钮触发模态框 -->
 <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">修改个人信息模态框</button>
+
+
+
 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -44,42 +47,37 @@
                                 <form action="">
                                     <div class="mdl-grid" style="align-items: center">
                                         <div class="mdl-cell--3-col-desktop">
-                                            <img class="img-circle" src="../avator/5812f0f77f67530755eb3837" id="header" style="width:100px;height:100px;" title="点击更换头像" alt="myPicture" data-toggle="modal" data-target="#mytest2">
+                                            <img class="img-circle" src="../avator/5853840e5dbf076596631ac6" id="header" style="width:100px;height:100px;" title="点击更换头像" alt="myPicture" data-toggle="modal" data-target="#mytest2">
                                         </div>
                                         <div class="mdl-textfield mdl-js-textfield mdl-cell--9-col-desktop">
-                                            <input class="mdl-textfield__input" type="text"  id="name" value={{name}}>
-                                            <label class="mdl-textfield__label" for="name"></label>
+                                            <input class="mdl-textfield__input" type="text"  id="name_modify" value={{name}}>
                                         </div>
                                     </div>
 
                                     <div class="mdl-grid" style="align-items: center">
                                         <h5 class="mdl-cell--3-col-desktop">Sign:</h5>
                                         <div class="mdl-textfield mdl-js-textfield mdl-cell--9-col-desktop">
-                                            <input class="mdl-textfield__input" type="text"  id="sign" placeholder="主人很懒，什么都没有留下" value={{remark}}>
-                                            <label class="mdl-textfield__label" for="name"></label>
-                                            <span class="mdl-textfield__error"></span>
+                                            <input class="mdl-textfield__input" type="text"  id="sign_modify" placeholder="主人很懒，什么都没有留下" value={{remark}}>
                                         </div>
 
                                     </div>
                                     <div class="mdl-grid" style="align-items: center">
                                         <h5 class="mdl-cell--3-col-desktop">Email:</h5>
                                         <div class="mdl-textfield mdl-js-textfield mdl-cell--9-col-desktop">
-                                            <input class="mdl-textfield__input" type="text"  id="Email" pattern="^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$" value={{email}}>
-                                            <label class="mdl-textfield__label" for="name"></label>
-                                            <span class="mdl-textfield__error">邮箱格式错误</span>
+                                            <span class="mdl-textfield__input" type="text"  id="Email_modify" >{{email}}</span>
                                         </div>
                                     </div>
                                     <div class="mdl-grid" style="align-items: center">
                                         <h5 class="mdl-cell--2-col-desktop">age:</h5>
                                         <div class="mdl-textfield mdl-js-textfield mdl-cell--2-col-desktop  mdl-cell--1-offset-desktop">
-                                            <input class="mdl-textfield__input" type="text"  id="age" pattern="^\d{1,2}$" value={{age}}>
-                                            <label class="mdl-textfield__label" for="name"></label>
+                                            <input class="mdl-textfield__input" type="text"  id="age_modify" pattern="^\d{1,2}$" value={{age}}>
+                                            <label class="mdl-textfield__label" for="age_modify"></label>
                                             <span class="mdl-textfield__error">请输入0-99</span>
                                         </div>
 
                                         <h5 class="mdl-cell--2-col-desktop mdl-cell--3-offset-desktop ">sex:</h5>
                                         <div class="mdl-textfield mdl-js-textfield mdl-cell--1-col-desktop">
-                                            <select class="btn-primary" id="sex" value={{sex}}>
+                                            <select class="btn-primary" id="sex_modify" >
                                                 <option value="0">男</option>
                                                 <option value="1">女</option>
                                                 <option value="2">保密</option>
@@ -131,12 +129,7 @@
 <script src="../base/mdl/material.min.js"></script>
 <script src="../base/bs/bootstrap.min.js"></script>
 <script>
-    $(function(){
-        $("#cut").click(function(){
-            $("#cut_page").modal("show");
-        });
 
-    });
 </script>
 </body>
 </html>

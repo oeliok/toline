@@ -3,24 +3,31 @@
  */
 "use strict";
 //get message
-function get_myinfo(){
-    $.post('/suser/private/user/user/myinfo',function (data) {
-        console.log(JSON.stringify(data));
-        document.getElementById('father').innerHTML += template('temp',data);
-    });
-}
-get_myinfo();
 
+get_myinfo();
+var my_modify;
 $('#modify_btn').click(function () {
     modify_all();
 });
+$('#name_modify').click(function () {
+    alert("dfds");
+});
+function get_myinfo(){
+    $.post('/suser/private/user/user/myinfo',function (data) {
+        console.log(JSON.stringify(data));
+        my_modify = data;
+        document.getElementById('father').innerHTML += template('temp',data);
+        $('#sex_modify').val(data.sex);
+    });
+}
+
 
 $(function () {
     var options =
     {
         thumbBox: '.thumbBox',
         spinner: '.spinner',
-        imgSrc: 'images/avatar.png'
+        imgSrc: '../avator/5853840e5dbf076596631ac6'
     };
     var cropper = $('.imageBox').cropbox(options);
     $('#upload-file').on('change', function(){
@@ -46,46 +53,94 @@ $(function () {
         cropper.zoomOut();
     });
     $('#save_btn').on('click',function () {
-        var get_head = options.imgSrc;
-        modify_head(get_head);
+        var get_head = cropper.getDataURL();
+        var index = get_head.indexOf('base64,')+7;
+        var new_head = get_head.substring(index,get_head.length);
+        modify_head(new_head);
     });
 });
 
-function modify_head(get_head) {
+function modify_head(new_head) {
     $.post('/suser/private/user/uploadhead',{
-        head:get_head
+        head:new_head
     },function (data) {
         console.log(JSON.stringify(data));
+        alert(code[data.code + 1]);
     });
-    alert(code[data.code+ 1 ]);
 }
 function modify_all(){
-    var get_name = $("#name").val();
-    $.get("/suser/private/user/modifyname",{
-        name: get_name
-    },function (data) {
-        console.log(JSON.stringify(data));
-    });
+    var name = document.getElementById('name_modify');
+    var get_name = name.value;
+    if(get_name != my_modify.name){
+        if(check_input("姓名",get_name,20)){
+            $.get("/suser/private/user/modifyname",{
+                name: get_name
+            },function (data) {
+                console.log(JSON.stringify(data));
+            });
+        }else{
+            $("#name_modify").val(my_modify.name);
+        }
+    }
 
-    var get_sign = $("#sign").val();
-    $.get("/suser/private/user/modifysign",{
-        words: get_sign
-    },function (data) {
-        console.log(JSON.stringify(data) + " ");
-    });
 
-    var get_age = $("#age").val();
-    $.get("/suser/private/user/modifyage",{
-        age: get_age
-    },function (data) {
-        console.log(JSON.stringify(data) + " ");
-    });
+    var sign = document.getElementById('sign_modify');
+    var get_sign = sign.value;
+    if(get_sign != my_modify.remark){
+        if(check_input("签名",get_sign,100)){
+            $.get("/suser/private/user/modifysign",{
+                words: get_sign
+            },function (data) {
+                console.log(JSON.stringify(data) + " ");
+            });
+        }else{
+            $("#sign_modify").val(my_modify.remark);
+        }
+    }
 
-    var get_sex = $("#sex").val();
-    $.get("/suser/private/user/modifysex",{
-        sex: get_sex
-    },function (data) {
-        console.log(JSON.stringify(data) + " ");
-        alert(code[data.code + 1]);
-     });
+
+
+    var age = document.getElementById('age_modify');
+    var get_age = age.value;
+    if(get_age != my_modify.age ){
+        if(get_age >1 && get_age< 100){
+            $.get("/suser/private/user/modifyage",{
+                age: get_age
+            },function (data) {
+                console.log(JSON.stringify(data) + " ");
+            });
+        }else{
+            $("#age_modify").val(my_modify.age);
+            alert("请输入年龄：1-99");
+        }
+    }
+
+
+    var sex = document.getElementById('sex_modify');
+    var get_sex = sex.value;
+    if(get_sex != my_modify.sex){
+        $.get("/suser/private/user/modifysex",{
+            sex: get_sex
+        },function (data) {
+            console.log(JSON.stringify(data) + " ");
+        });
+    }
+
+    alert("您的信息 \n姓名："+ name.value +"\n签名："+ sign.value +" \n年龄："+ age.value+"\n性别："+sex.value);
+}
+function check_input(thing,input,max){
+    var maxLength = max;
+    if (input != null ){
+        if(input.length <=maxLength && input.length > 0){
+            return true;
+        }
+        else{
+            alert(thing+"输入在1-"+maxLength+"个字符之间");
+            return false;
+        }
+    }
+    if(input == null){
+        alert("输入不能为空");
+        return false;
+    }
 }
