@@ -10,7 +10,7 @@ app.controller('personalIfoCtrl',function($scope,$location){
 		personIfo = JSON.parse(personIfo);
 		//***对应名字，图片，提示信息
 		$('#ownerName').text(personIfo.name);
-		$scope.owenerPic=personIfo._id;
+		$scope.owenerPic=localStorage.getItem("currentId");
 		$scope.promptText="主界面";
 		if(localStorage.getItem("chatIfo_"+localStorage. currentId)){
 			//遍历好友列表，获取好友聊天信息

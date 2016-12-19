@@ -82,12 +82,6 @@ function changePeronalRemark(inputtemp) {
 	return temp;
 }
 function loadFriendList() {
-	var chatIfo = localStorage.getItem("chatIfo_"+localStorage. currentId);
-	chatIfo = JSON.parse(chatIfo);
-	if(chatIfo){
-		consoleTemp("好友列表存在，长度:"+chatIfo.length);
-		localStorage.removeItem("chatIfo_"+localStorage. currentId);
-	};
 	$.post("/suser/private/friend/getlist", {},
 		function (cdata) {
 			if(cdata.data){
@@ -100,13 +94,6 @@ function loadFriendList() {
 		}, "json");
 }
 function loadGroupList() {
-	var groupIfo = localStorage.getItem("groupIfo_"+localStorage. currentId);
-	groupIfo = JSON.parse(groupIfo);
-	if(groupIfo){
-		consoleTemp("群列表存在，长度:"+groupIfo.length);
-		localStorage.removeItem("groupIfo_"+localStorage. currentId);
-	};
-	consoleTemp("currentId:"+localStorage.currentId);
 	$.post("/suser/private/group/getgroups",
 		function (data) {
 			consoleTemp("群列表："+JSON.stringify(data));
@@ -519,7 +506,7 @@ function socketMonitor() {
 	socket.on('deletefriend',function (data) {
 		consoleTemp("删除好友"+JSON.stringify(data));
 		Materialize.toast(data.msg, 1500, 'rounded');
-		loadFriendList();
+		getCurrentId();
 	});
 	socket.on('addfriendcheckreply',function (data) {
 		consoleTemp("已添加好友确认"+JSON.stringify(data));
