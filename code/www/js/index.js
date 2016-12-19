@@ -146,8 +146,8 @@ function addCheck(friendId) {
 function deleteFriend(friendId,msg) {
 	var temp;
 	$.get("/suser/private/friend/delete",{id:friendId,msg:msg}).done(function (data) {
-		consoleTemp("deleteFriend"+data);
-		return temp=data;
+		consoleTemp("deleteFriend"+JSON.stringify(data));
+		return temp=data.code;
 	})
 	return temp;
 }
