@@ -5,7 +5,7 @@ $(document).ready(function(){
 });
 var sendState;
 function consoleTemp(msg) {
-	console.log(msg);
+	// console.log(msg);
 }
 function getSortFun(order, sortBy) {
 	var ordAlpah = (order == 'asc') ? '>' : '<';
@@ -272,6 +272,7 @@ function socketSendGroupmsg(getGroupId,groupMessage) {
 	});
 }
 function socketMonitor() {
+	var myVideo=document.getElementById("sound");
 	if(sessionStorage.getItem('count')){
 		var count=sessionStorage.getItem('count');
 	};
@@ -366,8 +367,9 @@ function socketMonitor() {
 			currentChat.type="friend";
 			currentChats.unshift(currentChat);
 			sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
-			socketHistoryGet("friend",data.to,100);
+			socketHistoryGet("friend",data.to,200);
 		} else if(data.to===localStorage.currentId){
+			myVideo.play();
 			if((data.from===chatOtherId)&&contentInput){
 				var dataTemp=data;
 				dataTemp.name=chatOtherName;
@@ -398,7 +400,7 @@ function socketMonitor() {
 			currentChat.type="friend";
 			currentChats.unshift(currentChat);
 			sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
-			socketHistoryGet("friend",data.from,100);
+			socketHistoryGet("friend",data.from,200);
 		};
 	});
 	socket.on('sgmsg',function (data) {
@@ -445,8 +447,9 @@ function socketMonitor() {
 			currentChat.type="group";
 			currentChats.unshift(currentChat);
 			sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
-			socketHistoryGet("group",data.to,100);
+			socketHistoryGet("group",data.to,200);
 		} else{
+			myVideo.play();
 			if((data.to===chatOtherId)&&contentInput){
 				var dataTemp=data;
 				dataTemp.name=getNameById(data.from);
@@ -476,7 +479,7 @@ function socketMonitor() {
 			currentChat.type="group";
 			currentChats.unshift(currentChat);
 			sessionStorage.setItem("currentChat_"+localStorage.currentId,JSON.stringify(currentChats));
-			socketHistoryGet("group",data.to,100);
+			socketHistoryGet("group",data.to,200);
 
 		};
 	});
@@ -488,6 +491,7 @@ function socketMonitor() {
 	});
 	socket.on('addfriend',function (data) {
 		consoleTemp("别人请求添加好友"+JSON.stringify(data));
+		myVideo.play();
 		if(sessionStorage.getItem("currentChat_"+localStorage.currentId)){
 			var currentChats=JSON.parse(sessionStorage.getItem("currentChat_"+localStorage.currentId));
 		}else {
@@ -505,11 +509,13 @@ function socketMonitor() {
 	});
 	socket.on('deletefriend',function (data) {
 		consoleTemp("删除好友"+JSON.stringify(data));
+		myVideo.play();
 		Materialize.toast(data.msg, 1500, 'rounded');
 		getCurrentId();
 	});
 	socket.on('addfriendcheckreply',function (data) {
 		consoleTemp("已添加好友确认"+JSON.stringify(data));
+		myVideo.play();
 		Materialize.toast(data.msg, 1500, 'rounded');
 		loadFriendList();
 	});
@@ -518,6 +524,7 @@ function socketMonitor() {
 	});
 	socket.on('joingroup',function (data) {
 		consoleTemp("用户申请加入群组"+JSON.stringify(data));
+		myVideo.play();
 		if(sessionStorage.getItem("currentChat_"+localStorage.currentId)){
 			var currentChats=JSON.parse(sessionStorage.getItem("currentChat_"+localStorage.currentId));
 		}else {
@@ -536,9 +543,15 @@ function socketMonitor() {
 	});
 	socket.on('joingroupcheckreply',function (data) {
 		consoleTemp("已添加群确认"+JSON.stringify(data));
+		myVideo.play();
 		Materialize.toast(data.msg, 1500, 'rounded');
 		loadGroupList();
 	});
+	socket.on('disconnect', function(){
+		console.log('disconnect');
+		socket.socket.reconnect();
+	});
+
 }
 function check_input(input,max){
 	var maxLength = max;

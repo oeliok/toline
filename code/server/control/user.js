@@ -579,53 +579,35 @@ function modifyrm(req, res) {
 }
 
 function getlist(req, res) {
-	db.getConnection(function(dbs) {
-		dbs.collection('friend').find({
-			myid: ObjectId(req.session.user._id)
-		}).toArray(function(err, result) {
-			if (err) {
-				log.error(err);
-				res.json({
-					code: -1
-				});
-			} else {
-				log.debug(JSON.stringify(result));
-				if (result.length > 0) {
-					var data = new Array(result.length);
-					for (var i = 0; i < result.length; i++) {
-						data[i] = {
-							_id: result[i].frid
-						};
-						//log.debug(result[i].frid);
-					}
-					log.debug(data);
-					dbs.collection('user').find({
-						$or: data
-					}).toArray(function(errs, results) {
-						if (err) {
-							log.error(err);
-							res.json({
-								code: -1
-							});
-						} else {
-							for (var i = 0; i < results.length; i++) {
-								results[i].pwd = null;
-							}
-							log.debug(JSON.stringify(results));
-							res.json({
-								code: 1,
-								data: results
-							});
-						}
-					});
-				} else {
-					res.json({
-						code: 1
-					})
-				}
-			}
-		})
-	});
+    db.getConnection(function(dbs) {
+        dbs.collection('friend').find({myid: ObjectId(req.session.user._id)}).toArray(function(err, result) {
+            if (err) {
+                log.error(err);
+                res.json({code:-1});
+            } else {
+                if (result.length > 0) {
+                    var data = new Array(result.length);
+                    for (var i = 0; i < result.length; i++) {
+                        data[i] = {_id: result[i].frid};
+                    }
+                    dbs.collection('user').find({$or: data}).toArray(function(errs, results) {
+                        if (err) {
+                            log.error(err);
+                            res.json({code: -1});
+                        } else {
+                            for (var i in results) {
+                                results[i].pwd = null;
+                            }
+                            res.json({code: 1,data: results });
+                            log.debug(JSON.stringify(results));
+                        }
+                    });
+                } else {
+                    res.json({code:1,data:[]})
+                }
+            }
+        })
+    });
 }
 
 function getSessionid(req, res) {

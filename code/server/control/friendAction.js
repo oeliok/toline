@@ -95,12 +95,10 @@ function addfriendCheck(req, res) {
                                 var mms = {"from":req.session.user._id,"to":data.fid,"type":"addfriendcheckreply","datetime":Date.now(),"msg":"同意成为好友！"};
                                 if (ios.sockets.sockets[socketid]) {
                                     ios.sockets.sockets[socketid].emit('addfriendcheckreply',mms);
-                                    res.json({code:1});
                                 } else {
                                     Msg.addAmsg(mms,function (r) {
                                         log.debug(r);
                                     });
-                                    res.json({code:1});
                                 }
                             })
                         })
