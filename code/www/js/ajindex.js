@@ -457,11 +457,11 @@ app.controller('deleteFriendCtrl',function ($scope,$route) {
 			var temp=deleteFriend(chatOtherId,personIfo.name+"与"+chatOtherName+"的好友关系已解除");
 			if(temp===1){
 				Materialize.toast("删除好友成功", 1500, 'rounded');
+				loadFriendList();
+				$route.reload();
 			}else{
 				Materialize.toast('删除好友失败_(:зゝ∠)_:'+code[temp+1]+'', 1500, 'rounded');
 			};
-			loadFriendList();
-			$route.reload();
 		};
 	});
 })
